@@ -1,0 +1,68 @@
+:root {
+    --max-width: 1336px;
+    --default-padding: 32px;
+    --textgray: #2c3e50;
+    --font-size: 14px;
+    --textactive: #42b983;
+}
+
+body, html {
+    margin: 0px !important;
+    font-size: var(--font-size);
+}
+
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--textgray);
+}
+
+#nav > .content-wrapper,
+#body-view > .content-wrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+    max-width: var(--max-width);
+    margin: auto;
+}
+
+#nav {
+    padding-top:20px;
+    padding-bottom: 20px;
+    height: 40px;
+    line-height: 40px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    box-shadow: 0 1px 0 0 rgba(139,141,157,.05), 0 5px 10px 0 rgba(65,71,108,.15);
+}
+
+#nav a {
+    font-weight: bold;
+    color: var(--textgray);
+    text-decoration: none;
+}
+
+#nav > .content-wrapper{
+    display: flex;
+}
+
+#nav a.router-link-exact-active {
+    color: var(--textactive);
+}
+
+.nav-brand-logo > img{
+    height: 40px;
+    flex: 1;
+}
+
+.nav-router-links {
+    direction: rtl;
+    flex: 2;
+}
+
+#body-view {
+    margin-block-start: 1.0em;
+    margin-block-end: 1.0em;
+    padding-top: 80px;
+}
