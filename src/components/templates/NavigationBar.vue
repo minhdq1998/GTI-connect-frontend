@@ -6,8 +6,9 @@
     </div>
     <div class="nav-router-links">
       <router-link class="nav-router-link" to="/">About</router-link>
-      <router-link class="nav-router-link" to="/signin">Sign In</router-link>
+      <router-link class="nav-router-link" to="/jobs">Jobs</router-link>
       <router-link class="nav-router-link" to="/experts">Our experts</router-link>
+      <router-link class="nav-router-link" to="/signin">Sign In</router-link>
       <router-link class="nav-router-link nav-login-btn" to="/signup">Join</router-link>
     </div>
   </div>
