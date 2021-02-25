@@ -4,7 +4,10 @@
     <div class="nav-brand-logo">
       <img src="./../../assets/logo.png">
     </div>
-    <div class="nav-router-links">
+
+    <mobile-navigation />
+
+    <div class=" nav-router-links" >
       <router-link class="nav-router-link" to="/">About</router-link>
       <router-link class="nav-router-link" to="/jobs">Jobs</router-link>
       <router-link class="nav-router-link" to="/experts">Our experts</router-link>
@@ -16,8 +19,12 @@
 </template>
 
 <script>
-export default {
+import MobileNavigation from './MobileNavigation.vue'
 
+export default {
+  components: {
+    MobileNavigation
+  }
 }
 </script>
 
@@ -31,4 +38,9 @@ export default {
     padding: 6px 12px 6px 12px;
     border: 1px solid var(--textgray);
 }
+
+
+
+
+
 </style>
