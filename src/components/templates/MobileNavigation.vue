@@ -1,8 +1,6 @@
 <template>
-  <div class="nav-icon">
-    
+  <div id="nav-mobile" class="nav-icon">
     <i class="fas fa-bars" @click="onDropDownClick"></i>
-  
     <transition name="slide-fade">
       <div class="dropdown-content" @click="onDropDownClick" v-if="dropDownShow">
         <router-link class="nav-router-link-mobile" to="/">About</router-link>
@@ -26,23 +24,16 @@
       onDropDownClick() {
         this.dropDownShow = !this.dropDownShow
         console.log(this.dropDownShow)
-       
       },
       closeDropDown() {
         this.dropDownShow = true
       },
-      barClick() {
-        alert('Hello ' + this.name + '!')
-      // `event` is the native DOM event
-   
-      }
     }
   }
 </script>
 
 <style lang="scss" scoped>
 .dropdown-content {
-  transition: opacity 1s ease-out;
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -57,14 +48,18 @@
   padding-right: 20px;
   padding-left: 20px;
   background-color: var(--primarycolour);
+}
 
+#nav-mobile a.router-link-exact-active {
+  color: var(--primarycolour);
+  background-color: var(--secondarycolour);
 }
 
 .slide-fade-enter-active {
-  transition: all 0.5s ease;
+  transition: all 3s ease;
 }
 .slide-fade-leave-active {
-  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 .slide-fade-enter, .slide-fade-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {

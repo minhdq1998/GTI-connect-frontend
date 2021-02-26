@@ -7,7 +7,7 @@
 
     <mobile-navigation />
 
-    <div class=" nav-router-links" >
+    <div class="nav-router-links" >
       <router-link class="nav-router-link" to="/">About</router-link>
       <router-link class="nav-router-link" to="/jobs">Jobs</router-link>
       <router-link class="nav-router-link" to="/experts">Our experts</router-link>
