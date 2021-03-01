@@ -4,14 +4,33 @@
     --textgray: #2c3e50;
     --font-size: 14px;
     --textactive: var(--secondarycolour);
-    --primarycolour: #00203FFF;
-    --secondarycolour: #9CC3D5FF;
-    --thirdcolour: #FFFFFFFF;
+    --primarycolour: #00203FFF; //rgb(0, 32, 63)
+    --secondarycolour: #9CC3D5FF; //rgb(156, 195, 213)
+    --thirdcolour: #FFFFFFFF;  //rgb(255, 255, 255)
+
 }
 
 body, html {
     margin: 0px !important;
     font-size: var(--font-size);
+    font-family: 'Montserrat', sans-serif;
+}
+
+label, input, textarea {
+  display: inline-flex;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+input, textarea {
+  box-sizing: border-box;
+  border: solid 1px rgba(0, 0, 0, 0.4);
+}
+
+button, input {
+  overflow: visible;
 }
 
 #app {
@@ -74,12 +93,23 @@ body, html {
     font-size: 2.5rem;
 }
 
+.form-container {
+    max-width: 350px;
+    margin: 0 auto;
+    border: 1px solid black;
+}
+
 @media screen and (max-width: 640px) {
     .nav-router-link {
       display: none;
     }
     .nav-icon {
       display: flex;
+    }
+    .form-container {
+        max-width: 350px;
+        margin: 0 auto;
+        border: none;
     }
   }
 
