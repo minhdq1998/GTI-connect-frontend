@@ -3,7 +3,10 @@
     --default-padding: 32px;
     --textgray: #2c3e50;
     --font-size: 14px;
-    --textactive: #42b983;
+    --textactive: var(--secondarycolour);
+    --primarycolour: #00203FFF;
+    --secondarycolour: #9CC3D5FF;
+    --thirdcolour: #FFFFFFFF;
 }
 
 body, html {
@@ -39,7 +42,7 @@ body, html {
 
 #nav a {
     font-weight: bold;
-    color: var(--textgray);
+    color: var(--primarycolour);
     text-decoration: none;
 }
 
@@ -51,6 +54,7 @@ body, html {
     color: var(--textactive);
 }
 
+
 .nav-brand-logo > img{
     height: 40px;
     flex: 1;
@@ -60,6 +64,24 @@ body, html {
     direction: rtl;
     flex: 2;
 }
+
+.nav-icon {
+    display: none;
+    direction: rtl;
+    order: 3;
+    margin-left: 17px;
+    cursor: pointer;
+    font-size: 2.5rem;
+}
+
+@media screen and (max-width: 640px) {
+    .nav-router-link {
+      display: none;
+    }
+    .nav-icon {
+      display: flex;
+    }
+  }
 
 #body-view {
     margin-block-start: 1.0em;
