@@ -1,7 +1,7 @@
 <template>
   <div class="input-field">
     <input-label :label="label" />
-    <form-input :value="value" v-bind="$attrs"/>
+    <form-input :type="type" v-bind="$attrs" />
   </div>
 </template>
 
@@ -18,9 +18,9 @@ export default {
       type: String,
       default: ''
     },
-    value: String
+    type: String
   }
-  }
+}
 </script>
 
 <style lang="scss" scoped>

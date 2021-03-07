@@ -1,18 +1,19 @@
 <template>
   <div class="form-input">
-    <input @input="updateValue" :value="value" v-bind="$attrs" />
+    <input 
+      v-bind="$attrs"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+    >
   </div>
 </template>
 
 <script>
   export default {
-    inheritAttrs: false,
     props: {
-      value: String
-    },
-    methods: {
-      updateValue(event) {
-        this.$emit('input', event.target.value)
+      modelValue: {
+        type: [String, Number],
+        default: ''
       }
     }
   }
@@ -33,7 +34,7 @@ input {
 
 @media screen and (max-width: 360px) {
   input {
-  width: 100%;
+  width: 250px;
   height: 35px;
   padding-left: 15px;
   margin-bottom: 10px;

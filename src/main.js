@@ -4,6 +4,4 @@ import router from './router'
 import store from './store'
 import './statics/core.scss'
 
-
-
 createApp(App).use(store).use(router).mount('#app')

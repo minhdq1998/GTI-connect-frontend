@@ -1,5 +1,5 @@
 <template>
-    <button :text="text" :styleMode="styleMode" :style="style">{{text}}</button>
+    <button :text="text" :class="styleMode" v-bind="$attrs">{{text}}</button>
 </template>
 <script>
 export default {
@@ -15,11 +15,6 @@ export default {
         styleMode: {
             type: String,
         }
-    },
-    computed: {
-      style () {
-        return 'background-color: ' +  this.styleMode;
-      }
     }
    
 }

@@ -99,6 +99,10 @@ button, input {
     border: 1px solid black;
 }
 
+.main-button {
+    background-color: var(--primarycolour);
+}
+
 @media screen and (max-width: 640px) {
     .nav-router-link {
       display: none;
