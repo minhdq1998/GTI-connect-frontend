@@ -26,7 +26,6 @@ button {
   color: white;
   padding: 10px 15px;
   text-align: center;
-  display: inline-flex;
   cursor: pointer;
   font-weight: 700;
  

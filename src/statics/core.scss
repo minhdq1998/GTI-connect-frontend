@@ -6,7 +6,8 @@
     --textactive: var(--secondarycolour);
     --primarycolour: #00203FFF; //rgb(0, 32, 63)
     --secondarycolour: #9CC3D5FF; //rgb(156, 195, 213)
-    --thirdcolour: #FFFFFFFF;  //rgb(255, 255, 255)
+    --bgcolour: #FFFFFFFF;  //rgb(255, 255, 255)
+    --errorcolour: #FF0000FF; //rgb(255,0,0)
 
 }
 
@@ -49,6 +50,8 @@ button, input {
 }
 
 #nav {
+    z-index: 1000;
+    background-color: var(--bgcolour);
     padding-top:20px;
     padding-bottom: 20px;
     height: 40px;
@@ -56,7 +59,7 @@ button, input {
     position: fixed;
     top: 0px;
     width: 100%;
-    box-shadow: 0 1px 0 0 rgba(139,141,157,.05), 0 5px 10px 0 rgba(65,71,108,.15);
+    box-shadow: 0 1px 0 0 rgba(139,141,157,.05), 0 5px 10px 0 rgba(65,71,108,.15);   
 }
 
 #nav a {
@@ -97,10 +100,14 @@ button, input {
     max-width: 350px;
     margin: 0 auto;
     border: 1px solid black;
+    border-radius: 3px;
+    box-shadow: 0px 2px 10px -3px;
 }
 
-.main-button {
+.form-main-button {
     background-color: var(--primarycolour);
+    width: 100%;
+    border-radius: 3px;
 }
 
 @media screen and (max-width: 640px) {
@@ -116,6 +123,10 @@ button, input {
         border: none;
     }
   }
+
+input {
+    border-radius: 3px;
+}
 
 #body-view {
     margin-block-start: 1.0em;

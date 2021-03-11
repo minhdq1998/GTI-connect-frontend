@@ -36,6 +36,11 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: () => import('../components/pages/Profile.vue')
+  },
+  {
+    path: '/verify-account',
+    name: 'Verify',
+    component: () => import('../components/pages/VerifyAccount.vue')
   }
 ]
 

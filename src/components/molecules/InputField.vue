@@ -1,7 +1,7 @@
 <template>
   <div class="input-field">
     <input-label :label="label" />
-    <form-input :type="type" v-bind="$attrs" />
+    <form-input :type="type" v-bind="$attrs" :validated="validated" />
   </div>
 </template>
 
@@ -18,7 +18,11 @@ export default {
       type: String,
       default: ''
     },
-    type: String
+    type: String,
+    validated: {
+      type: Boolean,
+      default: true
+    }
   }
 }
 </script>

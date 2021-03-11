@@ -4,6 +4,7 @@
       v-bind="$attrs"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
+      :class="[validated ? 'valid-input' : 'invalid-input']"
     >
   </div>
 </template>
@@ -14,6 +15,10 @@
       modelValue: {
         type: [String, Number],
         default: ''
+      },
+      validated: {
+        type: Boolean,
+        default: true
       }
     }
   }
@@ -24,7 +29,10 @@ input {
   width: 300px;
   height: 40px;
   padding-left: 15px;
-  margin-bottom: 10px;
+}
+
+.invalid-input {
+  border-color: red;
 }
 
 ::placeholder {

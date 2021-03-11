@@ -20,6 +20,6 @@ label {
   color: rgba(0, 32, 63, 0.5);
   font-weight: 700;
   font-size: 1.2rem;
-  padding: 5px 0;
+  margin: 15px 0px 5px 0px;
 }
 </style>
