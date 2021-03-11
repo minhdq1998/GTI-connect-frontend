@@ -144,7 +144,7 @@ export default {
           maxLength: maxLength(20),
           valid: function(value) {
             const containsNumber = /[0-9]/.test(value)
-            const containsSpecial = /[#?!@$%^&*-]/.test(value)
+            const containsSpecial = /[!@#$%^&*)(+=`.~_-]/.test(value)
             return containsNumber && containsSpecial
           }
         },
