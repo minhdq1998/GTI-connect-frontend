@@ -93,7 +93,7 @@
               <p v-if="v$.user.role.required.$invalid">Your role is required.</p>
             </template>
         </div>
-        <Button text="Sign up" styleMode="form-main-button" type="submit" />
+        <Button text="Sign up" styleMode="form-main-button" type="submit" :disabled="buttonDisable" />
       </form>
     </div>
 </template>
@@ -143,7 +143,12 @@ export default {
       }
     }
   },
-    methods: {
+  computed: {
+    buttonDisable() {
+      return this.v$.$invalid
+    }
+  },
+  methods: {
     createNewUser() {
       return {
         first_name: "",
@@ -169,8 +174,6 @@ export default {
           this.$router.push({
             name: 'Sign In'
           })
-          this.user = this.createNewUser()
-          
         })
         .catch(function (err) {
           const mailError = err.response.data.email[0] // catch duplicate mail error message
@@ -189,14 +192,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .form-main-button {
-    margin: 15px 0px;
-  }
 
   .role-options {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+  }
+
+  .sign-up-form {
+    padding: 10px 0px 10px 0px
   }
 
 </style>

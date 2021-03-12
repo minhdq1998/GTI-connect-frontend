@@ -3,9 +3,9 @@
   <div id="body-view">
     <div class="content-wrapper">
       <router-view/>
+      <notification-container />
     </div>
   </div>
-  <notification-container />
 </template>
 
 <script>
