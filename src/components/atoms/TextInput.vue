@@ -1,5 +1,5 @@
 <template>
-  <div class="form-input">
+  <div class="text-input">
     <input 
       v-bind="$attrs"
       :value="modelValue"

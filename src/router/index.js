@@ -37,11 +37,6 @@ const routes = [
     name: 'Profile',
     component: () => import('../components/pages/Profile.vue')
   },
-  {
-    path: '/verify-account',
-    name: 'Verify',
-    component: () => import('../components/pages/VerifyAccount.vue')
-  }
 ]
 
 const router = createRouter({

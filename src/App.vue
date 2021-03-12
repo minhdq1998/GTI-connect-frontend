@@ -5,15 +5,18 @@
       <router-view/>
     </div>
   </div>
+  <notification-container />
 </template>
-<script>
 
+<script>
+import NotificationContainer from './components/molecules/NotificationContainer.vue'
 import NavigationBar from './components/templates/NavigationBar.vue'
 
 export default {
   name: 'App',
   components: {
-    NavigationBar
+    NavigationBar,
+    NotificationContainer
   }
 }
 

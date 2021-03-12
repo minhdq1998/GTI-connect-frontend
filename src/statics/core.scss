@@ -8,6 +8,8 @@
     --secondarycolour: #9CC3D5FF; //rgb(156, 195, 213)
     --bgcolour: #FFFFFFFF;  //rgb(255, 255, 255)
     --errorcolour: #FF0000FF; //rgb(255,0,0)
+    --successcolour: #22BB33FF; //rgb(34,187,51)
+    --boxshadowcolour: #000000FF; //rgb(0,0,0)
 
 }
 
@@ -108,6 +110,21 @@ button, input {
     background-color: var(--primarycolour);
     width: 100%;
     border-radius: 3px;
+}
+
+.sign-up-form p {
+    margin-top: 5px;
+    margin-bottom: 0px;
+    color: var(--errorcolour);
+}
+
+.sign-up-form {
+    margin: 0px auto;
+    max-width: 300px;
+}
+
+.error {
+    border-color: var(--errorcolour);
 }
 
 @media screen and (max-width: 640px) {

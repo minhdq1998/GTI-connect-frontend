@@ -1,17 +1,17 @@
 <template>
-  <div class="input-field">
+  <div class="text-input-group">
     <input-label :label="label" />
-    <form-input :type="type" v-bind="$attrs" :validated="validated" />
+    <text-input :type="type" v-bind="$attrs" :validated="validated" />
   </div>
 </template>
 
 <script>
-import FormInput from '../atoms/FormInput.vue'
+import TextInput from '../atoms/TextInput.vue'
 import InputLabel from '../atoms/InputLabel.vue'
 export default {
   inheritAttrs: false,
   components: {
-    InputLabel, FormInput
+    InputLabel, TextInput
   },
   props: {
     label: {

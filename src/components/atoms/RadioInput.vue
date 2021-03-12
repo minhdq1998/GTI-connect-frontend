@@ -8,7 +8,7 @@
       :value="value"
       @change="$emit('update:modelValue', value)"
     />
-    <label class="radio-label" v-if="label">{{ label }}</label>
+    <label @click="$emit('update:modelValue', value)" class="radio-label" v-if="label">{{ label }}</label>
   </div>
 </template>
 
@@ -34,9 +34,11 @@ export default {
 <style lang="scss" scoped>
 .radio-label {
   margin-left: 5px;
+  cursor: pointer;
 }
 .radio-value {
   margin-top: -1px;
+  cursor: pointer;
 }
 
 .radio-input {
