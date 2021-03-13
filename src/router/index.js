@@ -4,7 +4,7 @@ import {
   , createWebHashHistory
 } from 'vue-router'
 
-import Home from '../components/pages/Home.vue'
+import Home from '../pages/Home/index.vue'
 
 const routes = [
   {
@@ -15,27 +15,27 @@ const routes = [
   {
     path: '/signup',
     name: 'Sign Up',
-    component: () => import ('../components/pages/SignUp.vue')
+    component: () => import ('../pages/SignUp/index.vue')
   },
   {
     path: '/signin',
     name: 'Sign In',
-    component: () => import('../components/pages/SignIn.vue')
+    component: () => import('../pages/SignIn/index.vue')
   },
   {
     path: '/experts',
     name: 'Our Experts',
-    component: () => import('../components/pages/OurExperts.vue')
+    component: () => import('../pages/OurExperts/index.vue')
   },
   {
     path: '/jobs',
     name: 'Jobs',
-    component: () => import('../components/pages/Jobs.vue')
+    component: () => import('../pages/Jobs/index.vue')
   },
   {
     path: '/profile',
     name: 'Profile',
-    component: () => import('../components/pages/Profile.vue')
+    component: () => import('../pages/Profile/index.vue')
   },
 ]
 

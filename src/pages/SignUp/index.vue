@@ -6,10 +6,7 @@
 </template>
 
 <script>
-import SignUpForm from '../organisms/SignUpForm.vue';
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
-
+import SignUpForm from './components/SignUpForm.vue';
 export default {
   components: {
     SignUpForm

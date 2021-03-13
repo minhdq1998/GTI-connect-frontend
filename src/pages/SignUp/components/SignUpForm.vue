@@ -100,11 +100,11 @@
 
 <script>
 
-import Button from '../atoms/Button.vue'
-import RadioInput from '../atoms/RadioInput.vue'
-import InputLabel from '../atoms/InputLabel.vue'
-import TextInputGroup from '../molecules/TextInputGroup.vue'
-import UserService from '../../services/UserService'
+import Button from '../../../components/atoms/Button'
+import RadioInput from '../../../components/atoms/RadioInput'
+import InputLabel from '../../../components/atoms/InputLabel'
+import TextInputGroup from '../../../components/molecules/TextInputGroup.vue'
+import UserService from '../../../services/UserService'
 import useVuelidate from '@vuelidate/core'
 import { required, email, maxLength, minLength, sameAs } from '@vuelidate/validators'
 export default {
