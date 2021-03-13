@@ -36,7 +36,7 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: () => import('../components/pages/Profile.vue')
-  }
+  },
 ]
 
 const router = createRouter({
