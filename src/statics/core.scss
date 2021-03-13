@@ -116,6 +116,7 @@ button, input {
 
 .form-main-button:disabled {
     background-color: rgba(0, 32, 63, 0.4);
+    cursor: default;
 }
 
 .sign-up-form p {

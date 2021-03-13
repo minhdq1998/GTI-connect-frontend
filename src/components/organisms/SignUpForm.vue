@@ -144,9 +144,16 @@ export default {
     }
   },
   computed: {
-    buttonDisable() {
+    buttonDisable: {
+      get() {
       return this.v$.$invalid
+      },
+      set(newValue) {
+        this.v$.$invalid = newValue
+      }
     }
+    
+  
   },
   methods: {
     createNewUser() {
@@ -166,6 +173,7 @@ export default {
       if (!this.v$.$invalid) {
         UserService.createUserAccount(this.user)
         .then(() => {
+          this.buttonDisable = true
           const notification = {
             type: 'success',
             message: 'Your account has been successfully created!'
