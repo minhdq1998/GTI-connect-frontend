@@ -104,7 +104,6 @@ import Button from '../../../components/atoms/Button'
 import RadioInput from '../../../components/atoms/RadioInput'
 import InputLabel from '../../../components/atoms/InputLabel'
 import TextInputGroup from '../../../components/molecules/TextInputGroup.vue'
-import UserService from '../../../services/UserService'
 import useVuelidate from '@vuelidate/core'
 import { required, email, maxLength, minLength, sameAs } from '@vuelidate/validators'
 export default {
@@ -171,7 +170,7 @@ export default {
       const vm = this
       this.v$.$touch()
       if (!this.v$.$invalid) {
-        UserService.createUserAccount(this.user)
+        this.$store.dispatch('user/register', this.user)
         .then(() => {
           this.buttonDisable = true
           const notification = {
