@@ -7,3 +7,7 @@ export const signup = {
     SIGNUP_SUCCESS: 'Your account has been successfully created!',
     SIGNUP_FAIL: 'There was a problem creating your account, ' 
 }
+
+export const signin = {
+    SIGNIN_FAIL: 'Wrong username or password, please try again.'
+}

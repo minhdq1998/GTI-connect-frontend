@@ -1,11 +1,11 @@
 @import './varriables.scss';
 @import './transitions.scss';
+@import './buttons.scss';
 
 body, html {
     margin: 0px !important;
     padding:0px;
     font-size: var(--font-size);
-    font-family: 'Montserrat', sans-serif;
     min-width: 300px;
 }
 
@@ -15,7 +15,6 @@ body {
 
 label, input, textarea {
   display: inline-flex;
-  font-family: 'Open Sans', sans-serif;
   font-size: 100%;
   line-height: 1.15;
   margin: 0;

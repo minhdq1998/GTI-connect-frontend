@@ -221,17 +221,4 @@ export default {
     justify-content: space-between;
   }
 
-  .form-main-button {
-    background-color: var(--primarycolour);
-    width: 100%;
-    border-radius: 3px;
-    margin: 15px 0px;
-    height: 40px;
-  }
-
-  .form-main-button:disabled {
-    background-color: rgba(0, 32, 63, 0.4);
-    cursor: default;
-  }
-
 </style>

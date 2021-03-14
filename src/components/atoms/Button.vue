@@ -28,6 +28,5 @@ button {
   text-align: center;
   cursor: pointer;
   font-weight: 700;
- 
 }
 </style>

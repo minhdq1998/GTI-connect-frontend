@@ -8,6 +8,13 @@ export default {
       method: 'POST',
       data: user
     })
-  }
+  },
 
+  getToken(loginInfo) {
+    return request({
+      url: 'accounts/token/',
+      method: 'POST',
+      data: loginInfo
+    })
+  }
 }

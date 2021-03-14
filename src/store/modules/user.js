@@ -27,6 +27,19 @@ export const actions = {
         reject(e)
       })
     })
+  },
+  login(context, loginInfo) {
+    console.log('login dispatched')
+    return new Promise((resolve, reject) => {
+      User.getToken({
+        email: loginInfo.email,
+        password: loginInfo.password
+      }).then(res => {
+        resolve(res)
+      }).catch(e => {
+        reject(e)
+      })
+    })
   }
 
 }
