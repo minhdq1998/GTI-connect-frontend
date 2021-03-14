@@ -23,5 +23,5 @@ export const error = {
 export const page_access = {
     EVERYBODY: 'everybody',
     REQUIRE_AUTH: 'require-auth',
-    HAVE_NOT_AUTH: 'HAVE_NOT_AUTH'
+    HAVE_NOT_AUTH: 'have_not_auth'
 }

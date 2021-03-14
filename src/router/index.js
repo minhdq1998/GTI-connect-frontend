@@ -69,7 +69,7 @@ router.beforeEach(async (to, from, next) => {
   if (page_access_mode == page_access.HAVE_NOT_AUTH && userIsLogin) {
     next({name: 'Landing Page'})
   } else if (page_access_mode == page_access.REQUIRE_AUTH && !userIsLogin) {
-    next({name: 'Sing In'})
+    next({name: 'Sign In'})
   }
   next()
 })
