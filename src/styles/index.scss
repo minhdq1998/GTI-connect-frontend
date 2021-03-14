@@ -51,7 +51,7 @@ button, input {
 
 #body-view > .content-wrapper {
     padding-top: 40px;
-    min-height: calc(100vh - 120px);
+    min-height: calc(100vh - 130px);
 }
 
 #nav {
@@ -59,7 +59,7 @@ button, input {
     background-color: var(--bgcolour);
     padding-top:20px;
     padding-bottom: 20px;
-    height: 40px;
+    height: 50px;
     line-height: 40px;
     position: fixed;
     top: 0px;
@@ -85,6 +85,9 @@ button, input {
 .nav-brand-logo > img{
     height: 40px;
     flex: 1;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%)
 }
 
 .nav-router-links {
@@ -107,7 +110,7 @@ button, input {
 
 @media screen and (max-width: 640px ) {
     .nav-router-link {
-      display: none;
+      display: none !important;
     }
     .nav-icon {
       display: flex;
@@ -121,5 +124,5 @@ input {
 #body-view {
     margin-block-start: 1.0em;
     margin-block-end: 1.0em;
-    padding-top: 80px;
+    padding-top: 90px;
 }

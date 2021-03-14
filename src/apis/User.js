@@ -1,4 +1,4 @@
-import request from '@/utils/requests'
+import request, {getAuthorizationHeader} from '@/utils/requests'
 
 export default {
 
@@ -15,6 +15,14 @@ export default {
       url: 'accounts/token/',
       method: 'POST',
       data: loginInfo
+    })
+  },
+
+  getUser(userId) {
+    return request({
+      url: `profiles/${userId}/`,
+      method: 'GET',
+      headers: getAuthorizationHeader()
     })
   }
 }

@@ -6,19 +6,32 @@
         <router-link class="nav-router-link-mobile" to="/">About</router-link>
         <router-link class="nav-router-link-mobile" to="/jobs">Jobs</router-link>
         <router-link class="nav-router-link-mobile" to="/experts">Our experts</router-link>
-        <router-link class="nav-router-link-mobile" to="/signin">Sign In</router-link>
-        <router-link class="nav-router-link-mobile nav-login-btn" to="/signup">Join</router-link>
+        <template v-if="!userIsLoggedIn">
+          <router-link class="nav-router-link-mobile" to="/signin">Sign In</router-link>
+          <router-link class="nav-router-link-mobile nav-login-btn" to="/signup">Join</router-link>
+        </template>
+        <template v-if="userIsLoggedIn">
+          <a class="nav-router-link-mobile" @click="dispatchLogout">Logout</a>
+        </template>
       </div>
     </transition>
   </div>
 </template>
 
 <script>
+  import {mapActions} from 'vuex'
+
   export default {
     data() {
       return {
         dropDownShow: false
       }
+    },
+    props: ['userIsLoggedIn'],
+    methods: {
+        ...mapActions({
+            dispatchLogout: 'user/logout'
+        })
     }
   }
 </script>

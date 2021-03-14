@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {getAccessToken} from '@/utils/auth/'
 // import httpErrorMapping from './http-error-mapping'
 
 const service = axios.create({
@@ -25,5 +26,12 @@ service.interceptors.response.use(
         // return httpErrorMapping(e)
     }
 )
+
+export function getAuthorizationHeader() {
+    let accessToken = getAccessToken()
+    return {
+        'Authorization': `Bearer ${accessToken}`
+    }
+}
 
 export default service

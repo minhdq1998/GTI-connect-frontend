@@ -19,3 +19,9 @@ export const session = {
 export const error = {
     SOMETHING_WENT_WRONG: 'Something went wrong!'
 }
+
+export const page_access = {
+    EVERYBODY: 'everybody',
+    REQUIRE_AUTH: 'require-auth',
+    HAVE_NOT_AUTH: 'HAVE_NOT_AUTH'
+}

@@ -1,7 +1,7 @@
 import User from '../../apis/User'
 import router from '@/router'
 
-import { getAccessToken ,setCredentials, removeCredentials } from '../../utils/auth'
+import { getCurrentUserId, getAccessToken ,setCredentials, removeCredentials } from '../../utils/auth'
 
 export const namespaced = true
 
@@ -16,8 +16,11 @@ export const state = {
 }
 
 export const mutations = {
-  SET_CURRENT_USER: (state, user) => {
-    state.user = user
+  SET_CURRENT_USER(state, user) {
+    state = Object.assign(state, user)
+  },
+  SET_ACCESS_TOKEN(state) {
+    state.accessToken = getAccessToken()
   }
 }
 
@@ -46,6 +49,7 @@ export const actions = {
         password: loginInfo.password
       }).then(res => {
         setCredentials(res.refresh, res.access)
+        context.commit('SET_ACCESS_TOKEN')
         resolve()
       }).catch(e => {
         reject(e)
@@ -54,7 +58,23 @@ export const actions = {
   },
   logout() {
     removeCredentials()
-    router.reload()
+    router.go()
+  },
+  getCurrentUser(context) {
+    return new Promise((resolve, reject) => {
+      User.getUser(getCurrentUserId()).then(res => {
+        let storeUserInfo = {
+          id: res.pk,
+          first_name: res.first_name,
+          last_name: res.last_name,
+          role: res.role,
+          email: res.email,
+          sectors: res.sector_list
+        }
+        context.commit('SET_CURRENT_USER', storeUserInfo)
+        resolve(res)
+      }).catch(e => reject(e))
+    })
   }
 
 }

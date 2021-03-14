@@ -78,7 +78,7 @@ export default {
       this.v$.$touch()
       this.forceButtonDisable = true
       this.dispatchLogin(this.loginForm).then(() => {
-        this.$router.push('/')
+        this.$router.push('/');
       }).catch(() => { this.displayFailToLogin = true;
       }).then(() => { this.forceButtonDisable = false }) 
     }
