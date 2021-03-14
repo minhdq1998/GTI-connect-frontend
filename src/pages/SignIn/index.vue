@@ -1,16 +1,29 @@
 <template>
-  <div class="">
-    <h1>Sign In</h1>
-  </div>
+<div class="form-container">
+  <form class="sign-in-form" @submit.prevent="loginUser">
+
+  </form>
+</div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
+import useVuelidate from '@vuelidate/core'
 
 export default {
   name: 'SignIn',
   components: {
+  },
+  setup() {
+    return {
+       v$: useVuelidate()
+    }
+  },
+  methods: {
+    loginUser() {
+      const vm = this
+      this.v$.touch()
+      console.log(vm)
+    }
   }
 }
 </script>

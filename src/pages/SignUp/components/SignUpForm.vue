@@ -1,6 +1,5 @@
 <template>
-  <div class="form-container">
-      <form class="sign-up-form" @submit.prevent="registerUser">
+    <user-auth-form-container title="Sign Up" @onSubmit="registerUser">
         <text-input-group 
           label="First name" 
           type="text" 
@@ -10,8 +9,12 @@
           :validated="!v$.user.first_name.$error"
         />
         <template v-if="v$.user.first_name.$error">
-          <p v-if="v$.user.first_name.required.$invalid">Your first name is required.</p>
-          <p v-if="v$.user.first_name.maxLength.$invalid">The maximum length allowed is 30.</p>
+          <FormError 
+            v-if="v$.user.first_name.required.$invalid" 
+            errorMsg="Your first name is required." />
+          <FormError 
+            v-if="v$.user.first_name.maxLength.$invalid" 
+            errorMsg="The maximum length allowed is 30."/>        
         </template>
       
         <text-input-group 
@@ -23,8 +26,12 @@
           :validated="!v$.user.last_name.$error"
         />
         <template v-if="v$.user.last_name.$error">
-          <p v-if="v$.user.last_name.required.$invalid">Your last name is required.</p>
-          <p v-if="v$.user.last_name.maxLength.$invalid">The maximum length allowed is 60.</p>
+          <FormError 
+            v-if="v$.user.last_name.required.$invalid" 
+            errorMsg="Your last name is required." />
+          <FormError 
+            v-if="v$.user.last_name.maxLength.$invalid" 
+            errorMsg="The maximum length allowed is 60." />
         </template>
        
         <text-input-group 
@@ -36,8 +43,13 @@
           :validated="!v$.user.email.$error"
         />
         <template v-if="v$.user.email.$error">
-          <p v-if="v$.user.email.required.$invalid">Your email is required.</p>
-          <p v-if="v$.user.email.email.$invalid">Please enter a valid email address.</p>
+          <FormError 
+            v-if="v$.user.email.required.$invalid" 
+            errorMsg="Your email is required."/>
+          <FormError 
+            v-if="v$.user.email.email.$invalid" 
+            errorMsg="Please enter a valid email address."
+          />
         </template>
     
         <text-input-group 
@@ -49,11 +61,15 @@
           :validated="!v$.user.password.$error"
         />
         <template v-if="v$.user.password.$error">
-          <p v-if="v$.user.password.required.$invalid">Your password is required.</p>
-          <p v-if="v$.user.password.valid.$invalid">Your password must contain at least 1 number and 1 special character.</p>
-          <p v-if="v$.user.password.minLength.$invalid || v$.user.password.maxLength.$invalid">
-            The password should be between 8 to 20 characters.
-          </p>
+          <FormError 
+            v-if="v$.user.password.required.$invalid"
+            errorMsg="Your password is required." />
+          <FormError 
+            v-if="v$.user.password.valid.$invalid"
+            errorMsg="Your password must contain at least 1 number and 1 special character." />
+          <FormError 
+            v-if="v$.user.password.minLength.$invalid || v$.user.password.maxLength.$invalid"
+            errorMsg="The password should be between 8 to 20 characters." />
         </template>
         
         <text-input-group
@@ -65,8 +81,12 @@
           :validated="!v$.user.password2.$error"
         />
         <template v-if="v$.user.password2.$error">
-          <p v-if="v$.user.password2.required.$invalid">Your re-enter password is required.</p>
-          <p v-if="v$.user.password2.sameAsPassword.$invalid">The re-entered password is incorrect.</p>
+          <FormError 
+            v-if="v$.user.password2.required.$invalid"
+            errorMsg="Your re-enter password is required." />
+          <FormError 
+            v-if="v$.user.password2.sameAsPassword.$invalid" 
+            errorMsg="The re-entered password is incorrect."/>
         </template>
 
         <div class="role-selection">
@@ -90,12 +110,15 @@
               </div>
             </div>
              <template v-if="v$.user.role.$error">
-              <p v-if="v$.user.role.required.$invalid">Your role is required.</p>
+              <FormError v-if="v$.user.role.required.$invalid">Your role is required.</FormError>
             </template>
         </div>
-        <Button text="Sign up" styleMode="form-main-button" type="submit" :disabled="buttonDisable" />
-      </form>
-    </div>
+        <Button text="Sign up" 
+            styleMode="form-main-button" 
+            type="submit" 
+            :disabled="buttonDisable"
+        />
+    </user-auth-form-container>
 </template>
 
 <script>
@@ -103,9 +126,16 @@
 import Button from '../../../components/atoms/Button'
 import RadioInput from '../../../components/atoms/RadioInput'
 import InputLabel from '../../../components/atoms/InputLabel'
+import FormError from '../../../components/atoms/FormError'
+
 import TextInputGroup from '../../../components/molecules/TextInputGroup.vue'
+import UserAuthFormContainer from '../../../components/molecules/UserAuthFormContainer.vue'
+
+import { signup, notiType } from '../../../constants'
+
 import useVuelidate from '@vuelidate/core'
 import { required, email, maxLength, minLength, sameAs } from '@vuelidate/validators'
+
 export default {
   name: 'SignUpForm',
   setup () {
@@ -113,12 +143,50 @@ export default {
        v$: useVuelidate()
     }
   },
-  components: { TextInputGroup, Button, InputLabel, RadioInput },
-   data() {
+  components: { TextInputGroup, Button, InputLabel, RadioInput, UserAuthFormContainer, FormError },
+  data() {
     return {
       user: this.createNewUser(),
+      forceButtonDisable: false,
       aeRole: "Australian Expert",
       gtRole: "Global Talent",
+    }
+  },
+  computed: {
+    buttonDisable() {
+      return this.v$.$invalid || this.forceButtonDisable
+    }
+  },
+  methods: {
+    createNewUser() {
+      return {
+        first_name: "",
+        last_name: "",
+        email: "",
+        password: "",
+        password2: "",
+        role: ""
+      }
+    },
+    registerUser() {
+      const vm = this
+      this.v$.$touch()
+      if (!this.v$.$invalid) {
+        this.forceButtonDisable = true
+        this.$store.dispatch('user/register', this.user)
+        .then(() => {
+          const notification = { type: notiType.SUCCESS, message: signup.SIGNUP_SUCCESS }
+          vm.$store.dispatch('notification/add', notification, { root: true })
+          this.$router.push({ name: 'Sign In' })
+        })
+        .catch(function (err) {
+          const mailError = err.response.data.email[0] // catch duplicate mail error message
+          if (mailError) {
+            const mailNotification = { type: notiType.ERROR, message: signup.SIGNUP_FAIL + mailError }
+            vm.$store.dispatch('notification/add', mailNotification, { root: true }) // send mail error notification
+          }
+        }).then(() => { this.forceButtonDisable = false })
+      }
     }
   },
   validations () {
@@ -141,60 +209,7 @@ export default {
         role: { required }
       }
     }
-  },
-  computed: {
-    buttonDisable: {
-      get() {
-      return this.v$.$invalid
-      },
-      set(newValue) {
-        this.v$.$invalid = newValue
-      }
-    }
-    
-  
-  },
-  methods: {
-    createNewUser() {
-      return {
-        first_name: "",
-        last_name: "",
-        email: "",
-        password: "",
-        password2: "",
-        role: ""
-      }
-    },
-    registerUser() {
-      // handle form submission here
-      const vm = this
-      this.v$.$touch()
-      if (!this.v$.$invalid) {
-        this.$store.dispatch('user/register', this.user)
-        .then(() => {
-          this.buttonDisable = true
-          const notification = {
-            type: 'success',
-            message: 'Your account has been successfully created!'
-          }
-          vm.$store.dispatch('notification/add', notification, { root: true })
-          this.$router.push({
-            name: 'Sign In'
-          })
-        })
-        .catch(function (err) {
-          const mailError = err.response.data.email[0] // catch duplicate mail error message
-          if (mailError) {
-            const mailNotification = {
-              type: 'error',
-              message: 'There was a problem creating your account, ' + mailError
-            }
-            vm.$store.dispatch('notification/add', mailNotification, { root: true }) // send mail error notification
-          }
-        })
-      }
-    }
-  },
+  }
 }
 </script>
 
@@ -206,8 +221,17 @@ export default {
     justify-content: space-between;
   }
 
-  .sign-up-form {
-    padding: 10px 0px 10px 0px
+  .form-main-button {
+    background-color: var(--primarycolour);
+    width: 100%;
+    border-radius: 3px;
+    margin: 15px 0px;
+    height: 40px;
+  }
+
+  .form-main-button:disabled {
+    background-color: rgba(0, 32, 63, 0.4);
+    cursor: default;
   }
 
 </style>
