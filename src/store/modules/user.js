@@ -1,13 +1,24 @@
 import User from '../../apis/User'
+import router from '@/router'
+
+import { getAccessToken ,setCredentials, removeCredentials } from '../../utils/auth'
 
 export const namespaced = true
 
 export const state = {
-  user: {}
+  accessToken: getAccessToken(),
+  id: '',
+  first_name: '',
+  last_name: '',
+  email: '',
+  role: '',
+  sectors: []
 }
 
 export const mutations = {
-
+  SET_CURRENT_USER: (state, user) => {
+    state.user = user
+  }
 }
 
 export const actions = {
@@ -29,17 +40,21 @@ export const actions = {
     })
   },
   login(context, loginInfo) {
-    console.log('login dispatched')
     return new Promise((resolve, reject) => {
       User.getToken({
         email: loginInfo.email,
         password: loginInfo.password
       }).then(res => {
-        resolve(res)
+        setCredentials(res.refresh, res.access)
+        resolve()
       }).catch(e => {
         reject(e)
       })
     })
+  },
+  logout() {
+    removeCredentials()
+    router.reload()
   }
 
 }

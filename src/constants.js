@@ -11,3 +11,11 @@ export const signup = {
 export const signin = {
     SIGNIN_FAIL: 'Wrong username or password, please try again.'
 }
+
+export const session = {
+    SESSION_EXPIRE: 'Your session expired, please login again.'
+}
+
+export const error = {
+    SOMETHING_WENT_WRONG: 'Something went wrong!'
+}

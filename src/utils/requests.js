@@ -1,4 +1,5 @@
 import axios from 'axios'
+// import httpErrorMapping from './http-error-mapping'
 
 const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API,
@@ -21,6 +22,7 @@ service.interceptors.response.use(
     },
     e => {
         return Promise.reject(e)
+        // return httpErrorMapping(e)
     }
 )
 

@@ -14,10 +14,11 @@
       type="password" 
       placeholder="Please enter your password" 
       v-model="loginForm.password"
+      autocomplete="on"
       @blur="v$.loginForm.password.$touch()"
     />
 
-    <SpacingDiv space=10 />
+    <SpacingDiv :space=10 />
 
     <FormError
       v-if="displayFailToLogin"
@@ -76,8 +77,8 @@ export default {
     loginUser() {
       this.v$.$touch()
       this.forceButtonDisable = true
-      this.dispatchLogin(this.loginForm).then((res) => {
-        console.log(res)
+      this.dispatchLogin(this.loginForm).then(() => {
+        this.$router.push('/')
       }).catch(() => { this.displayFailToLogin = true;
       }).then(() => { this.forceButtonDisable = false }) 
     }
