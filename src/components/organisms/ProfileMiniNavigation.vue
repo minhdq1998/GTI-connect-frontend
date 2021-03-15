@@ -4,9 +4,11 @@
     @click="showDropdown = !showDropdown"
     @focusout="showDropdown = false"
     tabindex="-1"
-    >
-        <img class="navbar-avatar" src="./../../assets/avatar.svg">
-        <span class="navbar-name">{{`${user.first_name} ${user.last_name}`}}</span>
+    >   
+        <div class="navbar-wrapper">
+            <img class="navbar-avatar" src="./../../assets/avatar.svg">
+            <p class="navbar-name">{{`${user.first_name} ${user.last_name}`}}</p>
+        </div>
         <div v-if="showDropdown" class="nav-bar-profile-dropdown" @click="dispatchLogout">Logout</div>
     </div>
 </template>
@@ -47,10 +49,17 @@ export default {
     font-weight: bold;
     padding: 5px 10px 5px 10px;
     max-width: 140px;
-    vertical-align: middle;
+    width: 140px;
     position: relative;
     cursor: pointer;
     outline: none;
+    height:40px;
+}
+
+.navbar-wrapper {
+    position:absolute;
+    top: 50%;
+    transform: translateY(-36.5%);
 }
 
 .navbar-avatar {
@@ -62,13 +71,19 @@ export default {
 }
 
 .navbar-name {
-    margin-left: 5px;
-    display: inline;
+    margin: 0px 0px 0px 5px;
+    display: inline-block;
+    width: 100%;
     padding-left: 45px;
+    max-lines: 1;
+    width: calc(140px - 45px);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .nav-bar-profile-dropdown {
-    width: calc(100% - 20px);
+    width: calc(140px - 10px);
     z-index: 1001;
     position: absolute;
     bottom: -60px;
