@@ -1,28 +1,35 @@
-import request, {getAuthorizationHeader} from '@/utils/requests'
+import requestAPI  from '@/utils/requests'
 
 export default {
 
   createUserAccount(user) {
-    return request({
+    return requestAPI({
       url: 'accounts/registration/',
       method: 'POST',
       data: user
-    })
+    }, false)
   },
 
   getToken(loginInfo) {
-    return request({
+    return requestAPI({
       url: 'accounts/token/',
       method: 'POST',
       data: loginInfo
-    })
+    }, false)
   },
 
   getUser(userId) {
-    return request({
+    return requestAPI({
       url: `profiles/${userId}/`,
       method: 'GET',
-      headers: getAuthorizationHeader()
+    })
+  },
+
+  refreshToken(data) {
+    return requestAPI({
+      url: 'account/token/refresh/',
+      method: 'POST',
+      data: data
     })
   }
 }

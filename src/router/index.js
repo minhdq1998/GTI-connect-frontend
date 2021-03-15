@@ -8,7 +8,7 @@ import store from '@/store'
 
 import Home from '../pages/Home/index.vue'
 
-import {isLoggedIn} from '@/utils/auth'
+import {isLoggedIn, tokenIsAlive} from '@/utils/auth'
 import {page_access} from '@/constants'
 
 const routes = [
@@ -63,6 +63,7 @@ router.beforeEach(async (to, from, next) => {
   let page_access_mode = to.meta.page_access
   let userIsLogin = isLoggedIn()
   let accessToken = store.state.user.accessToken
+  console.log('Token is alive', tokenIsAlive())
   if (accessToken && store.state.user.id == '') {
     await store.dispatch('user/getCurrentUser')
   }

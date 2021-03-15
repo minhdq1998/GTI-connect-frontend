@@ -1,6 +1,7 @@
 import axios from 'axios'
-import {getAccessToken} from '@/utils/auth/'
-// import httpErrorMapping from './http-error-mapping'
+import {getAccessToken, tokenIsAlive} from '@/utils/auth/'
+import httpErrorMapping from './http-error-mapping'
+import store from '@/store'
 
 const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API,
@@ -22,8 +23,7 @@ service.interceptors.response.use(
         return res
     },
     e => {
-        return Promise.reject(e)
-        // return httpErrorMapping(e)
+        return httpErrorMapping(e)
     }
 )
 
@@ -34,4 +34,19 @@ export function getAuthorizationHeader() {
     }
 }
 
-export default service
+export default async function requestAPI(request, withCredentials=true) {
+    let accessToken = getAccessToken()
+    console.log(tokenIsAlive())
+    if (!tokenIsAlive()) {
+        await store.dispatch('user/refreshToken')
+    }
+    if (withCredentials) {
+        request.headers = {
+            ...request.headers,
+            'Authorization': `Bearer ${accessToken}`
+        }
+    }
+    return service(request)
+}
+
+// export service

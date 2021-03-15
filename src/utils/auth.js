@@ -8,6 +8,10 @@ export function getAccessToken() {
     return Cookies.get(accessTokenKey)
 }
 
+export function setAccessToken(accessToken) {
+    Cookies.set(accessTokenKey, accessToken) 
+}
+
 export function getCurrentUserId() {
     try {
         let decoded = jwt_decode(getAccessToken())
@@ -16,6 +20,19 @@ export function getCurrentUserId() {
         return undefined;
     }
 }
+
+export function tokenIsAlive() {
+    try {
+        let decoded = jwt_decode(getAccessToken())
+        let expired_time = decoded.exp;
+        let now = Math.floor((new Date()).getTime() / 1000)
+        console.log('expired_time',expired_time)
+        console.log('now', now)
+        return now < expired_time;
+    } catch {
+        return false
+    }
+} 
 
 export function getRefreshToken() {
     return Cookies.get(refreshTokenKey)

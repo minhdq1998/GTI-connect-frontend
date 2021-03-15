@@ -1,7 +1,14 @@
 import User from '../../apis/User'
 import router from '@/router'
 
-import { getCurrentUserId, getAccessToken ,setCredentials, removeCredentials } from '../../utils/auth'
+import { 
+  getCurrentUserId, 
+  getAccessToken ,
+  setCredentials, 
+  removeCredentials,
+  getRefreshToken,
+  setAccessToken
+} from '../../utils/auth'
 
 export const namespaced = true
 
@@ -74,6 +81,16 @@ export const actions = {
         context.commit('SET_CURRENT_USER', storeUserInfo)
         resolve(res)
       }).catch(e => reject(e))
+    })
+  },
+  refreshToken(context) {
+    return new Promise((resolve, reject) => {
+      User.refreshToken({refresh: getRefreshToken()}
+        ).then(res => {
+          setAccessToken(res.access)
+          context.commit('SET_ACCESS_TOKEN')
+          resolve()
+        }).catch(e=> reject(e))
     })
   }
 
