@@ -4,7 +4,12 @@ import {
   , createWebHashHistory
 } from 'vue-router'
 
-import Home from '../components/pages/Home.vue'
+import store from '@/store'
+
+import Home from '../pages/Home/index.vue'
+
+import {isLoggedIn, tokenIsAlive} from '@/utils/auth'
+import {page_access} from '@/constants'
 
 const routes = [
   {
@@ -15,33 +20,60 @@ const routes = [
   {
     path: '/signup',
     name: 'Sign Up',
-    component: () => import ('../components/pages/SignUp.vue')
+    component: () => import ('../pages/SignUp/index.vue'),
+    meta: {
+      page_access: page_access.HAVE_NOT_AUTH
+    }
   },
   {
     path: '/signin',
     name: 'Sign In',
-    component: () => import('../components/pages/SignIn.vue')
+    component: () => import('../pages/SignIn/index.vue'),
+    meta: {
+      page_access: page_access.HAVE_NOT_AUTH
+    }
   },
   {
     path: '/experts',
     name: 'Our Experts',
-    component: () => import('../components/pages/OurExperts.vue')
+    component: () => import('../pages/OurExperts/index.vue'),
   },
   {
     path: '/jobs',
     name: 'Jobs',
-    component: () => import('../components/pages/Jobs.vue')
+    component: () => import('../pages/Jobs/index.vue')
   },
   {
     path: '/profile',
     name: 'Profile',
-    component: () => import('../components/pages/Profile.vue')
+    component: () => import('../pages/Profile/index.vue'),
+    meta: {
+      page_access: page_access.REQUIRE_AUTH
+    }
   },
 ]
+
 
 const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach(async (to, from, next) => {
+  let page_access_mode = to.meta.page_access
+  let accessToken = store.state.user.accessToken
+
+  if (isLoggedIn()) {
+    if (!accessToken || !tokenIsAlive()) await store.dispatch('user/refreshToken')
+    if (!store.state.user.id) await store.dispatch('user/getCurrentUser')
+  }
+
+  if (page_access_mode == page_access.HAVE_NOT_AUTH && isLoggedIn()) {
+    next({name: 'Landing Page'})
+  } else if (page_access_mode == page_access.REQUIRE_AUTH && !isLoggedIn()) {
+    next({name: 'Sign In'})
+  }
+  next()
 })
 
 export default router

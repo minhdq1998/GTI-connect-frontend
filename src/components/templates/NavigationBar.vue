@@ -5,14 +5,19 @@
       <img src="./../../assets/logo.png">
     </div>
 
-    <mobile-navigation />
+    <mobile-navigation :userIsLoggedIn=userIsLoggedIn />
 
     <div class="nav-router-links" >
-      <router-link class="nav-router-link" to="/">About</router-link>
-      <router-link class="nav-router-link" to="/jobs">Jobs</router-link>
+      <template v-if="userIsLoggedIn">
+        <profile-mini-navigation />
+      </template>
+      <template v-if="!userIsLoggedIn">
+        <router-link class="nav-router-link nav-singup-btn" to="/signup">Join</router-link>
+        <router-link class="nav-router-link" to="/signin">Sign In</router-link>
+      </template>
       <router-link class="nav-router-link" to="/experts">Our experts</router-link>
-      <router-link class="nav-router-link" to="/signin">Sign In</router-link>
-      <router-link class="nav-router-link nav-login-btn" to="/signup">Join</router-link>
+      <router-link class="nav-router-link" to="/jobs">Jobs</router-link>
+      <router-link class="nav-router-link" to="/">About</router-link>
     </div>
   </div>
 </div>
@@ -20,27 +25,53 @@
 
 <script>
 import MobileNavigation from './MobileNavigation.vue'
+import ProfileMiniNavigation from '@/components/organisms/ProfileMiniNavigation'
+
+import {isLoggedIn} from '@/utils/auth'
+
+import {mapState} from 'vuex'
 
 export default {
   components: {
-    MobileNavigation
+    MobileNavigation,
+    ProfileMiniNavigation
+  },
+  data() {
+    return {
+      userIsLoggedIn:isLoggedIn()
+    }
+  },
+  computed: {
+    ...mapState({
+      accessToken: state => state.user.accessToken
+    }),
+    
+  },
+  watch:{
+    accessToken: {
+      handler() {
+        this.userIsLoggedIn = isLoggedIn()
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
-.nav-router-link {
-    margin-left: 17px;
+.nav-brand-logo {
+  position:relative;
 }
 
-.nav-login-btn {
+.nav-router-link {
+  display: inline-block;
+  margin-left: 17px;
+  vertical-align: middle;
+}
+
+.nav-singup-btn {
     border-radius: 4px;
-    padding: 6px 12px 6px 12px;
+    padding: 3px 12px 3px 12px;
     border: 1px solid var(--textgray);
 }
-
-
-
-
 
 </style>
