@@ -61,15 +61,16 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   let page_access_mode = to.meta.page_access
-  let userIsLogin = isLoggedIn()
   let accessToken = store.state.user.accessToken
-  console.log('Token is alive', tokenIsAlive())
-  if (accessToken && store.state.user.id == '') {
-    await store.dispatch('user/getCurrentUser')
+
+  if (isLoggedIn()) {
+    if (!accessToken || !tokenIsAlive()) await store.dispatch('user/refreshToken')
+    if (!store.state.user.id) await store.dispatch('user/getCurrentUser')
   }
-  if (page_access_mode == page_access.HAVE_NOT_AUTH && userIsLogin) {
+
+  if (page_access_mode == page_access.HAVE_NOT_AUTH && isLoggedIn()) {
     next({name: 'Landing Page'})
-  } else if (page_access_mode == page_access.REQUIRE_AUTH && !userIsLogin) {
+  } else if (page_access_mode == page_access.REQUIRE_AUTH && !isLoggedIn()) {
     next({name: 'Sign In'})
   }
   next()

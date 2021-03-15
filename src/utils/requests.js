@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getAccessToken, tokenIsAlive} from '@/utils/auth/'
+import {tokenIsAlive} from '@/utils/auth/'
 import httpErrorMapping from './http-error-mapping'
 import store from '@/store'
 
@@ -28,14 +28,14 @@ service.interceptors.response.use(
 )
 
 export function getAuthorizationHeader() {
-    let accessToken = getAccessToken()
+    let accessToken = store.state.user.accessToken
     return {
         'Authorization': `Bearer ${accessToken}`
     }
 }
 
 export default async function requestAPI(request, withCredentials=true) {
-    let accessToken = getAccessToken()
+    let accessToken = store.state.user.accessToken
     if (withCredentials) {
         if (!tokenIsAlive()) {
             await store.dispatch('user/refreshToken')

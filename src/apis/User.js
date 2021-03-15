@@ -27,7 +27,7 @@ export default {
 
   refreshToken(data) {
     return requestAPI({
-      url: 'account/token/refresh/',
+      url: 'accounts/token/refresh/',
       method: 'POST',
       data: data
     }, false)

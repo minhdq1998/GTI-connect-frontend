@@ -2,18 +2,16 @@ import User from '../../apis/User'
 import router from '@/router'
 
 import { 
-  getCurrentUserId, 
-  getAccessToken ,
+  getCurrentUserId,
   setCredentials, 
   removeCredentials,
   getRefreshToken,
-  setAccessToken
 } from '../../utils/auth'
 
 export const namespaced = true
 
 export const state = {
-  accessToken: getAccessToken(),
+  accessToken: '',
   id: '',
   first_name: '',
   last_name: '',
@@ -26,8 +24,8 @@ export const mutations = {
   SET_CURRENT_USER(state, user) {
     state = Object.assign(state, user)
   },
-  SET_ACCESS_TOKEN(state) {
-    state.accessToken = getAccessToken()
+  SET_ACCESS_TOKEN(state, accessToken) {
+    state.accessToken = accessToken
   }
 }
 
@@ -55,8 +53,8 @@ export const actions = {
         email: loginInfo.email,
         password: loginInfo.password
       }).then(res => {
-        setCredentials(res.refresh, res.access)
-        context.commit('SET_ACCESS_TOKEN')
+        setCredentials(res.refresh)
+        context.commit('SET_ACCESS_TOKEN',res.access)
         resolve()
       }).catch(e => {
         reject(e)
@@ -87,8 +85,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       User.refreshToken({refresh: getRefreshToken()}
         ).then(res => {
-          setAccessToken(res.access)
-          context.commit('SET_ACCESS_TOKEN')
+          context.commit('SET_ACCESS_TOKEN', res.access)
           resolve()
         }).catch(e=> reject(e))
     })
