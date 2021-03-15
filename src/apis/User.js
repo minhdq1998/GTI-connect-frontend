@@ -30,6 +30,6 @@ export default {
       url: 'account/token/refresh/',
       method: 'POST',
       data: data
-    })
+    }, false)
   }
 }

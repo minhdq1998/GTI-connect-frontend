@@ -36,11 +36,10 @@ export function getAuthorizationHeader() {
 
 export default async function requestAPI(request, withCredentials=true) {
     let accessToken = getAccessToken()
-    console.log(tokenIsAlive())
-    if (!tokenIsAlive()) {
-        await store.dispatch('user/refreshToken')
-    }
     if (withCredentials) {
+        if (!tokenIsAlive()) {
+            await store.dispatch('user/refreshToken')
+        }
         request.headers = {
             ...request.headers,
             'Authorization': `Bearer ${accessToken}`
