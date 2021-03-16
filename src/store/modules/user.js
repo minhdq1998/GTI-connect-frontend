@@ -74,7 +74,7 @@ export const actions = {
           last_name: res.last_name,
           role: res.role,
           email: res.email,
-          sectors: res.sector_list
+          sectors: res.profile.sectors
         }
         context.commit('SET_CURRENT_USER', storeUserInfo)
         resolve(res)
