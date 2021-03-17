@@ -10,6 +10,7 @@
     <div class="nav-router-links" >
       <template v-if="userIsLoggedIn">
         <profile-mini-navigation />
+        <router-link class="nav-router-link" to="/dashboard">Dashboard</router-link>
       </template>
       <template v-if="!userIsLoggedIn">
         <router-link class="nav-router-link nav-singup-btn" to="/signup">Join</router-link>

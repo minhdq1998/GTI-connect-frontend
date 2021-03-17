@@ -17,7 +17,8 @@ export const state = {
   last_name: '',
   email: '',
   role: '',
-  sectors: []
+  sectors: [],
+  avatarUrl: ''
 }
 
 export const mutations = {
@@ -74,7 +75,8 @@ export const actions = {
           last_name: res.last_name,
           role: res.role,
           email: res.email,
-          sectors: res.profile.sectors
+          sectors: res.profile.sectors,
+          avatarUrl: process.env.VUE_APP_ROOT_API.concat(res.profile.avatar)
         }
         context.commit('SET_CURRENT_USER', storeUserInfo)
         resolve(res)

@@ -47,9 +47,28 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: () => import('../pages/Profile/index.vue'),
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import('../pages/Dashboard/index.vue'),
     meta: {
       page_access: page_access.REQUIRE_AUTH
-    }
+    },
+    children: [
+      {
+        path: '',
+        component: () => import('../pages/Dashboard/UserProfile.vue'),
+      },
+      {
+        path: 'managejobs',
+        component: () => import('../pages/Dashboard/ManageJobs.vue'),
+      },
+      {
+        path: 'payments',
+        component: () => import('../pages/Dashboard/Payments.vue'),
+      }
+    ]
   },
 ]
 
