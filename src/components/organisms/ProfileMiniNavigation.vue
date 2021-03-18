@@ -6,7 +6,7 @@
     tabindex="-1"
     >   
         <div class="navbar-wrapper">
-            <img class="navbar-avatar" src="./../../assets/avatar.svg">
+            <img class="navbar-avatar" :src="user.avatarUrl">
             <p class="navbar-name">{{`${user.first_name} ${user.last_name}`}}</p>
         </div>
         <div v-if="showDropdown" class="nav-bar-profile-dropdown" @click="dispatchLogout">Logout</div>
@@ -23,12 +23,13 @@ export default {
             id: state.user.id,
             first_name: state.user.first_name,
             last_name: state.user.last_name,
-            role: state.user.role
+            role: state.user.role,
+            avatarUrl: state.user.avatarUrl
         })
     }),
     data() {
         return {
-            showDropdown:false
+            showDropdown: false,
         }
     },
     methods: {
@@ -67,7 +68,6 @@ export default {
     width: 40px;
     height: 40px;
     position: absolute;
-    
 }
 
 .navbar-name {

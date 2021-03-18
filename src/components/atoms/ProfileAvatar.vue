@@ -1,0 +1,30 @@
+<template>
+  <div class="profile-avatar">
+    <img :src="avatarUrl" />
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'ProfileAvatar',
+    props: {
+      avatarUrl: {
+        type: String,
+        default: '../../assets/avatar.svg'
+      }
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+.profile-avatar img {
+  height: 150px;
+  width: 150px;
+  margin: 20px 25px 5px 25px;
+  border-radius: 50%;
+}
+
+.profile-avatar {
+  width: 100%;
+}
+</style>
