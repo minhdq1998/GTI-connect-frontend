@@ -17,8 +17,9 @@ export const state = {
   last_name: '',
   email: '',
   role: '',
-  sectors: [],
-  avatarUrl: ''
+  sectors: [],        // redundant?
+  avatarUrl: '',
+  profile: {}
 }
 
 export const mutations = {
@@ -76,7 +77,8 @@ export const actions = {
           role: res.role,
           email: res.email,
           sectors: res.profile.sectors,
-          avatarUrl: process.env.VUE_APP_ROOT_API.concat(res.profile.avatar)
+          avatarUrl: process.env.VUE_APP_ROOT_API.concat(res.profile.avatar),
+          profile: res.profile
         }
         context.commit('SET_CURRENT_USER', storeUserInfo)
         resolve(res)

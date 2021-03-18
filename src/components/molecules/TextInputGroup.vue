@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import TextInput from '../atoms/TextInput.vue'
-import InputLabel from '../atoms/InputLabel.vue'
+import TextInput from '../atoms/formComponents/TextInput.vue'
+import InputLabel from '../atoms/formComponents/InputLabel.vue'
 export default {
   inheritAttrs: false,
   components: {

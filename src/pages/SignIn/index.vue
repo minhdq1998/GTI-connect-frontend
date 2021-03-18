@@ -37,7 +37,7 @@
 <script>
 import Button from '../../components/atoms/Button'
 import TextInputGroup from '../../components/molecules/TextInputGroup'
-import FormError from '../../components/atoms/FormError'
+import FormError from '../../components/atoms/formComponents/FormError'
 import SpacingDiv from '../../components/atoms/SpacingDiv'
 
 import UserAuthFormContainer from '../../components/molecules/UserAuthFormContainer'
