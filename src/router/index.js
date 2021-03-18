@@ -62,7 +62,7 @@ const routes = [
       },
       {
         path: 'managejobs',
-        component: () => import('../pages/Dashboard/ManageJobs/index.vue'),
+        component: () => import('../pages/Dashboard/ManageConnectionRequest/index.vue'),
       },
       {
         path: 'payments',

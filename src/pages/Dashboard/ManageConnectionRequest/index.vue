@@ -1,6 +1,6 @@
 <template>
   <div class="manage-jobs">
-    <h1>Manage Jobs</h1>
+    <h1>Manage Connections</h1>
   </div>
 </template>
 
