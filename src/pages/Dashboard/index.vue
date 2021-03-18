@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import ProfileSideBar from '../../components/molecules/ProfileSideBar.vue'
+import ProfileSideBar from '../../components/templates/ProfileSideBar.vue'
 
 export default {
   name: 'Dashboard',
