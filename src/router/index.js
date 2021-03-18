@@ -58,15 +58,15 @@ const routes = [
     children: [
       {
         path: '',
-        component: () => import('../pages/Dashboard/UserProfile.vue'),
+        component: () => import('../pages/Dashboard/UserProfile/index.vue'),
       },
       {
         path: 'managejobs',
-        component: () => import('../pages/Dashboard/ManageJobs.vue'),
+        component: () => import('../pages/Dashboard/ManageJobs/index.vue'),
       },
       {
         path: 'payments',
-        component: () => import('../pages/Dashboard/Payments.vue'),
+        component: () => import('../pages/Dashboard/Payments/index.vue'),
       }
     ]
   },

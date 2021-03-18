@@ -77,6 +77,10 @@ button, input {
     display: flex;
 }
 
+#nav a.router-link-active {
+    color: var(--textactive);
+}
+
 #nav a.router-link-exact-active {
     color: var(--textactive);
 }
