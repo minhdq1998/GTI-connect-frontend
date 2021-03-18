@@ -26,5 +26,6 @@ export default {
 
 .dashboard-content-container {
   padding-left: 20px;
+  width: 100%;
 }
 </style>
