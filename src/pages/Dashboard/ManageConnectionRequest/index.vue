@@ -9,7 +9,9 @@
       <Tab v-if="'In Progress' == currentTab">In Progress</Tab>
       <Tab v-if="'Finished' == currentTab">Finished</Tab>
       <Tab v-if="'Cancelled' == currentTab">Cancelled</Tab>
-      <Button text="Create new Connection" styleMode="tab-nav-create-button"></Button>
+      <router-link to="/connections/create/">
+        <Button text="Create new Connection" styleMode="tab-nav-create-button"></Button>
+      </router-link>
     </TabsContainer>
   </div>
 </template>

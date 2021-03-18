@@ -33,7 +33,6 @@ export default {
 <style lang="scss" scoped>
 .profile-side-bar {
   width: 200px;
-  height: 100vh;
   padding-right: 20px;
   top: 90px;
   left: 0;
@@ -41,6 +40,7 @@ export default {
   flex-direction: column;
   align-items: center;
   box-shadow: 2px 0px 2px -2px gray;
+  height: calc(100vh - 130px);
 }
 
 .profile-side-bar a {

@@ -70,6 +70,11 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/connections/create/',
+    name: 'Connection Create',
+    component: () => import('../pages/CreateConnection/index.vue')
+  }
 ]
 
 
@@ -81,7 +86,6 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   let page_access_mode = to.meta.page_access
   let accessToken = store.state.user.accessToken
-  console.log(store.state.user)
   if (isLoggedIn()) {
     if (!accessToken || !tokenIsAlive()) await store.dispatch('user/refreshToken')
     if (!store.state.user.id) await store.dispatch('user/getCurrentUser')
