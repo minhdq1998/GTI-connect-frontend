@@ -29,7 +29,8 @@ import Button from '@/components/atoms/Button'
 
 import TextAreaInputGroup from '@/components/molecules/TextAreaInputGroup'
 
-import { new_connection } from '@/constants'
+import { mapActions } from 'vuex'
+import { notiType, error } from '@/constants'
 
 export default {
     name:"create-connection",
@@ -51,18 +52,23 @@ export default {
       packageInfo() {
         return this.getPackageInfo(this.connectionForm.request_type)
       },
-      descriptionError() {
-        return new_connection.DESCRIPTION_ERROR
-      }
     },
     methods: {
+      ...mapActions({
+        dispatchCreateConnection: 'connection/create',
+        dispatchNotification: 'notification/add'
+      }),
       submit() {
-        console.log('submit')
+        this.dispatchCreateConnection(this.connectionForm).then(() => {
+            this.$router.push({ name: 'Manage Connections' })
+          }).catch(() => {
+            this.dispatchNotification(
+              { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
+          })
       }
     },
 }
 </script>
 
 <style scoped>
-
 </style>

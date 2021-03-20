@@ -1,6 +1,6 @@
 import store from '@/store'
 import { notiType } from '@/constants'
-import { session, error } from '@/constants'
+import { session } from '@/constants'
 
 export default function httpErrorMapping(e) {
     const responseStatus = e?.response?.status ? e.response.status : undefined;
@@ -11,7 +11,6 @@ export default function httpErrorMapping(e) {
             sessionExpiredAction()
             return Promise.reject(e)
         } default: {
-            store.dispatch('notification/add', {type: notiType.FAIL, message: error.SOMETHING_WENT_WRONG })
             return Promise.reject(e)
         }
     }

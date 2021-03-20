@@ -62,6 +62,7 @@ const routes = [
       },
       {
         path: 'manageconnections',
+        name: 'Manage Connections',
         component: () => import('../pages/Dashboard/ManageConnectionRequest/index.vue'),
       },
       {

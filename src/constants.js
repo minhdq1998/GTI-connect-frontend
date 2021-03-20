@@ -26,10 +26,6 @@ export const page_access = {
     HAVE_NOT_AUTH: 'have_not_auth'
 }
 
-export const new_connection = {
-    DESCRIPTION_ERROR: 'Please briefly describe this connection using under 3000 characters'
-}
-
 export const packages_info = {
     package1: {
         type:"Package 1",
