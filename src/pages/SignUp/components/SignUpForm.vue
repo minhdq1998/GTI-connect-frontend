@@ -110,7 +110,9 @@
               </div>
             </div>
              <template v-if="v$.user.role.$error">
-              <FormError v-if="v$.user.role.required.$invalid">Your role is required.</FormError>
+              <FormError 
+                v-if="v$.user.role.required.$invalid"
+                errorMsg="Your role is required." />
             </template>
         </div>
         <Button text="Sign up" 

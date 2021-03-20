@@ -61,8 +61,13 @@ const routes = [
         component: () => import('../pages/Dashboard/UserProfile/index.vue'),
       },
       {
-        path: 'managejobs',
+        path: 'manageconnections',
+        name: 'Manage Connections',
         component: () => import('../pages/Dashboard/ManageConnectionRequest/index.vue'),
+      },
+      {
+        path: 'createconnection',
+        component: () => import('../pages/Dashboard/CreateConnection/index.vue'),
       },
       {
         path: 'payments',
@@ -70,11 +75,6 @@ const routes = [
       }
     ]
   },
-  {
-    path: '/connections/create/',
-    name: 'Connection Create',
-    component: () => import('../pages/CreateConnection/index.vue')
-  }
 ]
 
 

@@ -10,3 +10,17 @@
   background-color: rgba(0, 32, 63, 0.4);
   cursor: default;
 }
+
+.connection-create-submit-btn {
+  margin-top: 10px;
+  color: var(--bgcolour);
+  background-color: var(--secondarycolour);
+}
+
+.connection-create-submit-btn:hover {
+  background-color: var(--hovercolour);
+}
+
+.connection-create-submit-btn:disabled {
+  background-color: var(--disabledcolour);
+}

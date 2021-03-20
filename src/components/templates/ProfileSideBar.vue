@@ -3,30 +3,20 @@
     <profile-avatar :avatarUrl="user.avatarUrl" />
     <p class="profile-user-name">{{`${user.first_name} ${user.last_name}`}}</p>
     <router-link class="side-bar-router-link" to="/dashboard">Your profile</router-link>
-    <router-link class="side-bar-router-link" to="/dashboard/managejobs">Manage Connections</router-link>
+    <router-link class="side-bar-router-link" to="/dashboard/manageconnections">Manage Connections</router-link>
+    <router-link class="side-bar-router-link" to="/dashboard/createconnection" v-if="user.role==account_role.GT">New Connetion</router-link>
     <router-link class="side-bar-router-link" to="/dashboard/payments">Payments</router-link>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import ProfileAvatar from '../atoms/ProfileAvatar.vue'
+import AccountsMixin from '@/mixins/AccountsMixin'
 
 export default {
-  components: { ProfileAvatar },
   name:'ProfileSideBar',
-  setup () {
-    return {}
-  },
-  computed: mapState({
-    user: state => ({
-      id: state.user.id,
-      first_name: state.user.first_name,
-      last_name: state.user.last_name,
-      role: state.user.role,
-      avatarUrl: state.user.avatarUrl
-    })
-  }),
+  components: { ProfileAvatar },
+  mixins:[AccountsMixin],
 }
 </script>
 
