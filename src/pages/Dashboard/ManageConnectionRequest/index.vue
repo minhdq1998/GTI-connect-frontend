@@ -2,12 +2,12 @@
   <div class="manage-jobs">
     <h1>Manage Connections</h1>
     <div>
-    <router-link to="/dashboard/createconnection/">
+    <router-link to="/dashboard/createconnection/" v-if="isGT">
         <Button text="Establish new Connection" styleMode="tab-nav-create-button"></Button>
     </router-link>
     </div>
     <TabsContainer 
-      :tabs="['Open','In Progress', 'Finished', 'Cancelled']" 
+      :tabs="tabs" 
       :selectedTab="currentTab"
       @selectTab="(tab) => { currentTab = tab }"> 
       <Tab v-if="'Open' == currentTab">Open</Tab>
@@ -22,13 +22,25 @@
 import TabsContainer from '@/components/organisms/TabsContainer'
 import Tab from '@/components/molecules/Tab'
 import Button from '@/components/atoms/Button'
+import AccountsMixin from '@/mixins/AccountsMixin'
 
 export default {
   name:"manage-connections",
   components: {TabsContainer, Tab, Button},
+  mixins: [AccountsMixin],
+  mounted() {
+    if (this.isAE) {
+      this.tabs = ['In Progress', 'Finished', 'Cancelled']
+      this.currentTab = 'In Progress'
+    } else {
+      this.tabs = ['Open','In Progress', 'Finished', 'Cancelled']
+      this.currentTab = 'Open'
+    }
+  },
   data() {
     return {
-      currentTab: 'Open'
+      tabs: [],
+      currentTab: ''
     }
   },
 }

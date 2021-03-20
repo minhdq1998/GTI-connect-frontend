@@ -46,3 +46,8 @@ export const packages_info = {
         description: "Find expert in related field that will help you go through the nomination" 
     }
 }
+
+export const account_role = {
+    AE: "Australian Expert",
+    GT: "Global Talent"
+}
