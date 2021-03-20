@@ -2,8 +2,8 @@
   <div class="manage-jobs">
     <h1>Manage Connections</h1>
     <div>
-    <router-link to="/connections/create/">
-        <Button text="Create new Connection" styleMode="tab-nav-create-button"></Button>
+    <router-link to="/dashboard/createconnection/">
+        <Button text="Establish new Connection" styleMode="tab-nav-create-button"></Button>
     </router-link>
     </div>
     <TabsContainer 
@@ -38,7 +38,6 @@ export default {
 .tab-nav-create-button {
   background-color: var(--secondarycolour);
   color: var(--bgcolour);
-  border-radius: 7px;
   margin-bottom: 20px;
 }
 

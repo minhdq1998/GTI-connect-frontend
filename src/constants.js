@@ -25,3 +25,28 @@ export const page_access = {
     REQUIRE_AUTH: 'require-auth',
     HAVE_NOT_AUTH: 'have_not_auth'
 }
+
+export const new_connection = {
+    DESCRIPTION_ERROR: 'Please briefly describe this connection using under 3000 characters'
+}
+
+export const packages_info = {
+    package1: {
+        type:"Package 1",
+        price: '400',
+        summary: "Professional Resume Writers",
+        description: "Find expert in related field that will help your to finalize your resume" 
+    },
+    package2: {
+        type:"Package 2",
+        price: "500",
+        summary: "Professional Online Profile Writers",
+        description: "Find expert in related field that will help your to finalize your Linkedin profile" 
+    },
+    package3: {
+        type:"Package 3",
+        price: "1000",
+        summary: "Connect with Australian Experts",
+        description: "Find expert in related field that will help you go through the nomination" 
+    }
+}
