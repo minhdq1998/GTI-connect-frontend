@@ -1,7 +1,7 @@
 <template>
   <div class="profile-item" :style="{'width': itemWidth +'%'}">
     <label class="item-label">{{label}}</label>
-    <p>{{value}}</p>
+    <p :contenteditable="editable" @input="$emit('update:value', $event.target.value)">{{value}}</p>
   </div>
 </template>
 
@@ -22,7 +22,11 @@ export default {
     },
     itemWidth: {
       type: Number,
-      default: 50
+      default: 45
+    },
+    editable: {
+      type: Boolean,
+      default: false
     }
   }
 }
