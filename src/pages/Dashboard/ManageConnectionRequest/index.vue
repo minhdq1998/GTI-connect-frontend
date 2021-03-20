@@ -1,6 +1,11 @@
 <template>
   <div class="manage-jobs">
     <h1>Manage Connections</h1>
+    <div>
+    <router-link to="/connections/create/">
+        <Button text="Create new Connection" styleMode="tab-nav-create-button"></Button>
+    </router-link>
+    </div>
     <TabsContainer 
       :tabs="['Open','In Progress', 'Finished', 'Cancelled']" 
       :selectedTab="currentTab"
@@ -9,9 +14,6 @@
       <Tab v-if="'In Progress' == currentTab">In Progress</Tab>
       <Tab v-if="'Finished' == currentTab">Finished</Tab>
       <Tab v-if="'Cancelled' == currentTab">Cancelled</Tab>
-      <router-link to="/connections/create/">
-        <Button text="Create new Connection" styleMode="tab-nav-create-button"></Button>
-      </router-link>
     </TabsContainer>
   </div>
 </template>
@@ -34,17 +36,15 @@ export default {
 
 <style lang="scss" scoped>
 .tab-nav-create-button {
-  position:absolute;
-  background-color: var(--bgcolour);
-  color: var(--secondarycolour);
-  right: 0px;
-  top: 0px;
+  background-color: var(--secondarycolour);
+  color: var(--bgcolour);
   border-radius: 7px;
+  margin-bottom: 20px;
 }
 
 .tab-nav-create-button:hover {
+  background-color: var(--hovercolour);
   font-weight: bold;
-  background-color: var(--secondarycolour);
-  color: var(--bgcolour);
+  
 }
 </style>
