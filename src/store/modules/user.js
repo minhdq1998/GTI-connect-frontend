@@ -85,6 +85,32 @@ export const actions = {
       }).catch(e => reject(e))
     })
   },
+  updateCurrentUser(context, userInfo) {
+    return new Promise((resolve, reject) => {
+      User.updateUser(getCurrentUserId(), userInfo).then (res => {
+        let storeUserInfo = {
+          id: res.pk,
+          first_name: res.first_name,
+          last_name: res.last_name,
+          role: res.role,
+          email: res.email,
+          sectors: res.profile.sectors,
+          avatarUrl: process.env.VUE_APP_ROOT_API.concat(res.profile.avatar),
+          profile: res.profile
+        }
+        context.commit('SET_CURRENT_USER', storeUserInfo)
+        resolve(res)
+      }).catch(e => reject(e))
+    })
+  },
+  getSectorsList() {
+    return new Promise((resolve, reject) => {
+      User.getSectors().then( res => {
+        resolve(res)
+        return res
+      }).catch(e=> reject(e))
+    })
+  },
   refreshToken(context) {
     return new Promise((resolve, reject) => {
       User.refreshToken({refresh: getRefreshToken()}
@@ -93,7 +119,8 @@ export const actions = {
           resolve()
         }).catch(e=> reject(e))
     })
-  }
+  },
+ 
 
 }
 

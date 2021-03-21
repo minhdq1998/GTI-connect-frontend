@@ -18,6 +18,6 @@ export default {
     position: relative;
     z-index: 998;
     padding: 20px;
-    min-height: calc(100vh - 300px);
+    min-height: calc(100vh - 350px);
 }
 </style>

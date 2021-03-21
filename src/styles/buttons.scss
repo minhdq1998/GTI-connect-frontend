@@ -1,5 +1,6 @@
 .form-main-button {
     background-color: var(--primarycolour);
+    color: var(--bgcolour);
     width: 100%;
     border-radius: 3px;
     margin: 15px 0px;
@@ -8,4 +9,27 @@
 .form-main-button:disabled {
   background-color: rgba(0, 32, 63, 0.4);
   cursor: default;
+}
+
+.save-profile-btn {
+  background-color: var(--secondarycolour);
+  color: var(--bgcolour);
+}
+
+.save-profile-btn:hover {
+  background-color: var(--hovercolour);
+}
+
+.connection-create-submit-btn {
+  margin-top: 10px;
+  color: var(--bgcolour);
+  background-color: var(--secondarycolour);
+}
+
+.connection-create-submit-btn:hover {
+  background-color: var(--hovercolour);
+}
+
+.connection-create-submit-btn:disabled {
+  background-color: var(--disabledcolour);
 }

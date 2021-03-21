@@ -14,19 +14,12 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import {mapActions} from 'vuex'
+import AccountsMixin from '@/mixins/AccountsMixin'
 
 export default {
     name:'ProfileMiniNavigation',
-    computed: mapState({
-        user: state => ({
-            id: state.user.id,
-            first_name: state.user.first_name,
-            last_name: state.user.last_name,
-            role: state.user.role,
-            avatarUrl: state.user.avatarUrl
-        })
-    }),
+    mixins: [AccountsMixin],
     data() {
         return {
             showDropdown: false,

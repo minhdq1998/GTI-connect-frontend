@@ -110,7 +110,9 @@
               </div>
             </div>
              <template v-if="v$.user.role.$error">
-              <FormError v-if="v$.user.role.required.$invalid">Your role is required.</FormError>
+              <FormError 
+                v-if="v$.user.role.required.$invalid"
+                errorMsg="Your role is required." />
             </template>
         </div>
         <Button text="Sign up" 
@@ -124,9 +126,9 @@
 <script>
 
 import Button from '../../../components/atoms/Button'
-import RadioInput from '../../../components/atoms/formComponents/RadioInput'
-import InputLabel from '../../../components/atoms/formComponents/InputLabel'
-import FormError from '../../../components/atoms/formComponents/FormError'
+import RadioInput from '../../../components/atoms/RadioInput'
+import InputLabel from '../../../components/atoms/InputLabel'
+import FormError from '../../../components/atoms/FormError'
 
 import TextInputGroup from '../../../components/molecules/TextInputGroup.vue'
 import UserAuthFormContainer from '../../../components/molecules/UserAuthFormContainer.vue'

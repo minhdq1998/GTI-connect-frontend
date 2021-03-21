@@ -25,11 +25,26 @@ export default {
     })
   },
 
+  updateUser(userId, userInfo) {
+    return requestAPI({
+      url: `profiles/${userId}/`,
+      method: 'PATCH',
+      data: userInfo
+    })
+  },
+
   refreshToken(data) {
     return requestAPI({
       url: 'accounts/token/refresh/',
       method: 'POST',
       data: data
     }, false)
+  },
+
+  getSectors() {
+    return requestAPI({
+      url: `profiles/sectors/`,
+      method: 'GET',
+    })
   }
 }

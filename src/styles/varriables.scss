@@ -5,7 +5,7 @@
     --font-size: 14px;
     --textactive: var(--secondarycolour);
     --primarycolour: #00203FFF; //rgb(0, 32, 63)
-    --secondarycolour: #9CC3D5FF; //rgb(156, 195, 213)
+    --secondarycolour: #4AC959FF; //rgb(156, 195, 213)
     --bgcolour: #FFFFFFFF;  //rgb(255, 255, 255)
     --errorcolour: #FF0000FF; //rgb(255,0,0)
     --successcolour: #22BB33FF; //rgb(34,187,51)
@@ -13,5 +13,7 @@
     --labelcolour: rgba(0, 32, 63, 0.5);
     --medium-size: 640px ;
     --boxshadowcolour2:  rgba(139,141,157,.3);
-    --hovercolour:#708ab0;
+    --cancelcolour: #ACACACFF; //rgb(172, 172, 172)
+    --hovercolour:#1dbf73;
+    --disabledcolour: rgb(221,221,221);
 }
