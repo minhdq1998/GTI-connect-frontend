@@ -15,7 +15,7 @@
       <profile-item :editable="editable" label="Phone number" :data="currentUser.profile.phone_number" v-model="currentUserForm.profile.phone_number" />      
       <profile-item :editable="editable" label="Description" :data="currentUser.profile.description" v-model="currentUserForm.profile.description" :isTextArea="true" :itemWidth=100 />
       <profile-item :editable="editable" label="Nationality" :data="currentUser.profile.nationality" v-model="currentUserForm.profile.nationality" :isSelect="true" :options="nationalities" />
-      <profile-item :editable="editable" label="Sectors" :data="currentUser.profile.sectors.join(', ')" v-model="currentUserForm.profile.sectors" /> 
+      <user-sectors :editable="editable" label="Sectors" :data="currentUser.profile.sectors.join(', ')" v-model="currentUserForm.profile.sectors" />
       <profile-item :editable="editable" label="Ocupation Title" :data="currentUser.profile.occupation_title" v-model="currentUserForm.profile.occupation_title"  />
       <profile-item :editable="editable" label="Employer" :data="currentUser.profile.employer" v-model="currentUserForm.profile.employer" />
       <profile-item :editable="editable" label="Highest education level" :data="currentUser.profile.highest_education_level" v-model="currentUserForm.profile.highest_education_level" :isSelect="true" :options="highest_edu_level" />
@@ -31,14 +31,16 @@
 <script>
 import Button from '../../../components/atoms/Button.vue'
 import ProfileItem from '../../../components/atoms/ProfileItem'
-import { highest_edu_level, nationalities } from '@/constants'
+import { highest_edu_level, nationalities, notiType, updateInfo } from '@/constants'
 import store from '@/store'
+import UserSectors from './components/userSectors.vue'
+
 
 export default {
   name:'UserProfile',
-  components: { ProfileItem, Button },
-  async mounted() {
-    await store.dispatch('user/getCurrentUser').then(res => {
+  components: { ProfileItem, Button, UserSectors },
+  mounted() {
+    store.dispatch('user/getCurrentUser').then(res => {
       this.currentUser = JSON.parse(JSON.stringify(res));
       this.currentUserForm = JSON.parse(JSON.stringify(res));
     }).catch(() => {
@@ -74,12 +76,16 @@ export default {
     },
     handleSaveButton() {
       this.editable = false
+      const vm = this
       store.dispatch('user/updateCurrentUser', this.currentUserForm).then(res => {
         console.log(res)
         this.currentUserForm = JSON.parse(JSON.stringify(res));
         this.currentUser = JSON.parse(JSON.stringify(res));
+        const notification = { type: notiType.SUCCESS, message: updateInfo.UPDATE_SUCCESS }
+        vm.$store.dispatch('notification/add', notification, { root: true })
       }).catch(() => {
-      return undefined
+        const notification = { type: notiType.ERROR, message: updateInfo.UPDATE_FAIL }
+        vm.$store.dispatch('notification/add', notification, { root: true })
     })
     }
   },

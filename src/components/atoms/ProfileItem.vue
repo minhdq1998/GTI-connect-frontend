@@ -2,10 +2,9 @@
   <div class="profile-item" :style="{'width': itemWidth +'%'}">
     <label class="item-label">{{label}}</label>
     <p v-if="editable === false">{{data}}</p>
-    <text-input class="edit-user-input" v-if="editable === true && isTextArea === false && isSelect === false && isSectors === false" v-bind="$attrs" />
+    <text-input class="edit-user-input" v-if="editable === true && isTextArea === false && isSelect === false" v-bind="$attrs" />
     <text-area-input  v-if="editable === true && isTextArea === true" :maxLength="2000" v-bind="$attrs" />
     <select-input v-if="editable === true && isSelect === true" v-bind="$attrs" :options="options" />
-    <user-sectors v-if="editable === true && isSectors === true" v-bind="$attrs" />
   </div>
 </template>
 
@@ -41,10 +40,6 @@ export default {
       default: false
     },
     isSelect: {
-      type: Boolean,
-      default: false
-    },
-    isSectors: {
       type: Boolean,
       default: false
     },

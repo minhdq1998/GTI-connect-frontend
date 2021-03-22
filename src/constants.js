@@ -12,6 +12,11 @@ export const signin = {
     SIGNIN_FAIL: 'Wrong username or password, please try again.'
 }
 
+export const updateInfo = {
+    UPDATE_FAIL: 'Something went wrong! Your information has not been updated.',
+    UPDATE_SUCCESS: 'Your information has been saved successfully.'
+}
+
 export const session = {
     SESSION_EXPIRE: 'Your session expired, please login again.'
 }
