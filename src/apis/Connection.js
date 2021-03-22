@@ -8,6 +8,12 @@ export default {
             method: 'POST',
             data: connectionInfo
         })
+    },
+    getConnectionList(page, owner, status) {
+        return requestAPI({
+            url: `connectionrequests/?page=${page}&$owner=${owner}&status=${status}`,
+            method: 'GET'
+        })
     }
 
 }

@@ -22,5 +22,16 @@ export const actions = {
             })
         })
     },
+
+    getConnectionList(context, {page, owner, status}) {
+        return new Promise((resolve, reject) => {
+            Connection.getConnectionList(page, owner, status
+            ).then(res =>
+                resolve(res)
+            ).catch(e => {
+                reject(e)
+            })
+        })
+    }
 }
 

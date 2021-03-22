@@ -21,8 +21,6 @@ import { mapState } from 'vuex'
   padding-right: 10px;
   padding-left: 10px;
   background-color: var(--bgcolour);
-  border-radius: 12px;
-  box-shadow: 0px 0px 15px -8px var(--boxshadowcolour);
 }
 
 </style>

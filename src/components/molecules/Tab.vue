@@ -18,6 +18,7 @@ export default {
     position: relative;
     z-index: 998;
     padding: 20px;
-    min-height: calc(100vh - 350px);
+    height: calc(100vh - 400px);
+    overflow-y: scroll;
 }
 </style>
