@@ -12,6 +12,14 @@ export const signin = {
     SIGNIN_FAIL: 'Wrong username or password, please try again.'
 }
 
+export const getUser = {
+    GET_USER_FAIL: `Something went wrong. User's data could not be collected.`
+}
+
+export const getSectors = {
+    GET_SECTORS_FAIL: 'Something went wrong. Sectors list could not be collected.'
+}
+
 export const updateInfo = {
     UPDATE_FAIL: 'Something went wrong! Your information has not been updated.',
     UPDATE_SUCCESS: 'Your information has been saved successfully.'

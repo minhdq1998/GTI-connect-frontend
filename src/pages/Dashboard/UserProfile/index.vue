@@ -31,7 +31,7 @@
 <script>
 import Button from '../../../components/atoms/Button.vue'
 import ProfileItem from '../../../components/atoms/ProfileItem'
-import { highest_edu_level, nationalities, notiType, updateInfo } from '@/constants'
+import { highest_edu_level, nationalities, notiType, updateInfo, getUser } from '@/constants'
 import store from '@/store'
 import UserSectors from './components/userSectors.vue'
 
@@ -40,11 +40,13 @@ export default {
   name:'UserProfile',
   components: { ProfileItem, Button, UserSectors },
   mounted() {
+    const vm = this
     store.dispatch('user/getCurrentUser').then(res => {
       this.currentUser = JSON.parse(JSON.stringify(res));
       this.currentUserForm = JSON.parse(JSON.stringify(res));
     }).catch(() => {
-      return undefined
+        const notification = { type: notiType.ERROR, message: getUser.GET_USER_FAIL }
+        vm.$store.dispatch('notification/add', notification, { root: true })
     })
   },
   setup () {

@@ -4,7 +4,6 @@
     <p v-if="editable === false">{{data}}</p>
     <div v-if="editable === true">
       <select    
-        :value="modelValue"
         v-bind="{
         ...$attrs, 
         onChange: ($event) => { 
@@ -13,7 +12,7 @@
         v-model="selectedSector"
         multiple
       >
-        <option v-for="(sector) in sectors" :key="sector" :selected="sector === modelValue" :value="sector.name">
+        <option v-for="(sector) in sectors" :key="sector" :value="sector.name">
           {{sector.name}}
         </option>
       </select>
@@ -24,10 +23,22 @@
 
 <script>
 
+import store from '@/store'
+import { notiType, getSectors } from '@/constants'
+
 export default {
   name: 'UserSectors',
   setup () {
     return {}
+  },
+  mounted() {
+    const vm = this
+    store.dispatch('user/getSectorsList').then(res => {
+      this.sectors = JSON.parse(JSON.stringify(res));
+    }).catch(() => {
+        const notification = { type: notiType.ERROR, message: getSectors.GET_SECTORS_FAIL }
+        vm.$store.dispatch('notification/add', notification, { root: true })
+    })
   },
   props : {
     label: {
@@ -49,36 +60,8 @@ export default {
   },
   data() {
     return {
-      selectedSector: this.modelValue,
-      sectors: [
-        {
-          name: "Agri-food and AgTech"
-        },
-        {
-          name: "Circular Economy"
-        },
-        {
-          name: "Defence, Advanced Manufacturing and Space"
-        },
-        {
-          name: "DigiTech"
-        },
-        {
-          name: "Education"
-        },
-        {
-          name: "Energy"
-        },
-        {
-          name: "Financial Services and FinTech"
-        },
-        {
-          name: "Health Industries"
-        },
-        {
-          name: "Infrastructure and tourism"
-      }
-      ]
+      selectedSector: [this.modelValue],
+      sectors: []
     }
   }
 }
