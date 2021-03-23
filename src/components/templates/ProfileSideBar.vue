@@ -2,10 +2,6 @@
   <div class="profile-side-bar">
     <profile-avatar :avatarUrl="user.avatarUrl" />
     <p class="profile-user-name">{{`${user.first_name} ${user.last_name}`}}</p>
-    <!-- <router-link class="side-bar-router-link" to="/dashboard">Your profile</router-link>
-    <router-link class="side-bar-router-link" to="/dashboard/manageconnections">Manage Connections</router-link>
-    <router-link class="side-bar-router-link" to="/dashboard/createconnection" v-if="isGT">New Connetion</router-link>
-    <router-link class="side-bar-router-link" to="/dashboard/payments">Payments</router-link> -->
     <template v-for="(route, index) in routes" >
         <router-link 
           :key="index"
