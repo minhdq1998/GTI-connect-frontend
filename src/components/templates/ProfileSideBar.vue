@@ -2,10 +2,13 @@
   <div class="profile-side-bar">
     <profile-avatar :avatarUrl="user.avatarUrl" />
     <p class="profile-user-name">{{`${user.first_name} ${user.last_name}`}}</p>
-    <router-link class="side-bar-router-link" to="/dashboard">Your profile</router-link>
-    <router-link class="side-bar-router-link" to="/dashboard/manageconnections">Manage Connections</router-link>
-    <router-link class="side-bar-router-link" to="/dashboard/createconnection" v-if="user.role==account_role.GT">New Connetion</router-link>
-    <router-link class="side-bar-router-link" to="/dashboard/payments">Payments</router-link>
+    <template v-for="(route, index) in routes" >
+        <router-link 
+          :key="index"
+          class="side-bar-router-link" 
+          v-if="hasPermission(route.meta.permission)"
+          :to="'/dashboard/' + route.path" >{{route.name}}</router-link> 
+    </template>
   </div>
 </template>
 
@@ -17,6 +20,17 @@ export default {
   name:'ProfileSideBar',
   components: { ProfileAvatar },
   mixins:[AccountsMixin],
+  data() {
+    return {
+      routes: this.getDashboardRoutes()
+    }
+  },
+  methods: {
+    getDashboardRoutes() {
+      let routes = this.$router.options.routes.filter(route => (route.name=="Dashboard"))
+      return routes[0].children
+    }
+  }
 }
 </script>
 

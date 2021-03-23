@@ -1,5 +1,6 @@
 import User from '../../apis/User'
 import router from '@/router'
+import { account_role } from '@/constants'
 
 import { 
   getCurrentUserId,
@@ -16,9 +17,9 @@ export const state = {
   first_name: '',
   last_name: '',
   email: '',
-  role: '',
-  avatarUrl: '',
-  profile: {}
+  role: account_role.VISITOR,
+  sectors: [],
+  avatarUrl: ''
 }
 
 export const mutations = {

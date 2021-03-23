@@ -14,8 +14,8 @@
       <profile-item :editable="editable" label="Email" :data="currentUser.email" v-model="currentUserForm.email" />
       <profile-item :editable="editable" label="Phone number" :data="currentUser.profile.phone_number" v-model="currentUserForm.profile.phone_number" />      
       <profile-item :editable="editable" label="Description" :data="currentUser.profile.description" v-model="currentUserForm.profile.description" :isTextArea="true" :itemWidth=100 />
+      <user-sectors :editable="editable" label="Sectors" :data="currentUser.profile.sectors.join(', ')" v-model="currentUserForm.profile.sectors" :modelValue="currentUserForm.profile.sectors"/>
       <profile-item :editable="editable" label="Nationality" :data="currentUser.profile.nationality" v-model="currentUserForm.profile.nationality" :isSelect="true" :options="nationalities" />
-      <user-sectors :editable="editable" label="Sectors" :data="currentUser.profile.sectors.join(', ')" v-model="currentUserForm.profile.sectors" />
       <profile-item :editable="editable" label="Ocupation Title" :data="currentUser.profile.occupation_title" v-model="currentUserForm.profile.occupation_title"  />
       <profile-item :editable="editable" label="Employer" :data="currentUser.profile.employer" v-model="currentUserForm.profile.employer" />
       <profile-item :editable="editable" label="Highest education level" :data="currentUser.profile.highest_education_level" v-model="currentUserForm.profile.highest_education_level" :isSelect="true" :options="highest_edu_level" />

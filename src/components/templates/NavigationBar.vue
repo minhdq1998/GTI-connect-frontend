@@ -5,20 +5,17 @@
       <img src="./../../assets/logo.png">
     </div>
 
-    <mobile-navigation :userIsLoggedIn=userIsLoggedIn />
+    <mobile-navigation :userIsLoggedIn=isLoggedIn />
 
     <div class="nav-router-links" >
-      <template v-if="userIsLoggedIn">
-        <profile-mini-navigation />
-        <router-link class="nav-router-link" to="/dashboard">Dashboard</router-link>
+      <profile-mini-navigation v-if="isLoggedIn"/>
+      <template v-for="(route, index) in routes" >
+        <router-link 
+          :key="index"
+          :class="styleClass(route.name)" 
+          v-if="hasPermission(route.meta.permission)"
+          :to="route.path" >{{route.name}}</router-link> 
       </template>
-      <template v-if="!userIsLoggedIn">
-        <router-link class="nav-router-link nav-singup-btn" to="/signup">Join</router-link>
-        <router-link class="nav-router-link" to="/signin">Sign In</router-link>
-      </template>
-      <router-link class="nav-router-link" to="/experts">Our experts</router-link>
-      <router-link class="nav-router-link" to="/jobs">Jobs</router-link>
-      <router-link class="nav-router-link" to="/">About</router-link>
     </div>
   </div>
 </div>
@@ -28,30 +25,28 @@
 import MobileNavigation from './MobileNavigation.vue'
 import ProfileMiniNavigation from '@/components/organisms/ProfileMiniNavigation'
 
-import {isLoggedIn} from '@/utils/auth'
-
-import {mapState} from 'vuex'
+import AccountsMixin from '@/mixins/AccountsMixin'
 
 export default {
   components: {
     MobileNavigation,
     ProfileMiniNavigation
   },
+  mixins:[AccountsMixin],
   data() {
     return {
-      userIsLoggedIn:isLoggedIn()
+      routes: this.getAccessibleRoutes()
     }
   },
-  computed: {
-    ...mapState({
-      accessToken: state => state.user.accessToken
-    }),
-    
-  },
-  watch:{
-    accessToken: {
-      handler() {
-        this.userIsLoggedIn = isLoggedIn()
+  methods: {
+    getAccessibleRoutes() {
+      return [...this.$router.options.routes
+              .filter(route => (route.path !== '/403'))].reverse()
+    },
+    styleClass(routeName) {
+        switch (routeName) {
+          case 'Join': return 'nav-router-link nav-singup-btn'
+        default: return 'nav-router-link'
       }
     }
   }

@@ -17,7 +17,12 @@ export default {
                 avatarUrl: state.user.avatarUrl
             })
         }),
-        isAE() { return this.user.role == account_role.AE},
-        isGT() { return this.user.role == account_role.GT}
+        isAE() { return this.user.role == account_role.AE },
+        isGT() { return this.user.role == account_role.GT },
+        isVisitor() { return this.user.role == account_role.VISITOR },
+        isLoggedIn() { return !this.isVisitor },
     },
+    methods: {
+        hasPermission(permission) { return permission[this.user.role] }
+    }
 }
