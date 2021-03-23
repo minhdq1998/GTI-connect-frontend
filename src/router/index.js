@@ -9,8 +9,8 @@ import store from '@/store'
 import Home from '../pages/Home/index.vue'
 
 import { tokenIsAlive, hasRefreshToken} from '@/utils/auth'
-import { account_role} from '@/constants'
-import {permissions, hasPermission} from '@/utils/permissions'
+import { account_role } from '@/constants'
+import { permissions, hasPermission } from '@/utils/permissions'
 
 const routes = [
   {
