@@ -36,6 +36,6 @@ export function removeCredentials() {
     Cookies.remove(refreshTokenKey)
 }
 
-export function isLoggedIn() {
+export function hasRefreshToken() {
     return getRefreshToken() ? true : false
 }

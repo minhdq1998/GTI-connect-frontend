@@ -8,70 +8,70 @@ import store from '@/store'
 
 import Home from '../pages/Home/index.vue'
 
-import {isLoggedIn, tokenIsAlive} from '@/utils/auth'
-import {page_access} from '@/constants'
+import { tokenIsAlive, hasRefreshToken} from '@/utils/auth'
+import { account_role} from '@/constants'
+import {permissions, hasPermission} from '@/utils/permissions'
 
 const routes = [
   {
     path: '/',
-    name: 'Landing Page',
-    component: Home
-  },
-  {
-    path: '/signup',
-    name: 'Sign Up',
-    component: () => import ('../pages/SignUp/index.vue'),
-    meta: {
-      page_access: page_access.HAVE_NOT_AUTH
-    }
+    name: 'About',
+    component: Home,
+    meta: { permission: permissions.EVERYBODY }
   },
   {
     path: '/signin',
     name: 'Sign In',
     component: () => import('../pages/SignIn/index.vue'),
-    meta: {
-      page_access: page_access.HAVE_NOT_AUTH
-    }
+    meta: { permission: permissions.ONLY_VISITORS }
+  },
+  {
+    path: '/signup',
+    name: 'Join',
+    component: () => import ('../pages/SignUp/index.vue'),
+    meta: { permission: permissions.ONLY_VISITORS }
   },
   {
     path: '/experts',
     name: 'Our Experts',
     component: () => import('../pages/OurExperts/index.vue'),
+    meta: { permission: permissions.ONLY_LOGGED_IN }
   },
   {
     path: '/jobs',
     name: 'Jobs',
-    component: () => import('../pages/Jobs/index.vue')
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
-    component: () => import('../pages/Profile/index.vue'),
+    component: () => import('../pages/Jobs/index.vue'),
+    meta: { permission: permissions.ONLY_LOGGED_IN }
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../pages/Dashboard/index.vue'),
-    meta: {
-      page_access: page_access.REQUIRE_AUTH
-    },
+    meta: { permission: permissions.ONLY_LOGGED_IN },
     children: [
       {
         path: '',
+        name: 'Your Profile',
         component: () => import('../pages/Dashboard/UserProfile/index.vue'),
+        meta: { permission: permissions.ONLY_LOGGED_IN }
       },
       {
         path: 'manageconnections',
         name: 'Manage Connections',
         component: () => import('../pages/Dashboard/ManageConnectionRequest/index.vue'),
+        meta: { permission: permissions.ONLY_LOGGED_IN }
       },
       {
         path: 'createconnection',
+        name: 'New Connection',
         component: () => import('../pages/Dashboard/CreateConnection/index.vue'),
+        meta: { permission: permissions.ONLY_GLOBAL_TALENTS }
       },
       {
         path: 'payments',
+        name: 'Payments',
         component: () => import('../pages/Dashboard/Payments/index.vue'),
+        meta: { permission: permissions.ONLY_LOGGED_IN }
       }
     ]
   },
@@ -84,19 +84,22 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  let page_access_mode = to.meta.page_access
+  let access_permission = to.meta.permission
+
   let accessToken = store.state.user.accessToken
-  if (isLoggedIn()) {
+
+  if (hasRefreshToken()) {
+    // Refresh token in case lost track of access token or access token expired
     if (!accessToken || !tokenIsAlive()) await store.dispatch('user/refreshToken')
+    // Refresh user information
     if (!store.state.user.id) await store.dispatch('user/getCurrentUser')
   }
 
-  if (page_access_mode == page_access.HAVE_NOT_AUTH && isLoggedIn()) {
-    next({name: 'Landing Page'})
-  } else if (page_access_mode == page_access.REQUIRE_AUTH && !isLoggedIn()) {
-    next({name: 'Sign In'})
+  if (!hasPermission(access_permission) ) {
+    if (store.state.user.role === account_role.VISITOR) return next({name: 'Sign In'})
+    else return next({path: '/'})
   }
-  next()
+  return next()
 })
 
 export default router

@@ -20,12 +20,6 @@ export const error = {
     SOMETHING_WENT_WRONG: 'Something went wrong!'
 }
 
-export const page_access = {
-    EVERYBODY: 'everybody',
-    REQUIRE_AUTH: 'require-auth',
-    HAVE_NOT_AUTH: 'have_not_auth'
-}
-
 export const packages_info = {
     package1: {
         type:"Package 1",
@@ -49,5 +43,6 @@ export const packages_info = {
 
 export const account_role = {
     AE: "Australian Expert",
-    GT: "Global Talent"
+    GT: "Global Talent",
+    VISITOR: "Visitor"
 }
