@@ -35,10 +35,14 @@ export default {
   mixins:[AccountsMixin],
   data() {
     return {
-      routes: [...this.$router.options.routes].reverse()
+      routes: this.getAccessibleRoutes()
     }
   },
   methods: {
+    getAccessibleRoutes() {
+      return [...this.$router.options.routes
+              .filter(route => (route.path !== '/403'))].reverse()
+    },
     styleClass(routeName) {
         switch (routeName) {
           case 'Join': return 'nav-router-link nav-singup-btn'

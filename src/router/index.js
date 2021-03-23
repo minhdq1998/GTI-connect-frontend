@@ -72,8 +72,14 @@ const routes = [
         name: 'Payments',
         component: () => import('../pages/Dashboard/Payments/index.vue'),
         meta: { permission: permissions.ONLY_LOGGED_IN }
-      }
+      },
     ]
+  },
+  {
+    path: '/403',
+    name: '403',
+    component: () => import('../pages/403/index.vue'),
+    meta: { permission: permissions.ONLY_LOGGED_IN }
   },
 ]
 
@@ -97,7 +103,7 @@ router.beforeEach(async (to, from, next) => {
 
   if (!hasPermission(access_permission) ) {
     if (store.state.user.role === account_role.VISITOR) return next({name: 'Sign In'})
-    else return next({path: '/'})
+    else return next({path: '/403'})
   }
   return next()
 })
