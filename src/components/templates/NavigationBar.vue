@@ -41,7 +41,10 @@ export default {
   methods: {
     getAccessibleRoutes() {
       return [...this.$router.options.routes
-              .filter(route => (route.path !== '/403'))].reverse()
+              .filter(route => (
+                route.path !== '/403' &&
+                route.path !== '/connections/:id'
+              ))].reverse()
     },
     styleClass(routeName) {
         switch (routeName) {

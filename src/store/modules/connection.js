@@ -32,6 +32,17 @@ export const actions = {
                 reject(e)
             })
         })
+    },
+
+    getConnectionDetail(context, connectionId) {
+        return new Promise((resolve, reject) => {
+            Connection.getConnectionDetail(connectionId
+            ).then(res => {
+                resolve(res)
+            }).catch(e => {
+                reject(e)
+            })
+        })
     }
 }
 

@@ -14,6 +14,12 @@ export default {
             url: `connectionrequests/?page=${page}&$owner=${owner}&status=${status}`,
             method: 'GET'
         })
+    },
+    getConnectionDetail(connectionId) {
+        return requestAPI({
+            url: `connectionrequests/${connectionId}/`,
+            method: 'GET'
+        })
     }
 
 }
