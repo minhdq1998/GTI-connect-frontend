@@ -33,7 +33,7 @@ import Button from '../../../components/atoms/Button.vue'
 import ProfileItem from '../../../components/atoms/ProfileItem'
 import { highest_edu_level, nationalities, notiType, updateInfo, getUser } from '@/constants'
 import store from '@/store'
-import UserSectors from './components/userSectors.vue'
+import UserSectors from './components/UserSectors'
 
 
 export default {

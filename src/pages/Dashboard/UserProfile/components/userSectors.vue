@@ -148,6 +148,7 @@ option {
 
 .sector-item-list {
   display: inline-block;
+  width: calc(100% - 20px);
 }
 
 .sector-item {
@@ -161,7 +162,9 @@ option {
   line-height: 35px;
   border-radius: 5px;
   cursor: pointer;
-  width: 100%
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
