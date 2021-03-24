@@ -62,5 +62,6 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 150px;
+    font-weight: bold;
 }
 </style>
