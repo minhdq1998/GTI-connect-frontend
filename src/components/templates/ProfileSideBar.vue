@@ -65,6 +65,7 @@ export default {
   padding-bottom: 50px;
   font-size: 1.5rem;
   width: 100%;
+  font-weight: 600;
   text-align: center;
   box-shadow: 0 2px 2px -2px gray;
   color: var(--primarycolour);

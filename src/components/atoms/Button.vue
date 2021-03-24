@@ -22,11 +22,19 @@ export default {
 
 <style scoped>
 button {
-  border: none;
-  color: white;
-  padding: 10px 15px;
-  text-align: center;
-  cursor: pointer;
-  font-weight: 700;
+    border: none;
+    padding: 10px 15px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 700;
+    height: 40px;
+}
+
+button:disabled {
+    background-color: var(--disabledcolour);
+}
+
+button:disabled:hover {
+    background-color: var(--disabledcolour);
 }
 </style>
