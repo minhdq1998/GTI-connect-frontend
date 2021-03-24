@@ -1,7 +1,7 @@
 <template>
   <div class="profile-item">
     <label class="item-label">{{label}}</label>
-    <p v-if="editable === false">{{data}}</p>
+    <p class="sector-for-view-only" v-if="editable === false">{{data}}</p>
     <div class="sector-item-container" v-if="editable === true">
         <div class="sector-item-list">
           <div v-for="sector, index in selectedSectors" class="sector-item" :key="sector" @click="onRemove(index)">
@@ -119,6 +119,10 @@ export default {
   font-weight: 600;
   color: var(--labelcolour);
   font-size: 1.2rem;
+}
+
+.sector-for-view-only {
+  margin-top:5px;
 }
 
 select {
