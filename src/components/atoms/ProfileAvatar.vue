@@ -1,6 +1,6 @@
 <template>
   <div class="profile-avatar">
-    <img :src="avatarUrl" />
+    <img class="avatar" :src="avatarUrl" />
   </div>
 </template>
 
@@ -16,7 +16,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .profile-avatar img {
   height: 150px;
   width: 150px;

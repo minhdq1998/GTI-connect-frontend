@@ -1,27 +1,33 @@
 <template>
 <div class="connection-container">
-    <div class="connection-header">
-        <div class="connection-info">
-            <h2>{{connection.request_type}}</h2>
-        </div>
-        <div owner-info>
-            <profile-avatar :avatarUrl="avatarUrl"></profile-avatar>
-        </div>
+    <div class="connection-top">
+        <container-box class="connection-info">
+            <connection-info :connection="connection" />
+        </container-box>
+        <container-box class="owner-info">
+            <owner-info :owner=owner />
+            <Button 
+                class="connection-create-submit-btn action-btn" 
+                text="Make an offer">
+            </Button>
+        </container-box>
     </div>
 </div>
 </template>
 
 <script>
-import ProfileAvatar from '@/components/atoms/ProfileAvatar'
+import ContainerBox from '@/components/atoms/ContainerBox'
+import OwnerInfo from './components/OwnerInfo'
+import ConnectionInfo from './components/ConnectionInfo'
+import Button from '@/components/atoms/Button'
 
 import NotificationMixin from '@/mixins/NotificationMixin'
 import { mapActions } from 'vuex'
-import { getMediaUrl } from '@/utils/media'
 import { error } from '@/constants'
 
 export default {
     name:'connection',
-    components:{ProfileAvatar},
+    components:{ ContainerBox, OwnerInfo, ConnectionInfo, Button },
     mixins: [NotificationMixin],
     data() {
         return {
@@ -34,9 +40,8 @@ export default {
             dispatchGetConnectionDetail: 'connection/getConnectionDetail'
         })
     },
-    async mounted(){
-        console.log(`Connection ID: ${this.id}`)
-        await this.dispatchGetConnectionDetail(this.id)
+    mounted(){
+        this.dispatchGetConnectionDetail(this.id)
         .then(res => {
             this.connection = res
             console.log(res)
@@ -49,23 +54,46 @@ export default {
             return this.connection.owner ? 
                 this.connection.owner : { profile: {} }
         },
-        avatarUrl() {
-            return getMediaUrl(this.owner.profile.avatar)
-        }
     }
 }
 </script>
 
 <style scoped>
-.connection-header {
+.connection-top {
     display: flex;
 }
 
 .connection-info {
-    width: calc(100% - 200px);
+    width: calc(100% - 270px);
+    padding: 20px;
+    margin: 0px 20px 20px 0px;
 }
 
-.owner-info { 
-    width: 200px;
+.owner-info {
+    text-align: center;
+    padding: 20px;
+    width: 270px;
+    height:fit-content;
+}
+
+@media screen and (max-width: 640px) {
+    .connection-top {
+        flex-direction: column-reverse;
+    } 
+
+    .connection-info {
+        width: calc(100% - 40px);
+    }
+
+    .owner-info {
+        width: calc(100% - 40px);
+        height: auto;
+    }
+}
+
+.action-btn {
+    display: block;
+    margin-top: 20px;
+    width: 100%;
 }
 </style>
