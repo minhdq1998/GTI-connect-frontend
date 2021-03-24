@@ -29,4 +29,12 @@ button {
     font-weight: 700;
     height: 40px;
 }
+
+button:disabled {
+    background-color: var(--disabledcolour);
+}
+
+button:disabled:hover {
+    background-color: var(--disabledcolour);
+}
 </style>

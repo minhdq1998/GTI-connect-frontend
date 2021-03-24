@@ -20,6 +20,16 @@
   background-color: var(--hovercolour);
 }
 
+.add-sector-btn {
+  background-color: var(--secondarycolour);
+  color: var(--bgcolour);
+  margin-left: 10px;
+}
+
+.add-sector-btn:hover {
+  background-color: var(--hovercolour);
+}
+
 .connection-create-submit-btn {
   margin-top: 10px;
   color: var(--bgcolour);

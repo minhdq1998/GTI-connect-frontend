@@ -4,19 +4,18 @@
     <p class="sector-for-view-only" v-if="editable === false">{{data}}</p>
     <div class="sector-item-container" v-if="editable === true">
         <div class="sector-item-list">
-          <div v-for="sector, index in selectedSectors" class="sector-item" :key="sector" @click="onRemove(index)">
+          <div v-for="(sector, index) in selectedSectors" class="sector-item" :key="index" @click="onRemove(index)">
             {{sector}}
           </div>
         </div>
         <div  class="select-sector">
         <select selected v-if="selectedSectors.length < 3" v-model="selectedSector">
-          <option v-for="(sector) in sectors" :key="sector" :value="sector.name">
-            {{sector.name}}
+          <option v-for="(sector) in availableSectors" :key="sector" :value="sector">
+            {{sector}}
           </option>
         </select>
-        <Button text="Add" styleMode="add-sector-btn" @click="onAdd(selectedSector)" v-if="selectedSectors.length < 3"/>
+        <Button text="Add" styleMode="add-sector-btn" :disabled="isDisabled" @click="onAdd(selectedSector)" v-if="selectedSectors.length < 3"/>
         </div>
-        <div class="error" v-if="isDuplicated === true">You have selected a duplicated sector. </div>
     </div>
   </div>
 </template>
@@ -24,7 +23,7 @@
 <script>
 
 import store from '@/store'
-import { notiType, getSectors, getUser } from '@/constants'
+import { notiType, getSectors } from '@/constants'
 import Button from '@/components/atoms/Button'
 
 export default {
@@ -37,14 +36,8 @@ export default {
   },
   mounted() {
     const vm = this
-    store.dispatch('user/getCurrentUser').then(res => {
-      this.selectedSectors = JSON.parse(JSON.stringify(res.profile.sectors));
-    }).catch(() => {
-        const notification = { type: notiType.ERROR, message: getUser.GET_USER_FAIL }
-        vm.$store.dispatch('notification/add', notification, { root: true })
-    })
     store.dispatch('user/getSectorsList').then(res => {
-      this.sectors = JSON.parse(JSON.stringify(res));
+      this.sectorOptions = res.map(sector => (sector.name));
     }).catch(() => {
         const notification = { type: notiType.ERROR, message: getSectors.GET_SECTORS_FAIL }
         vm.$store.dispatch('notification/add', notification, { root: true })
@@ -64,45 +57,41 @@ export default {
       type: Boolean,
       default: false
     },
+    selectedSectors: {
+      type: Array,
+      required: true
+    }
   },
   data() {
     return {
-      selectedSectors: [],
-      sectors: [],
+      sectorOptions: [],
       selectedSector: '',
-      itemHover: false,
-      isDuplicated: false
     }
   },
    methods: {
     onAdd(sector) {
-      this.selectedSectors.push(sector)
-      this.isDuplicated = this.checkDuplicate(this.selectedSectors)
+      let newSectors = [...this.selectedSectors, sector]
+      this.selectedSector = ""
+      this.$emit('updateValue', newSectors)
     },
     onRemove(index) {
-      this.selectedSectors.splice(index, 1)
-    },
-    checkDuplicate(array) {
-      for (var i = 0; i < array.length; i++) {
-        for (var j = 0; j < array.length; j++) {
-          if (i != j) {
-            if (array[i] == array[j]) {
-              return true
-            }
-          }
-        }
-      }
-      return false; 
+      let newSectors = [...this.selectedSectors]
+      newSectors.splice(index, 1)
+      this.$emit('updateValue', newSectors)
     }
   },
-  watch: {
-    selectedSectors: {
-      handler() {
-        this.$emit("update:modelValue", this.selectedSectors)
-      },
-      deep: true
+  computed: {
+    isDisabled() {
+      if (this.selectedSector === "") {
+        return true
+      }
+      return false
+    },
+    availableSectors() {
+      return this.sectorOptions.filter(sector => !this.selectedSectors.includes(sector))
     }
   }
+ 
 }
 </script>
 
@@ -126,7 +115,7 @@ export default {
 }
 
 select {
-  min-width: 50%;
+  width: 100%;
   height: 40px;
   font-size: 100%;
   padding-left: 15px;
@@ -171,7 +160,6 @@ option {
   text-overflow: ellipsis;
 }
 
-
 .sector-item:hover {
   background-color: var(--errorcolour);
   color: var(--bgcolour)
@@ -180,17 +168,5 @@ option {
 .sector-item:hover::before {
   content: "Remove: ";
 }
-
-
-.add-sector-btn {
-  background-color: var(--secondarycolour);
-  color: var(--bgcolour);
-  margin-left: 10px;
-}
-
-.add-sector-btn:hover {
-  background-color: var(--hovercolour);
-}
-
 
 </style>

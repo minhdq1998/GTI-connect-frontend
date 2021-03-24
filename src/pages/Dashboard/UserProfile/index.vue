@@ -4,17 +4,17 @@
       <h1>Your Profile</h1>
       <div>
         <Button text="Edit profile" v-if="editable === false" class="edit-profile-btn" @click="editable = true"/>
-        <Button text="Save profile" v-if="editable === true" class="save-profile-btn" @click="handleSaveButton" />
+        <Button text="Save profile" v-if="editable === true" :disabled="invalidUserInput" class="save-profile-btn" @click="handleSaveButton" />
         <Button text="Cancel" v-if="editable === true" class="cancel-edit-profile-btn" @click="handleCancelButton" />
       </div>
     </div>
     <div class="profile-container">
       <profile-item :editable="editable" label="First name" :data="currentUser.first_name" v-model="currentUserForm.first_name" />
       <profile-item :editable="editable" label="Last name" :data="currentUser.last_name" v-model="currentUserForm.last_name" />
-      <profile-item :editable="editable" label="Email" :data="currentUser.email" v-model="currentUserForm.email" />
+      <profile-item label="Email" :data="currentUser.email" v-model="currentUserForm.email" />
       <profile-item :editable="editable" label="Phone number" :data="currentUser.profile.phone_number" v-model="currentUserForm.profile.phone_number" />      
       <profile-item :editable="editable" label="Description" :data="currentUser.profile.description" v-model="currentUserForm.profile.description" :isTextArea="true" :itemWidth=100 />
-      <user-sectors :editable="editable" label="Sectors" :data="currentUser.profile.sectors.join(', ')" v-model="currentUserForm.profile.sectors" :modelValue="currentUserForm.profile.sectors"/>
+      <user-sectors :editable="editable" label="Sectors" :data="currentUser.profile.sectors.join(', ')" :selectedSectors="currentUserForm.profile.sectors" @updateValue="(newValue) => currentUserForm.profile.sectors = newValue"  />
       <profile-item :editable="editable" label="Nationality" :data="currentUser.profile.nationality" v-model="currentUserForm.profile.nationality" :isSelect="true" :options="nationalities" />
       <profile-item :editable="editable" label="Ocupation Title" :data="currentUser.profile.occupation_title" v-model="currentUserForm.profile.occupation_title"  />
       <profile-item :editable="editable" label="Employer" :data="currentUser.profile.employer" v-model="currentUserForm.profile.employer" />
@@ -33,7 +33,7 @@ import Button from '../../../components/atoms/Button.vue'
 import ProfileItem from '../../../components/atoms/ProfileItem'
 import { highest_edu_level, nationalities, notiType, updateInfo, getUser } from '@/constants'
 import store from '@/store'
-import UserSectors from './components/UserSectors'
+import UserSectors from './components/userSectors'
 
 
 export default {
@@ -91,6 +91,15 @@ export default {
     })
     }
   },
+
+  computed: {
+    invalidUserInput() {
+      if (this.currentUserForm.first_name === "" || this.currentUserForm.last_name === "" ) {
+        return true
+      }
+      return false
+    }
+  }
 }
 </script>
 
