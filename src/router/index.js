@@ -38,9 +38,15 @@ const routes = [
     meta: { permission: permissions.ONLY_LOGGED_IN }
   },
   {
-    path: '/jobs',
-    name: 'Jobs',
-    component: () => import('../pages/Jobs/index.vue'),
+    path: '/connections',
+    name: 'Connections',
+    component: () => import('../pages/Connections/index.vue'),
+    meta: { permission: permissions.ONLY_LOGGED_IN }
+  },
+  {
+    path: '/connections/:id',
+    name: 'Connection',
+    component: () => import('../pages/Connection/index.vue'),
     meta: { permission: permissions.ONLY_LOGGED_IN }
   },
   {
