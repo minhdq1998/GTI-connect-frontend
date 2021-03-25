@@ -1,7 +1,7 @@
 <template>
   <div class="profile-side-bar">
-    <div class="avatar-container">
-        <profile-avatar class="avatar-view" :avatarUrl="user.avatarUrl" @click="changeAvatar" />
+    <div class="avatar-container" @click="changeAvatar" >
+        <profile-avatar class="avatar-view" :avatarUrl="user.avatarUrl" />
         <div class="avatar-edit">
           <i class="fas fa-pen"></i>
         </div>
@@ -94,7 +94,10 @@ export default {
   height: 150px;
   margin: 20px 25px 20px 25px;
   cursor: pointer;
+  display: block;
+  overflow: hidden;
 }
+
 
 .avatar-edit {
   transition: .5s ease;
@@ -107,6 +110,7 @@ export default {
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   text-align: center;
+  z-index: 50;
 }
 
 .avatar-container:hover .avatar-view {

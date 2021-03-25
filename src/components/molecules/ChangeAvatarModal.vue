@@ -1,6 +1,6 @@
 <template>
   <div>
-    <modal-container class="change-avatar-modal" @close="$emit('closeModal')">
+    <modal-container class="change-avatar-modal" @onClose="$emit('closeModal')">
       <template v-slot:header>
         <h2>Change your profile picture</h2>
       </template>
@@ -37,7 +37,7 @@
         </div>
       </template>
       <template v-slot:footer>
-        <Button text="Save avatar" styleMode="save-avatar-btn" @click="saveAvatar(user.id, avatarFormData)"/>
+        <Button text="Save avatar" :disabled="!uploadedFile || isFailed" styleMode="save-avatar-btn" @click="saveAvatar(user.id, avatarFormData)"/>
       </template>
     </modal-container>
   </div>
@@ -88,8 +88,7 @@ import Button from '../atoms/Button.vue';
       },
       saveAvatar(userId, formData) {
         this.currentStatus = STATUS_SAVING
-        User.uploadAvatar(userId, formData).then(res => {
-          console.log(res)
+        User.uploadAvatar(userId, formData).then(() => {
           this.currentStatus = STATUS_SUCCESS
           this.$emit('closeModal')
           window.location.reload()

@@ -20,7 +20,7 @@
         
               </slot>
                 <div class="modal-button-wrapper">
-                <Button text="Cancel" styleMode="close-modal-btn" @click="$emit('close')" />
+                <Button text="Cancel" styleMode="close-modal-btn" @click="$emit('onClose')" />
                 </div>
             </div>
         </div>
