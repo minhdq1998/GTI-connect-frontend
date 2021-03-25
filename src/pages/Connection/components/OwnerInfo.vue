@@ -50,6 +50,10 @@ export default {
     margin-top: 20px;
 }
 
+.custom-profile-img {
+      margin: 20px 0px 20px 0px;
+}
+
 .sector-tag {
     margin-top: 3px;
     padding: 3px 10px 3px 10px;

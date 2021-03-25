@@ -46,5 +46,13 @@ export default {
       url: `profiles/sectors/`,
       method: 'GET',
     })
+  },
+
+  uploadAvatar(userId, avatar) {
+    return requestAPI({
+      url: `profiles/${userId}/avatar/`,
+      method: 'POST',
+      data: avatar
+    })
   }
 }

@@ -161,8 +161,8 @@ option {
 }
 
 .sector-item:hover {
-  background-color: var(--errorcolour);
-  color: var(--bgcolour)
+  background-color: var(--rmsectorcolour);
+  color: var(--whitecolour)
 }
 
 .sector-item:hover::before {
