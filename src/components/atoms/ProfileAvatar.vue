@@ -20,7 +20,6 @@
 .profile-avatar img {
   height: 150px;
   width: 150px;
-  margin: 20px 25px 5px 25px;
   border-radius: 50%;
 }
 
