@@ -15,6 +15,12 @@ export default {
             method: 'GET'
         })
     },
+    getConnectionListBySectors(page, status, sectors) {
+        return requestAPI({
+            url: `connectionrequests/?page=${page}&status=${status}&sectors=${sectors}`,
+            method: 'GET'
+        })
+    },
     getConnectionDetail(connectionId) {
         return requestAPI({
             url: `connectionrequests/${connectionId}/`,

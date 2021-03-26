@@ -18,8 +18,8 @@ export const state = {
   last_name: '',
   email: '',
   role: account_role.VISITOR,
-  sectors: [],
-  avatarUrl: ''
+  avatarUrl: '',
+  profile: {}
 }
 
 export const mutations = {

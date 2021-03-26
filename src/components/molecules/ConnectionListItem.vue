@@ -1,14 +1,16 @@
 <template>
-  <a class="connection-container" href="#">
+  <router-link class="connection-container" :to="detailUrl">
       <div class="connection-info">
-        <h4>{{ connection.request_type}}</h4>
-        <div class="connection-description">{{ connection.description }}</div>
+        <div>
+            <h4>{{ connection.request_type}}</h4>
+            <div class="connection-description">{{ connection.description }}</div>
+        </div>
       </div>
       <div class="connection-meta">
           <h4>Created at:</h4>
           <p>{{ createdAt }}</p>
       </div>
-  </a>
+  </router-link>
 </template>
 
 <script>
@@ -20,6 +22,9 @@ export default {
     computed: {
         createdAt() {
             return Date(this.connection.created_at)
+        },
+        detailUrl() {
+            return `/connections/${this.connection.pk}`
         }
     }
 }
@@ -38,7 +43,8 @@ export default {
 }
 
 .connection-info {
-    width: calc(100% - 200px)
+    width: calc(100% - 200px);
+    display: flex;
 }
 
 .connection-description {
