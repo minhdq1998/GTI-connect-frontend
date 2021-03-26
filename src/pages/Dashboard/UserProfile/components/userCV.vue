@@ -1,8 +1,8 @@
 <template>
   <div class="profile-item">
     <label class="item-label">CV/Resume</label>
-    <div class="cv-upload-container">
-      <a :href="user.cvUrl"><Button text="Your CV" styleMode="cv-url"></Button></a>
+    <div class="cv-upload-container" v-if="!isSuccess">
+      <a target="_blank" :href="user.cvUrl"><Button text="Your CV" styleMode="cv-url"></Button></a>
     </div>
     <div v-if="editable === true">
        <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
@@ -140,6 +140,7 @@
 
 
 .dropbox {
+  margin-top: 5px;
   outline: 2px dashed var(--secondarycolour); 
   outline-offset: -10px;
   background: var(--secondarycolour-hover);

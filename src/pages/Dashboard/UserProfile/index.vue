@@ -82,7 +82,6 @@ export default {
       this.editable = false
       const vm = this
       store.dispatch('user/updateCurrentUser', this.currentUserForm).then(res => {
-        console.log(res)
         this.currentUserForm = JSON.parse(JSON.stringify(res));
         this.currentUser = JSON.parse(JSON.stringify(res));
         const notification = { type: notiType.SUCCESS, message: updateInfo.UPDATE_SUCCESS }
