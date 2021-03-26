@@ -19,7 +19,8 @@ export const state = {
   email: '',
   role: account_role.VISITOR,
   sectors: [],
-  avatarUrl: ''
+  avatarUrl: '',
+  cvUrl: ''
 }
 
 export const mutations = {
@@ -77,7 +78,8 @@ export const actions = {
           role: res.role,
           email: res.email,
           avatarUrl: process.env.VUE_APP_ROOT_API.concat(res.profile.avatar),
-          profile: res.profile
+          profile: res.profile,
+          cvUrl: process.env.VUE_APP_ROOT_API.concat(res.profile.cvdocument)
         }
         context.commit('SET_CURRENT_USER', storeUserInfo)
         resolve(res)
@@ -94,7 +96,8 @@ export const actions = {
           role: res.role,
           email: res.email,
           avatarUrl: process.env.VUE_APP_ROOT_API.concat(res.profile.avatar),
-          profile: res.profile
+          profile: res.profile,
+          cvUrl: process.env.VUE_APP_ROOT_API.concat(res.profile.cvdocument)
         }
         context.commit('SET_CURRENT_USER', storeUserInfo)
         resolve(res)
