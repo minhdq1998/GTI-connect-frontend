@@ -51,6 +51,13 @@ export default {
         this.showBadNotification( error.SOMETHING_WENT_WRONG )
       })
     }
+  },
+  watch: {
+    page: {
+      handler() {
+        this.fetchConnections()
+      }
+    }
   }
 
 }
