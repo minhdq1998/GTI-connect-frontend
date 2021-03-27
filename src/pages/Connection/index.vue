@@ -44,7 +44,6 @@ export default {
         this.dispatchGetConnectionDetail(this.id)
         .then(res => {
             this.connection = res
-            console.log(res)
         }).catch(() => {
             this.showBadNotification(error.SOMETHING_WENT_WRONG)
         })

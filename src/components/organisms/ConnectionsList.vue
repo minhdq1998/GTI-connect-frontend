@@ -1,6 +1,10 @@
 <template>
   <div>
-      <connection-list-item v-for="(connection, index) in connections" :key="index" :connection="connection" />
+      <connection-list-item 
+      v-for="(connection, index) in connections" 
+      :key="index"
+      v-bind="$attrs" 
+      :connection="connection" />
   </div>
 </template>
 

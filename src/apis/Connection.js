@@ -11,7 +11,7 @@ export default {
     },
     getConnectionList(page, owner, status) {
         return requestAPI({
-            url: `connectionrequests/?page=${page}&$owner=${owner}&status=${status}`,
+            url: `connectionrequests/?page=${page}&owner=${owner}&status=${status}`,
             method: 'GET'
         })
     },

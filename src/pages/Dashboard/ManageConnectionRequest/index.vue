@@ -10,10 +10,10 @@
       :tabs="tabs" 
       :selectedTab="currentTab"
       @selectTab="(tab) => { currentTab = tab }"> 
-      <Tab v-if="'Open' == currentTab"><ConnectionsList :connections="connections"/></Tab>
-      <Tab v-if="'In Progress' == currentTab"><ConnectionsList :connections="connections"/></Tab>
-      <Tab v-if="'Finished' == currentTab"><ConnectionsList :connections="connections"/></Tab>
-      <Tab v-if="'Cancelled' == currentTab"><ConnectionsList :connections="connections"/></Tab>
+      <Tab v-if="'Open' == currentTab"><ConnectionsList :connections="connections" :withOwnerDisplay="false"/></Tab>
+      <Tab v-if="'In Progress' == currentTab"><ConnectionsList :connections="connections" :withOwnerDisplay="false"/></Tab>
+      <Tab v-if="'Finished' == currentTab"><ConnectionsList :connections="connections" :withOwnerDisplay="false"/></Tab>
+      <Tab v-if="'Cancelled' == currentTab"><ConnectionsList :connections="connections" :withOwnerDisplay="false"/></Tab>
     </TabsContainer>
     <div class="container-pagination">
     <pagination 
