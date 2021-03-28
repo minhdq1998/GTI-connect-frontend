@@ -43,6 +43,18 @@ export const actions = {
                 reject(e)
             })
         })
+    },
+
+    getConnectionListBySectors(context, {page, status, sectors}) {
+        return new Promise((resolve, reject) => {
+            Connection.getConnectionListBySectors(
+                    page, 
+                    status, 
+                    sectors.join('|')
+                ).then(res => { resolve(res) 
+                }).catch(e => { reject(e) 
+                })
+        }) 
     }
 }
 
