@@ -57,7 +57,6 @@ export default {
   data () {
     return {
       editable: false,
-      testModel: "",
       currentUserForm: {
         profile: {
           sectors: []

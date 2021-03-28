@@ -18,9 +18,9 @@ export const state = {
   last_name: '',
   email: '',
   role: account_role.VISITOR,
-  sectors: [],
   avatarUrl: '',
-  cvUrl: ''
+  cvUrl: '',
+  profile: {}
 }
 
 export const mutations = {
@@ -42,7 +42,7 @@ export const actions = {
         email: userInfo.email,
         password: userInfo.password,
         password2: userInfo.password2,
-        role: userInfo.role
+        role: userInfo.role,
       }).then(res => {
         resolve(res)
       }).catch(e => {
@@ -79,7 +79,7 @@ export const actions = {
           email: res.email,
           avatarUrl: process.env.VUE_APP_ROOT_API.concat(res.profile.avatar),
           profile: res.profile,
-          cvUrl: process.env.VUE_APP_ROOT_API.concat(res.profile.cvdocument)
+          cvUrl: process.env.VUE_APP_ROOT_API.concat(res.profile.cvdocument),
         }
         context.commit('SET_CURRENT_USER', storeUserInfo)
         resolve(res)

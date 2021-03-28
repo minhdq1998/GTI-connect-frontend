@@ -1,7 +1,7 @@
 <template>
   <div class="profile-item">
     <label class="item-label">CV/Resume</label>
-    <div class="cv-upload-container" v-if="!isSuccess">
+    <div class="cv-upload-container" v-if="!isSuccess && hasCV">
       <a target="_blank" :href="user.cvUrl"><Button text="Your CV" styleMode="cv-url"></Button></a>
     </div>
     <div v-if="editable === true">
@@ -71,6 +71,12 @@
       isFailed() {
         return this.currentStatus === STATUS_FAILED;
       },
+      hasCV() {
+        if (this.user.profile.cvdocument === null) {
+          return false
+        }
+        return true
+      }
     },
     methods: {
       reset() {
