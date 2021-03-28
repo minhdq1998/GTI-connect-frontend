@@ -25,6 +25,11 @@ export const updateInfo = {
     UPDATE_SUCCESS: 'Your information has been saved successfully.'
 }
 
+export const connection = {
+    CLOSE_CONNECTION_SUCCESS: 'Your connection has been closed successfully.',
+    CLOSE_CONNECTION_FAIL: 'Something went wrong! Your connection has not been closed.'
+}
+
 export const session = {
     SESSION_EXPIRE: 'Your session expired, please login again.'
 }

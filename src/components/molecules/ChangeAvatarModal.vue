@@ -37,7 +37,7 @@
         </div>
       </template>
       <template v-slot:footer>
-        <Button text="Save avatar" :disabled="!uploadedFile || isFailed" styleMode="save-avatar-btn" @click="saveAvatar(user.id, avatarFormData)"/>
+        <Button text="Save avatar" :disabled="!uploadedFile || isFailed" styleMode="general-btn" @click="saveAvatar(user.id, avatarFormData)"/>
       </template>
     </modal-container>
   </div>
@@ -121,15 +121,6 @@ import Button from '../atoms/Button.vue';
 .change-avatar-modal h2 {
   margin-top: 0;
   margin-bottom: 20px;
-}
-
-.save-avatar-btn {
-  background-color: var(--secondarycolour);
-  color: var(--whitecolour);
-}
-
-.save-avatar-btn:hover {
-  background-color: var(--hovercolour);
 }
 
 .dropbox {

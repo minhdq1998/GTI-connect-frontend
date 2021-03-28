@@ -11,7 +11,7 @@
       </div>
       <div class="connection-meta">
         <div v-if="withOwnerDisplay" class="owner-preview">
-            <img :src="avatarUrl"><span class="onwer-name">{{owner.first_name}} {{ owner.last_name}} fasdfasdfasdfas</span>
+            <img :src="avatarUrl"><span class="onwer-name">{{owner.first_name}} {{ owner.last_name}}</span>
         </div>
         <h4>Created at:</h4>
         <p>{{ createdAt }}</p>
@@ -52,7 +52,6 @@ export default {
 <style scoped>
 .connection-container {
     display: flex;
-    height: 146px;
     border: 1px solid var(--boxshadowcolour2);
     margin-bottom: 10px;
     padding: 20px;

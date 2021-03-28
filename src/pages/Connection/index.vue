@@ -7,11 +7,19 @@
         <container-box class="owner-info">
             <owner-info :owner=owner />
             <Button 
+                v-if="user.id != connectionOwnerId && user.role === aeRole"
                 class="connection-create-submit-btn action-btn" 
                 text="Make an offer">
             </Button>
+            <Button 
+                v-if="user.id === connectionOwnerId"
+                class="cancel-connection-btn action-btn" 
+                text="Close connection"
+                @click="showCancelModal">
+            </Button>
         </container-box>
     </div>
+    <cancel-connection-modal :connectionId="id" v-if="showCancelConnectionModal" @closeModal="showCancelConnectionModal = false"></cancel-connection-modal>
 </div>
 </template>
 
@@ -20,30 +28,41 @@ import ContainerBox from '@/components/atoms/ContainerBox'
 import OwnerInfo from './components/OwnerInfo'
 import ConnectionInfo from './components/ConnectionInfo'
 import Button from '@/components/atoms/Button'
+import CancelConnectionModal from '@/components/molecules/CancelConnectionModal.vue'
 
 import NotificationMixin from '@/mixins/NotificationMixin'
+import AccountsMixin from '@/mixins/AccountsMixin'
 import { mapActions } from 'vuex'
 import { error } from '@/constants'
+import { account_role } from '@/constants'
+
 
 export default {
     name:'connection',
-    components:{ ContainerBox, OwnerInfo, ConnectionInfo, Button },
-    mixins: [NotificationMixin],
+    components:{ ContainerBox, OwnerInfo, ConnectionInfo, Button, CancelConnectionModal },
+    mixins: [NotificationMixin, AccountsMixin],
     data() {
         return {
             id: this.$route.params.id,
             connection: {},
+            connectionOwnerId: "",
+            aeRole: account_role.AE,
+            showCancelConnectionModal: false
         }
     },
     methods: {
         ...mapActions({
             dispatchGetConnectionDetail: 'connection/getConnectionDetail'
-        })
+        }),
+        showCancelModal() {
+            this.showCancelConnectionModal = true
+        }
     },
     mounted(){
         this.dispatchGetConnectionDetail(this.id)
         .then(res => {
             this.connection = res
+            this.connectionOwnerId = res.owner.pk
         }).catch(() => {
             this.showBadNotification(error.SOMETHING_WENT_WRONG)
         })

@@ -1,6 +1,6 @@
 .form-main-button {
     background-color: var(--primarycolour);
-    color: var(--bgcolour);
+    color: var(--whitecolour);
     width: 100%;
     border-radius: 3px;
     margin: 15px 0px;
@@ -13,7 +13,7 @@
 
 .save-profile-btn {
   background-color: var(--secondarycolour);
-  color: var(--bgcolour);
+  color: var(--whitecolour);
 }
 
 .save-profile-btn:hover {
@@ -22,7 +22,7 @@
 
 .add-sector-btn {
   background-color: var(--secondarycolour);
-  color: var(--bgcolour);
+  color: var(--whitecolour);
   margin-left: 10px;
 }
 
@@ -32,7 +32,7 @@
 
 .connection-create-submit-btn {
   margin-top: 10px;
-  color: var(--bgcolour);
+  color: var(--whitecolour);
   background-color: var(--secondarycolour);
 }
 
@@ -42,4 +42,27 @@
 
 .connection-create-submit-btn:disabled {
   background-color: var(--disabledcolour);
+}
+
+.cancel-connection-btn {
+  margin-top: 10px;
+  color: var(--whitecolour);
+  background-color: var(--btnclosecolour);
+}
+
+.cancel-connection-btn:hover {
+  background-color: var( --hover-btnclosecolour);
+}
+
+.cancel-connection-btn:disabled {
+  background-color: var(--disabledcolour);
+}
+
+.general-btn {
+  background-color: var(--secondarycolour);
+  color: var(--whitecolour);
+}
+
+.general-btn:hover {
+  background-color: var(--hovercolour);
 }

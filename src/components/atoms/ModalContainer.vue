@@ -20,7 +20,7 @@
         
               </slot>
                 <div class="modal-button-wrapper">
-                <Button text="Cancel" styleMode="close-modal-btn" @click="$emit('onClose')" />
+                <Button :text="closeModalText" styleMode="close-modal-btn" @click="$emit('onClose')" />
                 </div>
             </div>
         </div>
@@ -32,7 +32,14 @@
 <script>
 import Button from '@/components/atoms/Button'
   export default {
-    components: { Button }
+    components: { Button },
+    props: {
+      closeModalText: {
+        type: String,
+        default: "Cancel"
+      }
+      
+    }
   }
 </script>
 
