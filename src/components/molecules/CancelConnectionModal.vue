@@ -27,8 +27,7 @@ import { notiType, connection } from '@/constants'
     methods: {
       closeUserConnection(id) {
         const vm = this
-        Connection.closeConnection(id).then((res) => {
-          console.log(res.status)
+        Connection.closeConnection(id).then(() => {
           const notification = { type: notiType.SUCCESS, message: connection.CLOSE_CONNECTION_SUCCESS }
           vm.$store.dispatch('notification/add', notification, { root: true })
           this.$router.push({ name: 'Manage Connections' })
