@@ -24,6 +24,7 @@
       <profile-item :editable="editable" label="Achievements" :data="currentUser.profile.achievements" v-model="currentUserForm.profile.achievements" :isTextArea="true" :itemWidth=100 />
       <profile-item :editable="editable" label="Patents" :data="currentUser.profile.patents" v-model="currentUserForm.profile.patents" :isTextArea="true" :itemWidth=100 />
       <profile-item :editable="editable" label="Governments grants" :data="currentUser.profile.governments_grants" v-model="currentUserForm.profile.governments_grants" :isTextArea="true" :itemWidth=100 />
+      <UserCV :editable="editable"></UserCV>
     </div>
   </div>
 </template>
@@ -34,11 +35,12 @@ import ProfileItem from '../../../components/atoms/ProfileItem'
 import { highest_edu_level, nationalities, notiType, updateInfo, getUser } from '@/constants'
 import store from '@/store'
 import UserSectors from './components/userSectors'
+import UserCV from './components/userCV.vue'
 
 
 export default {
   name:'UserProfile',
-  components: { ProfileItem, Button, UserSectors },
+  components: { ProfileItem, Button, UserSectors, UserCV },
   mounted() {
     const vm = this
     store.dispatch('user/getCurrentUser').then(res => {
@@ -55,7 +57,6 @@ export default {
   data () {
     return {
       editable: false,
-      testModel: "",
       currentUserForm: {
         profile: {
           sectors: []

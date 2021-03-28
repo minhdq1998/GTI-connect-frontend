@@ -54,5 +54,13 @@ export default {
       method: 'POST',
       data: avatar
     })
+  },
+
+  uploadCV(userId, cvdocument) {
+    return requestAPI({
+      url: `profiles/${userId}/cv/`,
+      method: 'POST',
+      data: cvdocument
+    })
   }
 }

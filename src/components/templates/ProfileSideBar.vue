@@ -94,8 +94,6 @@ export default {
   height: 150px;
   margin: 20px 25px 20px 25px;
   cursor: pointer;
-  display: block;
-  overflow: hidden;
 }
 
 

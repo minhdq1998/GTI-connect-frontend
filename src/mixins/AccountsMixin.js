@@ -15,7 +15,8 @@ export default {
                 last_name: state.user.last_name,
                 role: state.user.role,
                 avatarUrl: state.user.avatarUrl,
-                profile: state.user.profile,
+                cvUrl: state.user.cvUrl,
+                profile: state.user.profile
             })
         }),
         isAE() { return this.user.role == account_role.AE },
