@@ -1,7 +1,6 @@
 import requestAPI from '@/utils/requests'
 
 export default {
-    
     createConnection(connectionInfo) {
         return requestAPI({
             url: 'connections/',
@@ -25,6 +24,12 @@ export default {
         return requestAPI({
             url: `connections/${connectionId}/`,
             method: 'GET'
+        })
+    },
+    closeConnection(connectionId) {
+        return requestAPI({
+            url: `connections/${connectionId}/cancel/`,
+            method: 'PATCH'
         })
     }
 
