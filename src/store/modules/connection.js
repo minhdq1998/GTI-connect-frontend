@@ -55,6 +55,17 @@ export const actions = {
                 }).catch(e => { reject(e) 
                 })
         }) 
+    },
+
+    getConnectionComments(context, {page, connectionId}) {
+        return new Promise((resolve, reject) => {
+            Connection.getComments(
+                page, 
+                connectionId
+            ).then(res => { resolve(res) 
+            }).catch(e => { reject(e) 
+            })
+        }) 
     }
 }
 

@@ -18,7 +18,11 @@
                 @click="showCancelModal">
             </Button>
         </container-box>
+       
     </div>
+    <container-box class="comment-section">
+        <comment-section :connectionId="id"/>
+    </container-box>
     <cancel-connection-modal :connectionId="id" v-if="showCancelConnectionModal" @closeModal="showCancelConnectionModal = false"></cancel-connection-modal>
 </div>
 </template>
@@ -29,6 +33,7 @@ import OwnerInfo from './components/OwnerInfo'
 import ConnectionInfo from './components/ConnectionInfo'
 import Button from '@/components/atoms/Button'
 import CancelConnectionModal from '@/components/molecules/CancelConnectionModal.vue'
+import CommentSection from '@/components/organisms/CommentSection.vue'
 
 import NotificationMixin from '@/mixins/NotificationMixin'
 import AccountsMixin from '@/mixins/AccountsMixin'
@@ -39,7 +44,7 @@ import { account_role } from '@/constants'
 
 export default {
     name:'connection',
-    components:{ ContainerBox, OwnerInfo, ConnectionInfo, Button, CancelConnectionModal },
+    components:{ ContainerBox, OwnerInfo, ConnectionInfo, Button, CancelConnectionModal, CommentSection },
     mixins: [NotificationMixin, AccountsMixin],
     data() {
         return {
@@ -92,7 +97,13 @@ export default {
     padding: 20px;
     width: 270px;
     height:fit-content;
+    margin-bottom: 20px;
 }
+
+.comment-section {
+    padding: 20px;
+}
+
 
 @media screen and (max-width: 640px) {
     .connection-top {
@@ -106,6 +117,10 @@ export default {
     .owner-info {
         width: calc(100% - 40px);
         height: auto;
+    }
+    
+    .comment-section {
+        width: calc(100% - 40px);
     }
 }
 
