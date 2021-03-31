@@ -7,7 +7,7 @@
         <container-box class="owner-info">
             <owner-info :owner=owner />
             <Button 
-                v-if="user.id != connectionOwnerId && user.role === aeRole"
+                v-if="user.id != connectionOwnerId && isAE"
                 class="connection-create-submit-btn action-btn" 
                 text="Make an offer">
             </Button>
@@ -21,7 +21,7 @@
        
     </div>
     <container-box class="comment-section">
-        <comment-section :connectionId="id"/>
+        <comment-section :connectionId="id" :isAE="isAE" />
     </container-box>
     <cancel-connection-modal :connectionId="id" v-if="showCancelConnectionModal" @closeModal="showCancelConnectionModal = false"></cancel-connection-modal>
 </div>
@@ -77,6 +77,12 @@ export default {
             return this.connection.owner ? 
                 this.connection.owner : { profile: {} }
         },
+        isAE() {
+            if (this.user.role === this.aeRole) {
+                return true
+            }
+            return false
+        }
     }
 }
 </script>

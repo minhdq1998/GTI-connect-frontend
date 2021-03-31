@@ -10,11 +10,13 @@
       :itemsPerPage=10
       @setPage="(newpage) => { page = newpage }" />
   </div>
+  <comment-field v-if="isAE" />
 </template>
 
 <script>
 import CommentList from '@/components/molecules/CommentList.vue'
 import Pagination from '@/components/molecules/Pagination'
+import CommentField from '@/components/molecules/CommentField.vue'
 
 import NotificationMixin from '@/mixins/NotificationMixin'
 import { error } from '@/constants'
@@ -22,7 +24,7 @@ import { mapActions } from 'vuex'
 
   export default {
     name: "comment-section",
-    components: { CommentList, Pagination },
+    components: { CommentList, Pagination, CommentField },
     mixins: [NotificationMixin],
     data() {
       return {
@@ -32,7 +34,14 @@ import { mapActions } from 'vuex'
       }
     },
     props: {
-      connectionId: String
+      connectionId: {
+        type: String,
+        required: true
+      },
+      isAE: {
+        type: Boolean,
+        default: false
+      }
       
     },
      mounted() {
