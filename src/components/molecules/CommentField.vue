@@ -58,7 +58,7 @@ import { notiType, error } from '@/constants'
             this.dispatchNotification(
               { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
           })
-      }
+      },
     },
   }
 </script>
