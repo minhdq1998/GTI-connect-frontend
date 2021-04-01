@@ -2,7 +2,7 @@
   <div class="comment-field">
       <h4>Post a comment</h4>
       <comment-text-area v-model="comment"/>
-      <Button class="general-btn" text="Post comment" @click="postComment()" />
+      <Button :disabled="!isCommented" class="general-btn" text="Post comment" @click="postComment()" />
   </div>
 </template>
 
@@ -38,6 +38,12 @@ import { notiType, error } from '@/constants'
           connection: this.connectionId,
           content: this.comment
         }
+      },
+      isCommented() {
+        if (this.comment === "") {
+          return false
+        }
+        return true
       }
     },
     methods: {
