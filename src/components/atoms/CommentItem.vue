@@ -4,7 +4,7 @@
      <span class="owner-name">{{comment.ownerInfo.first_name}} {{comment.ownerInfo.last_name}}</span>
     </div>
     <div class="comment-content">
-      <p>{{comment.content}}</p>
+      <p class="comment-text">{{comment.content}}</p>
     </div>
  
     <div class="created-at">
@@ -53,6 +53,11 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.comment-text {
+  white-space: pre-line;
+}
+
 
 .created-at h4 {
   margin: 0px 5px 0px 0px;

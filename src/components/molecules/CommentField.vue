@@ -1,21 +1,59 @@
 <template>
   <div class="comment-field">
-      <text-area-input class="comment-input" :displayCharacterCount=false v-model="comment" />
-      <Button class="general-btn" text="Post comment" />
+      <h4>Post a comment</h4>
+      <comment-text-area v-model="comment"/>
+      <Button class="general-btn" text="Post comment" @click="postComment()" />
   </div>
 </template>
 
 <script>
 import Button from '../atoms/Button.vue'
-import TextAreaInput from '../atoms/TextAreaInput.vue'
+import CommentTextArea from '../atoms/CommentTextArea.vue'
+
+import { mapActions } from 'vuex'
+import { notiType, error } from '@/constants'
+
   export default {
     name: "component-field",
-    components: { TextAreaInput, Button },
+    components: { Button, CommentTextArea },
     data() {
       return {
-        comment: ""
+        comment: "",
       }
-    }
+    },
+    props: {
+      connectionId: {
+        type: String,
+        required: true
+      },
+      ownerId: {
+        type: Number,
+        required: true
+      }
+    },
+    computed: {
+      commentInfo() {
+        return {
+          owner: this.ownerId,
+          connection: this.connectionId,
+          content: this.comment
+        }
+      }
+    },
+    methods: {
+      ...mapActions({
+        dispatchPostComment: 'connection/postConnectionComment',
+        dispatchNotification: 'notification/add'
+      }),
+      postComment() {
+        this.dispatchPostComment(this.commentInfo).then(() => {
+            window.location.reload()
+          }).catch(() => {
+            this.dispatchNotification(
+              { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
+          })
+      }
+    },
   }
 </script>
 
@@ -27,4 +65,9 @@ import TextAreaInput from '../atoms/TextAreaInput.vue'
 .comment-input {
   margin-bottom: 5px;
 }
+
+h4 {
+  margin: 5px 0px 5px 0px
+}
+
 </style>

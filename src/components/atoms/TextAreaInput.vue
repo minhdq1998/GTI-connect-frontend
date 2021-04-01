@@ -2,6 +2,7 @@
     <div class="text-area-input-wrapper">
         <textarea
         v-bind="$attrs"
+        :rows="rows"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         :maxlength="maxLength">
@@ -25,7 +26,11 @@ export default {
         displayCharacterCount: {
             type: Boolean,
             default: true
-        }
+        },
+        rows: {
+            type: Number,
+            default: 10
+        },
     },
 }
 </script>
@@ -38,9 +43,8 @@ export default {
 textarea {
     padding: 10px;
     width: 100%;
-    height: 200px;
-    border-radius: 3px;
     resize: none;
+    border-radius: 3px;
 }
 
 .text-area-characters {

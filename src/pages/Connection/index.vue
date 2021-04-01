@@ -21,7 +21,7 @@
        
     </div>
     <container-box class="comment-section">
-        <comment-section :connectionId="id" :isAE="isAE" />
+        <comment-section :connectionId="id" :ownerId="user.id" :isAE="isAE" />
     </container-box>
     <cancel-connection-modal :connectionId="id" v-if="showCancelConnectionModal" @closeModal="showCancelConnectionModal = false"></cancel-connection-modal>
 </div>

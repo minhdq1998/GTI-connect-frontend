@@ -10,7 +10,7 @@
       :itemsPerPage=10
       @setPage="(newpage) => { page = newpage }" />
   </div>
-  <comment-field v-if="isAE" />
+  <comment-field v-if="isAE" :connectionId="connectionId" :ownerId="ownerId" />
 </template>
 
 <script>
@@ -41,6 +41,10 @@ import { mapActions } from 'vuex'
       isAE: {
         type: Boolean,
         default: false
+      },
+      ownerId: {
+        type: Number,
+        required: true
       }
       
     },

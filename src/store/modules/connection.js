@@ -66,6 +66,18 @@ export const actions = {
             }).catch(e => { reject(e) 
             })
         }) 
+    },
+
+    postConnectionComment(context, commentInfo) {
+        return new Promise((resolve, reject) => {
+            Connection.postComment({
+                owner: commentInfo.owner, 
+                connection: commentInfo.connection,
+                content: commentInfo.content
+            }).then(res => { resolve(res) 
+            }).catch(e => { reject(e) 
+            })
+        }) 
     }
 }
 
