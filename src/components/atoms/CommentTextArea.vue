@@ -17,7 +17,11 @@
       v-model="currentValue"
       :style="inputStyle" 
     ></textarea>
-    <textarea class="shadow" v-model="currentValue" ref="shadow" tabindex="0"></textarea>
+    <textarea 
+      class="shadow"
+      v-model="currentValue" 
+      ref="shadow" 
+      tabindex="0"></textarea>
     <div>
       <div class="row">
         <Picker v-if="showEmojiPicker" emoji="relaxed" :data="emojiIndex" set="google" @select="addEmoji" title="Pick your emoji"/>
@@ -55,6 +59,9 @@
       currentValue () {
         this.resize()
         this.$emit('update:modelValue', this.currentValue)
+      },
+      modelValue () {
+        this.currentValue = this.modelValue
       }
     },
     computed: {

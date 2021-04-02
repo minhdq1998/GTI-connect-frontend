@@ -29,7 +29,8 @@ import { notiType, error } from '@/constants'
       ownerId: {
         type: Number,
         required: true
-      }
+      },
+      commentListInfo: Object
     },
     computed: {
       commentInfo() {
@@ -49,11 +50,12 @@ import { notiType, error } from '@/constants'
     methods: {
       ...mapActions({
         dispatchPostComment: 'connection/postConnectionComment',
-        dispatchNotification: 'notification/add'
+        dispatchNotification: 'notification/add',
+        dispatchGetComments: 'connection/getConnectionComments'
       }),
       postComment() {
         this.dispatchPostComment(this.commentInfo).then(() => {
-            window.location.reload()
+            this.comment = ''
           }).catch(() => {
             this.dispatchNotification(
               { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })

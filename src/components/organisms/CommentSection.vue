@@ -1,7 +1,12 @@
 <template>
   <div>
     <h3>Comments</h3>
-    <comment-field v-if="canComment && !isCancelled" :connectionId="connectionId" :ownerId="ownerId" />
+    <comment-field 
+      :commentListInfo="commentListInfo" 
+      v-if="canComment && !isCancelled" 
+      :connectionId="connectionId" 
+      :ownerId="ownerId"
+      />
     <div>
       <comment-list :comments="comments" />
     </div>
@@ -61,18 +66,29 @@ import { mapActions } from 'vuex'
 
     }),
     fetchComments() {
-      this.dispatchGetComments({
-        page:this.page, 
-        connectionId: this.connectionId }).then(res => {
+      this.dispatchGetComments(this.commentListInfo).then(res => {
         this.comments = res.results
         this.totalComments = res.count
       }).catch(() => {
         this.showBadNotification( error.SOMETHING_WENT_WRONG )
       })
+    },
+  },
+  computed:{
+    commentListInfo() {
+      return {
+        page:this.page, 
+        connectionId: this.connectionId
+      }
     }
   },
   watch: {
     page: {
+      handler() {
+        this.fetchComments()
+      }
+    },
+    comments: {
       handler() {
         this.fetchComments()
       }
