@@ -12,6 +12,7 @@
                 text="Make an offer">
             </Button>
             <Button 
+                :disabled="isCancelled"
                 v-if="user.id === connectionOwnerId"
                 class="cancel-connection-btn action-btn" 
                 text="Close connection"
@@ -21,7 +22,7 @@
        
     </div>
     <container-box class="comment-section">
-        <comment-section :connectionId="id" :ownerId="user.id" :isAE="isAE" />
+        <comment-section :isCancelled="isCancelled" :connectionId="id" :ownerId="user.id" :canComment="canComment" />
     </container-box>
     <cancel-connection-modal :connectionId="id" v-if="showCancelConnectionModal" @closeModal="showCancelConnectionModal = false"></cancel-connection-modal>
 </div>
@@ -77,8 +78,16 @@ export default {
             return this.connection.owner ? 
                 this.connection.owner : { profile: {} }
         },
-        isAE() {
+        canComment() {
             if (this.user.role === this.aeRole) {
+                return true
+            } else if (this.connectionOwnerId === this.user.id) {
+                return true
+            }
+            return false
+        },
+        isCancelled() {
+            if (this.connection.status === "Cancelled") {
                 return true
             }
             return false

@@ -1,6 +1,7 @@
 <template>
   <div>
     <h3>Comments</h3>
+    <comment-field v-if="canComment && !isCancelled" :connectionId="connectionId" :ownerId="ownerId" />
     <div>
       <comment-list :comments="comments" />
     </div>
@@ -10,7 +11,6 @@
       :itemsPerPage=10
       @setPage="(newpage) => { page = newpage }" />
   </div>
-  <comment-field v-if="isAE" :connectionId="connectionId" :ownerId="ownerId" />
 </template>
 
 <script>
@@ -38,13 +38,17 @@ import { mapActions } from 'vuex'
         type: String,
         required: true
       },
-      isAE: {
+      canComment: {
         type: Boolean,
         default: false
       },
       ownerId: {
         type: Number,
         required: true
+      },
+      isCancelled: {
+        type: Boolean,
+        default: false
       }
       
     },
@@ -80,6 +84,6 @@ import { mapActions } from 'vuex'
 
 <style lang="scss" scoped>
 h3 {
-  margin-top: 0px;
+  margin: 0px;
 }
 </style>
