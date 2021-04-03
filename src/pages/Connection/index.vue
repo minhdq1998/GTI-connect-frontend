@@ -7,18 +7,23 @@
         <container-box class="owner-info">
             <owner-info :owner=owner />
             <Button 
-                v-if="user.id != connectionOwnerId && user.role === aeRole"
+                v-if="user.id != connectionOwnerId && isAE"
                 class="connection-create-submit-btn action-btn" 
                 text="Make an offer">
             </Button>
             <Button 
+                :disabled="isCancelled"
                 v-if="user.id === connectionOwnerId"
                 class="cancel-connection-btn action-btn" 
                 text="Close connection"
                 @click="showCancelModal">
             </Button>
         </container-box>
+       
     </div>
+    <container-box class="comment-section">
+        <comment-section :isCancelled="isCancelled" :connectionId="id" :ownerId="user.id" :canComment="canComment" />
+    </container-box>
     <cancel-connection-modal :connectionId="id" v-if="showCancelConnectionModal" @closeModal="showCancelConnectionModal = false"></cancel-connection-modal>
 </div>
 </template>
@@ -29,6 +34,7 @@ import OwnerInfo from './components/OwnerInfo'
 import ConnectionInfo from './components/ConnectionInfo'
 import Button from '@/components/atoms/Button'
 import CancelConnectionModal from '@/components/molecules/CancelConnectionModal.vue'
+import CommentSection from '@/components/organisms/CommentSection.vue'
 
 import NotificationMixin from '@/mixins/NotificationMixin'
 import AccountsMixin from '@/mixins/AccountsMixin'
@@ -39,7 +45,7 @@ import { account_role } from '@/constants'
 
 export default {
     name:'connection',
-    components:{ ContainerBox, OwnerInfo, ConnectionInfo, Button, CancelConnectionModal },
+    components:{ ContainerBox, OwnerInfo, ConnectionInfo, Button, CancelConnectionModal, CommentSection },
     mixins: [NotificationMixin, AccountsMixin],
     data() {
         return {
@@ -72,6 +78,20 @@ export default {
             return this.connection.owner ? 
                 this.connection.owner : { profile: {} }
         },
+        canComment() {
+            if (this.user.role === this.aeRole) {
+                return true
+            } else if (this.connectionOwnerId === this.user.id) {
+                return true
+            }
+            return false
+        },
+        isCancelled() {
+            if (this.connection.status === "Cancelled") {
+                return true
+            }
+            return false
+        }
     }
 }
 </script>
@@ -92,7 +112,13 @@ export default {
     padding: 20px;
     width: 270px;
     height:fit-content;
+    margin-bottom: 20px;
 }
+
+.comment-section {
+    padding: 20px;
+}
+
 
 @media screen and (max-width: 640px) {
     .connection-top {
@@ -106,6 +132,10 @@ export default {
     .owner-info {
         width: calc(100% - 40px);
         height: auto;
+    }
+    
+    .comment-section {
+        width: calc(100% - 40px);
     }
 }
 

@@ -31,6 +31,19 @@ export default {
             url: `connections/${connectionId}/cancel/`,
             method: 'PATCH'
         })
+    },
+    getComments(page, connectionId) {
+        return requestAPI({
+            url: `comments/?page=${page}&connection=${connectionId}`,
+            method: 'GET'
+        })
+    },
+    postComment(commentInfo) {
+        return requestAPI({
+            url: `comments/`,
+            method: 'POST',
+            data: commentInfo
+        })
     }
 
 }

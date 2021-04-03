@@ -12,6 +12,7 @@
     "@vuelidate/validators": "^2.0.0-alpha.12",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "emoji-mart-vue-fast": "^9.1.2",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
