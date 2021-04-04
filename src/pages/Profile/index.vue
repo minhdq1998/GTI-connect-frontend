@@ -1,6 +1,7 @@
 <template>
-  <div class="">
-    <profile-header :userProfile=user />
+  <div class="profile-view">
+    <profile-header :userProfile=userProfile />
+    <profile-info :userProfile=userProfile />
   </div>
 </template>
 
@@ -11,17 +12,22 @@ import { error } from '@/constants'
 
 import NotificationMixin from '@/mixins/NotificationMixin'
 import ProfileHeader from './components/ProfileHeader.vue'
+import ProfileInfo from './components/ProfileInfo.vue'
+
+import AccountsMixin from '@/mixins/AccountsMixin'
+
 
 export default {
   name: 'Profile',
   components: {
-    ProfileHeader
+    ProfileHeader,
+    ProfileInfo
   },
-  mixins: [NotificationMixin],
+  mixins: [NotificationMixin, AccountsMixin],
   data() {
     return {
       id: this.$route.params.id,
-      user: {
+      userProfile: {
         profile: {}
       }
     }
@@ -35,13 +41,14 @@ export default {
     }
   },
    beforeMount(){
-        this.dispatchGetUser(this.id)
-        .then(res => {
-            this.user = res
-            console.log(this.user)
-        }).catch(() => {
-            this.showBadNotification(error.SOMETHING_WENT_WRONG)
-        })
+    this.dispatchGetUser(this.id).then(res => {
+      if (res.pk === this.user.id) {
+        this.$router.push('/dashboard')
+      }
+        this.userProfile = res 
+      }).catch(() => {
+        this.showBadNotification(error.SOMETHING_WENT_WRONG)
+      })
     },
 }
 </script>
