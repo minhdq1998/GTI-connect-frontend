@@ -56,6 +56,7 @@ import { notiType, error } from '@/constants'
       postComment() {
         this.dispatchPostComment(this.commentInfo).then(() => {
             this.comment = ''
+            this.$emit('onPostComment')
           }).catch(() => {
             this.dispatchNotification(
               { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
