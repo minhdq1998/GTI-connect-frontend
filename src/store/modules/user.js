@@ -86,6 +86,14 @@ export const actions = {
       }).catch(e => reject(e))
     })
   },
+  getUser(context, id) {
+    return new Promise((resolve, reject) => {
+      User.getUser(id).then( res => {
+        resolve(res)
+        return res
+      }).catch(e=> reject(e))
+    })
+  },
   updateCurrentUser(context, userInfo) {
     return new Promise((resolve, reject) => {
       User.updateUser(getCurrentUserId(), userInfo).then (res => {

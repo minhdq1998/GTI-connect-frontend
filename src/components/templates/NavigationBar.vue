@@ -43,7 +43,8 @@ export default {
       return [...this.$router.options.routes
               .filter(route => (
                 route.path !== '/403' &&
-                route.path !== '/connections/:id'
+                route.path !== '/connections/:id' &&
+                route.path !== '/profile/:id'
               ))].reverse()
     },
     styleClass(routeName) {
