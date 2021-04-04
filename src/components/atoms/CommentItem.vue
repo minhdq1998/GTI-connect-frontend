@@ -1,7 +1,11 @@
 <template>
   <div class="comment-item">
     <div class="comment-header">
-     <span class="owner-name">{{comment.ownerInfo.first_name}} {{comment.ownerInfo.last_name}}</span>
+     <span class="owner-name">
+        <router-link :to="{ name: 'Profile', params: { id: comment.ownerInfo.pk }}">
+            {{comment.ownerInfo.first_name}} {{comment.ownerInfo.last_name}} 
+        </router-link>
+      </span>
     </div>
     <div class="comment-content">
       <p class="comment-text">{{comment.content}}</p>
@@ -29,6 +33,11 @@
 </script>
 
 <style lang="scss" scoped>
+.owner-name a {
+  text-decoration: none;
+  color: var(--textgray)
+}
+
 .comment-item {
   margin: 10px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;

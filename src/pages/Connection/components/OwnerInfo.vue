@@ -1,7 +1,11 @@
 <template>
   <div>
     <profile-avatar :avatarUrl="avatarUrl" class="custom-profile-img"></profile-avatar>
-    <div class="owner-name">{{owner.first_name}} {{owner.last_name}}</div>
+    <div class="owner-name">
+        <router-link :to="{ name: 'Profile', params: { id: owner.pk }}">
+            {{owner.first_name}} {{owner.last_name}}
+        </router-link>
+    </div>
     <div>
         <div class="info-group">
         <span v-if="owner.profile.occupation_title">{{owner.profile.occupation_title}}</span>
@@ -40,6 +44,11 @@ export default {
 .owner-name {
     font-weight: bold;
     font-size: 20px;
+}
+
+.owner-name a {
+    text-decoration: none;
+    color: var(--textgray);
 }
 
 .info-group {

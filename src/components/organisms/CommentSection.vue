@@ -6,6 +6,7 @@
       v-if="canComment && !isCancelled" 
       :connectionId="connectionId" 
       :ownerId="ownerId"
+      @onPostComment="fetchComments()"
       />
     <div>
       <comment-list :comments="comments" />
@@ -88,11 +89,11 @@ import { mapActions } from 'vuex'
         this.fetchComments()
       }
     },
-    comments: {
-      handler() {
-        this.fetchComments()
-      }
-    }
+    // comments: {
+    //   handler() {
+    //     this.fetchComments()
+    //   }
+    // }
   }
 
   }

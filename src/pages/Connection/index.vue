@@ -1,5 +1,9 @@
 <template>
 <div class="connection-container">
+    <container-box class="connection-closed" v-if="isCancelled">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p class="error-message">This connection is closed.</p>
+    </container-box>
     <div class="connection-top">
         <container-box class="connection-info">
             <connection-info :connection="connection" />
@@ -7,7 +11,7 @@
         <container-box class="owner-info">
             <owner-info :owner=owner />
             <Button 
-                v-if="user.id != connectionOwnerId && isAE"
+                v-if="user.id != connectionOwnerId && isAE && !isCancelled"
                 class="connection-create-submit-btn action-btn" 
                 text="Make an offer">
             </Button>
@@ -119,6 +123,23 @@ export default {
     padding: 20px;
 }
 
+.connection-closed {
+    display: flex;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: var(--errorcolourlight);
+}
+
+.error-message {
+    margin: 0px 0px 0px 10px;
+    color: var(--errorcolour);
+}
+
+.fa-exclamation-triangle {
+    color: var(--errorcolour);
+}
+
+
 
 @media screen and (max-width: 640px) {
     .connection-top {
@@ -135,6 +156,10 @@ export default {
     }
     
     .comment-section {
+        width: calc(100% - 40px);
+    }
+
+    .connection-closed {
         width: calc(100% - 40px);
     }
 }

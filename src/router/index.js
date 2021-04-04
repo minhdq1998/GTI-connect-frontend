@@ -50,6 +50,12 @@ const routes = [
     meta: { permission: permissions.ONLY_LOGGED_IN }
   },
   {
+    path: '/profile/:id',
+    name: 'Profile',
+    component: () => import('../pages/Profile/index.vue'),
+    meta: { permission: permissions.ONLY_LOGGED_IN }
+  },
+  {
     path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../pages/Dashboard/index.vue'),
