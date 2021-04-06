@@ -13,7 +13,8 @@
             <Button 
                 v-if="user.id != connectionOwnerId && isAE && !isCancelled"
                 class="connection-create-submit-btn action-btn" 
-                text="Make an offer">
+                text="Make an offer"
+                @click="showMakeOfferConnectionModal">
             </Button>
             <Button 
                 :disabled="isCancelled"
@@ -28,6 +29,7 @@
     <container-box class="comment-section">
         <comment-section :isCancelled="isCancelled" :connectionId="id" :ownerId="user.id" :canComment="canComment" />
     </container-box>
+    <send-offer-modal v-if="showSendOfferModal" @closeModal="showSendOfferModal = false" :connection=id />
     <cancel-connection-modal :connectionId="id" v-if="showCancelConnectionModal" @closeModal="showCancelConnectionModal = false"></cancel-connection-modal>
 </div>
 </template>
@@ -45,11 +47,12 @@ import AccountsMixin from '@/mixins/AccountsMixin'
 import { mapActions } from 'vuex'
 import { error } from '@/constants'
 import { account_role } from '@/constants'
+import SendOfferModal from './components/SendOfferModal.vue'
 
 
 export default {
     name:'connection',
-    components:{ ContainerBox, OwnerInfo, ConnectionInfo, Button, CancelConnectionModal, CommentSection },
+    components:{ ContainerBox, OwnerInfo, ConnectionInfo, Button, CancelConnectionModal, CommentSection, SendOfferModal },
     mixins: [NotificationMixin, AccountsMixin],
     data() {
         return {
@@ -57,7 +60,8 @@ export default {
             connection: {},
             connectionOwnerId: "",
             aeRole: account_role.AE,
-            showCancelConnectionModal: false
+            showCancelConnectionModal: false,
+            showSendOfferModal: false,
         }
     },
     methods: {
@@ -66,6 +70,9 @@ export default {
         }),
         showCancelModal() {
             this.showCancelConnectionModal = true
+        },
+        showMakeOfferConnectionModal() {
+            this.showSendOfferModal = true
         }
     },
     mounted(){

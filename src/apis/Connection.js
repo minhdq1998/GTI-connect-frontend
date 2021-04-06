@@ -1,6 +1,9 @@
 import requestAPI from '@/utils/requests'
 
 export default {
+
+    // Connection API
+
     createConnection(connectionInfo) {
         return requestAPI({
             url: 'connections/',
@@ -32,6 +35,9 @@ export default {
             method: 'PATCH'
         })
     },
+
+    // Comments API
+
     getComments(page, connectionId) {
         return requestAPI({
             url: `comments/?page=${page}&connection=${connectionId}`,
@@ -44,6 +50,16 @@ export default {
             method: 'POST',
             data: commentInfo
         })
-    }
+    },
 
+    // Offer API
+    sendOffer(offerInfo) {
+        return requestAPI({
+            url: `offers/`,
+            method: 'POST',
+            data: offerInfo
+        })
+    },
+
+    
 }
