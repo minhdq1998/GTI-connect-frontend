@@ -1,6 +1,6 @@
 <template>
   <div>
-    <modal-container class="change-avatar-modal" @onClose="$emit('closeModal')">
+    <modal-container class="send-offer-modal" @onClose="$emit('closeModal')">
        <template v-slot:header>
         <div class="text-header">Make an offer</div>
       </template>

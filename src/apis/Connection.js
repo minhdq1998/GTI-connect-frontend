@@ -60,6 +60,18 @@ export default {
             data: offerInfo
         })
     },
+    getSingleOffer(connectionId, ownerId) {
+        return requestAPI({
+            url: `offers/?connection=${connectionId}&owner=${ownerId}`,
+            method: 'GET'
+        })
+    },
 
-    
+    getOffers(connectionId) {
+        return requestAPI({
+            url: `offers/?connection=${connectionId}`,
+            method: 'GET'
+        })
+    }
+
 }

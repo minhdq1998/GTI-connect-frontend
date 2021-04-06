@@ -95,6 +95,16 @@ export const actions = {
             }).catch(e => { reject(e) 
             })
         })
+    },
+getSingleConnectionOffer(context, {connectionId, ownerId}) {
+        return new Promise((resolve, reject) => {
+            Connection.getSingleOffer(
+                connectionId, 
+                ownerId
+            ).then(res => { resolve(res) 
+            }).catch(e => { reject(e) 
+            })
+        })
     }
 }
 
