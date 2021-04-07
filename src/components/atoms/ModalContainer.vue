@@ -3,7 +3,8 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-          <div class="modal-header">
+          <div class="modal-content">
+            <div class="modal-header">
               <slot name="header">
                 default header
               </slot>
@@ -17,12 +18,12 @@
 
             <div class="modal-footer">
               <slot name="footer">
-        
               </slot>
-                <div class="modal-button-wrapper">
+              <div class="modal-button-wrapper">
                 <Button :text="closeModalText" styleMode="close-modal-btn" @click="$emit('onClose')" />
-                </div>
+              </div>
             </div>
+          </div>
         </div>
       </div>
     </div>

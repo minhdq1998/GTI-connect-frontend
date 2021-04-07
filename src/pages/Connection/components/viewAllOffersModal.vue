@@ -1,6 +1,6 @@
 <template>
   <div>
-    <modal-container class="offer-detail-modal" @onClose="$emit('closeModal')">
+    <modal-container class="view-offers-modal" @onClose="$emit('closeModal')">
       <template v-slot:header>
         <div class="text-header">Received offers</div>
       </template>

@@ -1,26 +1,36 @@
 <template>
   <div class="offer-list-item" >
     <div class="offer-detail">
-      <div class="offer-owner">
-        Owner Id: {{offer.owner}}
+      <div class="offer-owner offer-item">
+        <span class="label">Offer from:</span> 
+        {{offerOwner.first_name}} {{offerOwner.last_name}}
       </div>
-      <div class="offer-message">
-        Message: {{offer.mesage}}
+      <div class="offer-message offer-item">
+        <span class="label">Message:</span>
+        <div class="message-content">{{offer.mesage}}</div>
       </div>
-      <div class="offer-duration">
-        Offer duration: {{offerDurationTextFormat(offer)}} 
+      <div class="offer-duration offer-item">
+        <span class="label">Offer duration:</span> 
+        {{offerDurationTextFormat(offer)}} 
       </div>
-      <div class="offer-status">
-        Status: {{offer.status}}
+      <div class="offer-status offer-item">
+         <span class="label">Status:</span> 
+        {{offer.status}}
       </div>
       <div class="offer-created-at">
-        Created at: {{createdAtFormat(offer)}}
+        <span class="label">Offer sent at:</span>
+        {{createdAtFormat(offer)}}
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import NotificationMixin from '@/mixins/NotificationMixin'
+  import AccountsMixin from '@/mixins/AccountsMixin'
+  import { mapActions } from 'vuex'
+  import { error } from '@/constants'
+
   export default {
     name: "offer-list-item",
     props: {
@@ -29,7 +39,16 @@
         required: true
       }
     },
+    data() {
+      return {
+        offerOwner: {}
+      }
+    },
+    mixins: [AccountsMixin, NotificationMixin],
     methods: {
+      ...mapActions({
+        dispatchGetOfferOwner: 'user/getUser'
+      }),
       offerDurationTextFormat(offer) {
         if (offer.time_number > 1) {
           return offer.time_number + " " + offer.time_type + "s"
@@ -39,10 +58,46 @@
       createdAtFormat(offer) {
         return (new Date(offer.created_at)).toLocaleString()
       }
+    },
+    mounted() {
+      this.dispatchGetOfferOwner(this.offer.owner).then(res => {
+        this.offerOwner = res
+        console.log(this.offerOwner)
+      }).catch(() => {
+        this.showBadNotification(error.SOMETHING_WENT_WRONG)
+        })
     }
   }
 </script>
 
 <style lang="scss" scoped>
+.offer-list-item {
+  display: flex;
+  border: 1px solid var(--boxshadowcolour2);
+  margin-bottom: 10px;
+  padding: 20px;
+  transition: all 0.25s;
+  text-decoration: none;
+  color: var(--textgray);
+}
 
+.offer-list-item:hover {
+    box-shadow: 0 0 2.5px 2px var(--boxshadowcolour2);
+    cursor: pointer;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.offer-item {
+  margin-bottom: 3px;
+}
+
+.message-content {
+  max-height: 48px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-line;
+}
 </style>

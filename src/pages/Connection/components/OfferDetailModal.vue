@@ -2,7 +2,7 @@
   <div>
     <modal-container class="offer-detail-modal" @onClose="$emit('closeModal')">
        <template v-slot:header>
-        <div class="text-header">Your current offer</div>
+        <div class="text-header">Current offer:</div>
       </template>
        <template v-slot:body>
         <div class="offer-detail">
@@ -63,5 +63,9 @@
 .text-header {
   font-size: 20px;
   font-weight: 600;
+}
+
+.offer-message {
+  white-space: pre-line
 }
 </style>
