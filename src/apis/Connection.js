@@ -67,7 +67,7 @@ export default {
         })
     },
 
-    getOffers(connectionId) {
+    getAllOffers(connectionId) {
         return requestAPI({
             url: `offers/?connection=${connectionId}`,
             method: 'GET'

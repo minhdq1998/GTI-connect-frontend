@@ -96,13 +96,21 @@ export const actions = {
             })
         })
     },
-getSingleConnectionOffer(context, {connectionId, ownerId}) {
+    getSingleConnectionOffer(context, {connectionId, ownerId}) {
         return new Promise((resolve, reject) => {
             Connection.getSingleOffer(
                 connectionId, 
                 ownerId
             ).then(res => { resolve(res) 
             }).catch(e => { reject(e) 
+            })
+        })
+    },
+    getAllConnectionOffers(context, connectionId) {
+        return new Promise((resolve, reject) => {
+            Connection.getAllOffers(connectionId)
+            .then(res => { resolve(res)
+            }).catch(e => { reject(e)
             })
         })
     }

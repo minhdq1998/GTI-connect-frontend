@@ -47,11 +47,11 @@
 .cancel-connection-btn {
   margin-top: 10px;
   color: var(--whitecolour);
-  background-color: var(--btnclosecolour);
+  background-color: var(--hover-btnclosecolour);
 }
 
 .cancel-connection-btn:hover {
-  background-color: var( --hover-btnclosecolour);
+  background-color: var( --btnclosecolour);
 }
 
 .cancel-connection-btn:disabled {

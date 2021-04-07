@@ -21,7 +21,8 @@
         </div>
       </template>
       <template v-slot:footer>
-        <Button text="Cancel offer" class="general-btn"/>
+        <Button v-if="isAE" text="Cancel offer" class="general-btn"/>
+        <Button v-if="!isAE" text="Accept offer" class="general-btn"/>
       </template>
     </modal-container>
   </div>
@@ -40,6 +41,10 @@
     props: {
       offer: {
         type: Object,
+        required: true
+      },
+      isAE: {
+        type: Boolean,
         required: true
       }
     },
