@@ -28,8 +28,8 @@
     </container-box>
 
     <!-- Modals -->
-    <send-offer-modal v-if="showSendOfferModal" @closeModal="showSendOfferModal = false" :connection=id />
-    <offer-detail-modal :isAE="isAE" v-if="showOfferDetailModal" @closeModal="showOfferDetailModal = false" :offer=currentOffer />
+    <send-offer-modal v-if="showSendOfferModal" @offerSent="handleOfferSent" @closeModal="showSendOfferModal = false" :connection=id />
+    <offer-detail-modal :offerOwner=user :isAE="isAE" v-if="showOfferDetailModal" @closeModal="showOfferDetailModal = false" :offer=currentOffer />
     <view-all-offers-modal v-if="showReceivedOffersModal" @closeModal="showReceivedOffersModal = false" :offers=receivedOffers />
     <cancel-connection-modal :connectionId="id" v-if="showCancelModal" @closeModal="showCancelModal = false"></cancel-connection-modal>
 </div>
@@ -95,7 +95,7 @@ export default {
     methods: {
         ...mapActions({
             dispatchGetConnectionDetail: 'connection/getConnectionDetail',
-            dispatchGetSingleConnectionOffer: 'connection/getSingleConnectionOffer',
+            dispatchGetOfferByOwner: 'connection/getOfferByOwner',
             dispatchGetAllConnectionOffers: 'connection/getAllConnectionOffers',
             dispatchGetCurrentUser: 'user/getCurrentUser'
         }),
@@ -110,14 +110,9 @@ export default {
         },
         showReceivedOffersConnectionModal() {
             this.showReceivedOffersModal = true
-        }
-    },
-    mounted(){
-        this.dispatchGetConnectionDetail(this.id)
-        .then(res => {
-            this.connection = res
-            this.connectionOwnerId = res.owner.pk
-            this.dispatchGetSingleConnectionOffer(this.offerInfo).then(res => {
+        },
+        handleOfferSent() {
+            this.dispatchGetOfferByOwner(this.offerInfo).then(res => {
                 if (res.count === 1 && res.results[0].status === "Pending") {
                     this.offerSent = true,
                     this.currentOffer = res.results[0]
@@ -125,9 +120,16 @@ export default {
             }).catch(() => {
             this.showBadNotification(error.SOMETHING_WENT_WRONG)
             })
+        }
+    },
+    mounted(){
+        this.dispatchGetConnectionDetail(this.id)
+        .then(res => {
+            this.connection = res
+            this.connectionOwnerId = res.owner.pk
+            this.handleOfferSent()
             this.dispatchGetAllConnectionOffers(this.id).then(res => {
                 this.receivedOffers = res.results
-                console.log(this.receivedOffers)
             }).catch(() => {
                 this.showBadNotification(error.SOMETHING_WENT_WRONG)
             })

@@ -2,27 +2,40 @@
   <div>
     <modal-container class="offer-detail-modal" @onClose="$emit('closeModal')">
        <template v-slot:header>
-        <div class="text-header">Current offer:</div>
+        <div class="text-header" v-if="!isAE">Current offer:</div>
+        <div class="text-header" v-if="isAE">Your offer: </div>
       </template>
        <template v-slot:body>
         <div class="offer-detail">
-          <div class="offer-message">
-            Message: {{offer.mesage}}
+          <div class="offer-owner item">
+            <img :src="avatarUrl">
+            <router-link :to="{ name: 'Profile', params: { id: offerOwner.pk }}">
+              <div class="owner-name">
+                {{offerOwner.first_name}} {{offerOwner.last_name}}
+              </div>
+            </router-link>
           </div>
-          <div class="offer-duration">
-            Offer duration: {{offerDurationTextFormat}} 
+          <div class="offer-message item">
+            <span class="label">Message:</span> 
+            {{offer.mesage}}
           </div>
-          <div class="offer-status">
-            Status: {{offer.status}}
+          <div class="offer-duration item">
+            <span class="label">Offer duration:</span> 
+            {{offerDurationTextFormat}} 
+          </div>
+          <div class="offer-status item">
+            <span class="label">Status:</span> 
+            {{offer.status}}
           </div>
           <div class="offer-created-at">
-            Created at: {{offer.created_at}}
+            <span class="label">Created at:</span> 
+            {{createdAtFormat(offer)}}
           </div>
         </div>
       </template>
       <template v-slot:footer>
         <Button v-if="isAE" text="Cancel offer" class="general-btn"/>
-        <Button v-if="!isAE" text="Accept offer" class="general-btn"/>
+        <Button v-if="!isAE" text="Accept offer" @click="acceptOffer" class="general-btn"/>
       </template>
     </modal-container>
   </div>
@@ -31,13 +44,18 @@
 <script>
   import Button from '@/components/atoms/Button'
   import ModalContainer from '@/components/atoms/ModalContainer'
+  import NotificationMixin from '@/mixins/NotificationMixin'
+
+  import { mapActions } from 'vuex'
 
   export default {
     name: "offer-detail-modal",
+    mixins: [NotificationMixin],
     components: {
       Button,
       ModalContainer
     },
+    emits: ['closeModal'],
     props: {
       offer: {
         type: Object,
@@ -45,6 +63,10 @@
       },
       isAE: {
         type: Boolean,
+        required: true
+      },
+      offerOwner: {
+        type: Object,
         required: true
       }
     },
@@ -54,6 +76,31 @@
           return this.offer.time_number + " " + this.offer.time_type + "s"
         } else
         return this.offer.time_number + " " + this.offer.time_type 
+      },
+      avatarUrl() {
+        return process.env.VUE_APP_ROOT_API + this.offerOwner.profile.avatar
+      },
+      offerInfo() {
+        return {
+          connectionId: this.offer.connection,
+          ownerId: this.offerOwner.pk
+        }
+      }
+    },
+    methods: {
+      ...mapActions({
+            dispatchAcceptOffer: 'connection/acceptOffer',
+            dispatchCancelOffer: 'connection/cancelOffer',
+      }),
+      createdAtFormat(offer) {
+        return (new Date(offer.created_at)).toLocaleString()
+      },
+      acceptOffer() {
+        this.dispatchAcceptOffer(this.offer.pk).then(() => {
+          this.$router.push({ name: 'Manage Connections' })
+        }).catch(err => {
+          this.showBadNotification(err.detail)
+        })
       }
     }
   }
@@ -67,5 +114,36 @@
 
 .offer-message {
   white-space: pre-line
+}
+
+.label {
+  font-weight: 600;
+}
+
+.item {
+  margin-bottom: 10px;
+}
+
+.offer-detail {
+  padding: 10px
+}
+
+.offer-owner {
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.offer-owner a {
+  text-decoration: none;
+  color: var(--textgray);
+}
+
+.offer-owner img {
+  height: 35px;
+  width: 35px;
+  margin-right: 10px;
+  border-radius: 50%;
 }
 </style>

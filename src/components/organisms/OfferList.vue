@@ -1,17 +1,15 @@
 <template>
   <div class="offer-list-container">
     <div class="offer-list" v-for="(offer, index) in offers" :key="index">
-      <offer-list-item :offer=offer @click="showOfferDetailModal = true"/>
-      <offer-detail-modal :isAE="false" v-if="showOfferDetailModal" @closeModal="showOfferDetailModal = false" :offer=offer />
+      <offer-list-item :offer=offer />
     </div>
   </div>
 </template>
 
 <script>
-import OfferDetailModal from '../../pages/Connection/components/OfferDetailModal.vue'
 import OfferListItem from '../molecules/OfferListItem.vue'
   export default {
-  components: { OfferListItem, OfferDetailModal },
+  components: { OfferListItem },
   data() {
     return {
       showOfferDetailModal: false,

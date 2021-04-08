@@ -1,6 +1,6 @@
 <template>
-  <div class="offer-list-item" >
-    <div class="offer-detail">
+  <div class="offer-list-item" @click="showOfferDetailModal = true">
+    <div class="offer-detail" >
       <div class="offer-owner offer-item">
         <span class="label">Offer from:</span> 
         {{offerOwner.first_name}} {{offerOwner.last_name}}
@@ -13,16 +13,13 @@
         <span class="label">Offer duration:</span> 
         {{offerDurationTextFormat(offer)}} 
       </div>
-      <div class="offer-status offer-item">
-         <span class="label">Status:</span> 
-        {{offer.status}}
-      </div>
       <div class="offer-created-at">
         <span class="label">Offer sent at:</span>
         {{createdAtFormat(offer)}}
       </div>
     </div>
   </div>
+  <offer-detail-modal v-if="showOfferDetailModal" :offerOwner=offerOwner @closeModal="showOfferDetailModal = false" :isAE="false" :offer=offer />
 </template>
 
 <script>
@@ -30,9 +27,11 @@
   import AccountsMixin from '@/mixins/AccountsMixin'
   import { mapActions } from 'vuex'
   import { error } from '@/constants'
+import OfferDetailModal from '../../pages/Connection/components/OfferDetailModal.vue'
 
   export default {
     name: "offer-list-item",
+    components: { OfferDetailModal },
     props: {
       offer: {
         type: Object,
@@ -41,7 +40,8 @@
     },
     data() {
       return {
-        offerOwner: {}
+        offerOwner: {},
+        showOfferDetailModal: false,
       }
     },
     mixins: [AccountsMixin, NotificationMixin],
@@ -57,12 +57,14 @@
       },
       createdAtFormat(offer) {
         return (new Date(offer.created_at)).toLocaleString()
+      },
+      closeOfferDetailModal() {
+        this.showOfferDetailModal = false
       }
     },
     mounted() {
       this.dispatchGetOfferOwner(this.offer.owner).then(res => {
         this.offerOwner = res
-        console.log(this.offerOwner)
       }).catch(() => {
         this.showBadNotification(error.SOMETHING_WENT_WRONG)
         })
@@ -91,7 +93,7 @@
 }
 
 .offer-item {
-  margin-bottom: 3px;
+  margin-bottom: 5px;
 }
 
 .message-content {
