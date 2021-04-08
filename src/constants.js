@@ -110,7 +110,6 @@ export const nationalities = [
     "Colombian",
     "Comoran",
     "Congolese",
-    "Congolese",
     "Costa Rican",
     "Croatian",
     "Cuban",
@@ -118,7 +117,6 @@ export const nationalities = [
     "Czech",
     "Danish",
     "Djibouti",
-    "Dominican",
     "Dominican",
     "Dutch",
     "Dutchman",
@@ -156,7 +154,6 @@ export const nationalities = [
     "Indonesian",
     "Iranian",
     "Iraqi",
-    "Irish",
     "Irish",
     "Israeli",
     "Italian",
@@ -264,7 +261,6 @@ export const nationalities = [
     "Venezuelan",
     "Vietnamese",
     "Welsh",
-    "Welsh",
     "Yemenite",
     "Zambian",
     "Zimbabwean",
@@ -275,3 +271,9 @@ export const account_role = {
     GT: "Global Talent",
     VISITOR: "Visitor"
 }
+
+export const  offer_duration_type = [
+    "day",
+    "week",
+    "month"
+]

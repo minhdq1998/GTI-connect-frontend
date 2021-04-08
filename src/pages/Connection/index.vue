@@ -11,9 +11,16 @@
         <container-box class="owner-info">
             <owner-info :owner=owner />
             <Button 
-                v-if="user.id != connectionOwnerId && isAE && !isCancelled"
+                v-if="user.id != connectionOwnerId && isAE && !isCancelled && !offerSent"
                 class="connection-create-submit-btn action-btn" 
-                text="Make an offer">
+                text="Make an offer"
+                @click="showMakeOfferConnectionModal">
+            </Button>
+            <Button 
+                v-if="offerSent"
+                class="view-offer-btn action-btn" 
+                text="View your offer"
+                @click="showOfferDetailConnectionModal">
             </Button>
             <Button 
                 :disabled="isCancelled"
@@ -23,11 +30,14 @@
                 @click="showCancelModal">
             </Button>
         </container-box>
-       
     </div>
     <container-box class="comment-section">
         <comment-section :isCancelled="isCancelled" :connectionId="id" :ownerId="user.id" :canComment="canComment" />
     </container-box>
+
+    <!-- Modals -->
+    <send-offer-modal v-if="showSendOfferModal" @closeModal="showSendOfferModal = false" :connection=id />
+    <offer-detail-modal v-if="showOfferDetailModal" @closeModal="showOfferDetailModal = false" :offer=currentOffer />
     <cancel-connection-modal :connectionId="id" v-if="showCancelConnectionModal" @closeModal="showCancelConnectionModal = false"></cancel-connection-modal>
 </div>
 </template>
@@ -45,42 +55,79 @@ import AccountsMixin from '@/mixins/AccountsMixin'
 import { mapActions } from 'vuex'
 import { error } from '@/constants'
 import { account_role } from '@/constants'
+import SendOfferModal from './components/SendOfferModal.vue'
+import OfferDetailModal from './components/OfferDetailModal.vue'
 
 
 export default {
     name:'connection',
-    components:{ ContainerBox, OwnerInfo, ConnectionInfo, Button, CancelConnectionModal, CommentSection },
+    components:{ ContainerBox, OwnerInfo, ConnectionInfo, Button, CancelConnectionModal, CommentSection, SendOfferModal, OfferDetailModal },
     mixins: [NotificationMixin, AccountsMixin],
     data() {
         return {
             id: this.$route.params.id,
+            currentUserId: this.user.id,
             connection: {},
             connectionOwnerId: "",
             aeRole: account_role.AE,
-            showCancelConnectionModal: false
+            offerSent: false,
+            currentOffer: {},
+
+            // modals handling
+            showCancelConnectionModal: false,
+            showSendOfferModal: false,
+            showOfferDetailModal: false,
         }
     },
     methods: {
         ...mapActions({
-            dispatchGetConnectionDetail: 'connection/getConnectionDetail'
+            dispatchGetConnectionDetail: 'connection/getConnectionDetail',
+            dispatchGetSingleConnectionOffer: 'connection/getSingleConnectionOffer',
+            dispatchGetCurrentUser: 'user/getCurrentUser'
         }),
         showCancelModal() {
             this.showCancelConnectionModal = true
+        },
+        showMakeOfferConnectionModal() {
+            this.showSendOfferModal = true
+        },
+        showOfferDetailConnectionModal() {
+            this.showOfferDetailModal = true
         }
     },
     mounted(){
+        //  this.dispatchGetSingleConnectionOffer(this.id, this.currentUserId).then(res => {
+        //         console.log(res)
+        //     }).catch(() => {
+        //     this.showBadNotification(error.SOMETHING_WENT_WRONG)
+        // })
         this.dispatchGetConnectionDetail(this.id)
         .then(res => {
             this.connection = res
             this.connectionOwnerId = res.owner.pk
+            this.dispatchGetSingleConnectionOffer(this.offerInfo).then(res => {
+                if (res.count === 1 && res.results[0].status === "Pending") {
+                    this.offerSent = true,
+                    this.currentOffer = res.results[0]
+                }
+            }).catch(() => {
+            this.showBadNotification(error.SOMETHING_WENT_WRONG)
+            })
         }).catch(() => {
             this.showBadNotification(error.SOMETHING_WENT_WRONG)
         })
+       
     },
     computed: {
         owner() {
             return this.connection.owner ? 
                 this.connection.owner : { profile: {} }
+        },
+        offerInfo() {
+            return {
+                connectionId: this.id,
+                ownerId: this.user.id
+            }
         },
         canComment() {
             if (this.user.role === this.aeRole) {
@@ -137,6 +184,15 @@ export default {
 
 .fa-exclamation-triangle {
     color: var(--errorcolour);
+}
+
+.view-offer-btn {
+    color: var(--whitecolour);
+    background-color: var(--primarycolour);
+}
+
+.view-offer-btn:hover {
+    background-color: var(--primarycolour-hover);
 }
 
 

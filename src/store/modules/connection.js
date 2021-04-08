@@ -57,6 +57,8 @@ export const actions = {
         }) 
     },
 
+    // Comment Actions
+
     getConnectionComments(context, {page, connectionId}) {
         return new Promise((resolve, reject) => {
             Connection.getComments(
@@ -78,6 +80,31 @@ export const actions = {
             }).catch(e => { reject(e) 
             })
         }) 
+    },
+
+    // Offer Actions 
+
+    postConnectionOffer(context, offerInfo) {
+        return new Promise((resolve, reject) => {
+            Connection.sendOffer({
+                connection: offerInfo.connection,
+                mesage: offerInfo.message,
+                time_number: offerInfo.time_number,
+                time_type: offerInfo.time_type
+            }).then(res => { resolve(res) 
+            }).catch(e => { reject(e) 
+            })
+        })
+    },
+getSingleConnectionOffer(context, {connectionId, ownerId}) {
+        return new Promise((resolve, reject) => {
+            Connection.getSingleOffer(
+                connectionId, 
+                ownerId
+            ).then(res => { resolve(res) 
+            }).catch(e => { reject(e) 
+            })
+        })
     }
 }
 
