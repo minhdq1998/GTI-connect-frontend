@@ -30,6 +30,16 @@ export const connection = {
     CLOSE_CONNECTION_FAIL: 'Something went wrong! Your connection has not been closed.'
 }
 
+
+export const offer = {
+    OFFER_SEND_SUCCESS: 'Your offer has been sent successfully.',
+    OFFER_ACCEPT_SUCCESS: 'You have successfully accepted the offer.',
+    OFFER_CANCEL_SUCCESS: 'You have successfully cancelled the offer.',
+    OFFER_SEND_FAIL: 'Something went wrong! Your offer has not been sent.',
+    OFFER_ACCEPT_FAIL: 'Something went wrong! The offer has not been accepted',
+    OFFER_CANCEL_FAIL: 'Something went wrong! The offer has not been cancelled',
+}
+
 export const session = {
     SESSION_EXPIRE: 'Your session expired, please login again.'
 }

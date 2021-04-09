@@ -43,13 +43,16 @@
   import Button from '@/components/atoms/Button.vue';
 
   import { mapActions } from 'vuex'
-  import { offer_duration_type, notiType, error } from '@/constants'
+  import { offer_duration_type, offer } from '@/constants'
+  import NotificationMixin from '@/mixins/NotificationMixin'
 
 
   export default {
 
     name: "send-offer-modal",
     components: { ModalContainer, TextAreaInputGroup, TextInputGroup, SelectInputGroup, Button  },
+    emits: ['closeModal', 'offerSent'],
+    mixins: [ NotificationMixin ],
     props: {
       connection: {
         type: String,
@@ -84,17 +87,16 @@
     methods: {
       ...mapActions({
         dispatchPostOffer: 'connection/postConnectionOffer',
-        dispatchNotification: 'notification/add',
       }),
       sendOffer() {
         this.dispatchPostOffer(this.offerInfo).then(() => {
+            this.showGoodNotification(offer.OFFER_SEND_SUCCESS)
             this.message = ''
             this.time_number = ''
             this.$emit('closeModal')
             this.$emit('offerSent')
-          }).catch(() => {
-            this.dispatchNotification(
-              { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
+          }).catch((err) => {
+            this.showBadNotification(offer.OFFER_SEND_FAIL + err.detail)
           })
       },
       validateTimeNumber(value) {
