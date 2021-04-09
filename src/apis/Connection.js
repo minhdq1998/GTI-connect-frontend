@@ -60,17 +60,31 @@ export default {
             data: offerInfo
         })
     },
-    getSingleOffer(connectionId, ownerId) {
+    getOfferByOwner(connectionId, ownerId) {
         return requestAPI({
             url: `offers/?connection=${connectionId}&owner=${ownerId}`,
             method: 'GET'
         })
     },
 
-    getOffers(connectionId) {
+    getAllOffers(connectionId) {
         return requestAPI({
             url: `offers/?connection=${connectionId}`,
             method: 'GET'
+        })
+    },
+
+    acceptOffer(offerId) {
+        return requestAPI({
+            url: `offers/${offerId}/accept/`,
+            method: 'PUT',
+        })
+    },
+
+    cancelOffer(offerId) {
+        return requestAPI({
+            url: `offers/${offerId}/cancel/`,
+            method: 'PUT',
         })
     }
 

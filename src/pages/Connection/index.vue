@@ -10,25 +10,17 @@
         </container-box>
         <container-box class="owner-info">
             <owner-info :owner=owner />
-            <Button 
-                v-if="user.id != connectionOwnerId && isAE && !isCancelled && !offerSent"
-                class="connection-create-submit-btn action-btn" 
-                text="Make an offer"
-                @click="showMakeOfferConnectionModal">
-            </Button>
-            <Button 
-                v-if="offerSent"
-                class="view-offer-btn action-btn" 
-                text="View your offer"
-                @click="showOfferDetailConnectionModal">
-            </Button>
-            <Button 
-                :disabled="isCancelled"
-                v-if="user.id === connectionOwnerId"
-                class="cancel-connection-btn action-btn" 
-                text="Close connection"
-                @click="showCancelModal">
-            </Button>
+            <connection-button-group 
+                :isConnectionOwner=isConnectionOwner 
+                :isAE=isAE 
+                :isCancelled=isCancelled 
+                :offerSent=offerSent
+                :hasOffers=hasOffers
+                @showMakeOffer="showMakeOfferConnectionModal"
+                @showOfferDetail="showOfferDetailConnectionModal"
+                @closeConnection="showCancelConnectionModal"
+                @showReceivedOffers="showReceivedOffersConnectionModal"
+            />
         </container-box>
     </div>
     <container-box class="comment-section">
@@ -36,9 +28,10 @@
     </container-box>
 
     <!-- Modals -->
-    <send-offer-modal v-if="showSendOfferModal" @closeModal="showSendOfferModal = false" :connection=id />
-    <offer-detail-modal v-if="showOfferDetailModal" @closeModal="showOfferDetailModal = false" :offer=currentOffer />
-    <cancel-connection-modal :connectionId="id" v-if="showCancelConnectionModal" @closeModal="showCancelConnectionModal = false"></cancel-connection-modal>
+    <send-offer-modal v-if="showSendOfferModal" @offerSent="handleOfferSent" @closeModal="showSendOfferModal = false" :connection=id />
+    <offer-detail-modal :offerOwner=user :isAE="isAE" v-if="showOfferDetailModal" @closeModal="showOfferDetailModal = false" :offer=currentOffer />
+    <view-all-offers-modal v-if="showReceivedOffersModal" @closeModal="showReceivedOffersModal = false" :offers=receivedOffers />
+    <cancel-connection-modal :connectionId="id" v-if="showCancelModal" @closeModal="showCancelModal = false"></cancel-connection-modal>
 </div>
 </template>
 
@@ -46,22 +39,35 @@
 import ContainerBox from '@/components/atoms/ContainerBox'
 import OwnerInfo from './components/OwnerInfo'
 import ConnectionInfo from './components/ConnectionInfo'
-import Button from '@/components/atoms/Button'
-import CancelConnectionModal from '@/components/molecules/CancelConnectionModal.vue'
 import CommentSection from '@/components/organisms/CommentSection.vue'
+import ConnectionButtonGroup from './components/ConnectionButtonGroup.vue'
+
+import SendOfferModal from './components/SendOfferModal.vue'
+import OfferDetailModal from './components/OfferDetailModal.vue'
+import ViewAllOffersModal from './components/viewAllOffersModal.vue'
+import CancelConnectionModal from '@/components/molecules/CancelConnectionModal.vue'
 
 import NotificationMixin from '@/mixins/NotificationMixin'
 import AccountsMixin from '@/mixins/AccountsMixin'
 import { mapActions } from 'vuex'
 import { error } from '@/constants'
 import { account_role } from '@/constants'
-import SendOfferModal from './components/SendOfferModal.vue'
-import OfferDetailModal from './components/OfferDetailModal.vue'
+
 
 
 export default {
     name:'connection',
-    components:{ ContainerBox, OwnerInfo, ConnectionInfo, Button, CancelConnectionModal, CommentSection, SendOfferModal, OfferDetailModal },
+    components: { 
+        ContainerBox, 
+        OwnerInfo, 
+        ConnectionInfo, 
+        CancelConnectionModal, 
+        CommentSection, 
+        SendOfferModal, 
+        OfferDetailModal, 
+        ConnectionButtonGroup,
+        ViewAllOffersModal
+    },
     mixins: [NotificationMixin, AccountsMixin],
     data() {
         return {
@@ -70,48 +76,62 @@ export default {
             connection: {},
             connectionOwnerId: "",
             aeRole: account_role.AE,
+
+            // AE view - View AE's offer to connection
             offerSent: false,
             currentOffer: {},
 
+            // GT view - View all received offers
+            offersView: false,
+            receivedOffers: [],
+
             // modals handling
-            showCancelConnectionModal: false,
+            showCancelModal: false,
             showSendOfferModal: false,
             showOfferDetailModal: false,
+            showReceivedOffersModal: false,
         }
     },
     methods: {
         ...mapActions({
             dispatchGetConnectionDetail: 'connection/getConnectionDetail',
-            dispatchGetSingleConnectionOffer: 'connection/getSingleConnectionOffer',
+            dispatchGetOfferByOwner: 'connection/getOfferByOwner',
+            dispatchGetAllConnectionOffers: 'connection/getAllConnectionOffers',
             dispatchGetCurrentUser: 'user/getCurrentUser'
         }),
-        showCancelModal() {
-            this.showCancelConnectionModal = true
+        showCancelConnectionModal() {
+            this.showCancelModal = true
         },
         showMakeOfferConnectionModal() {
             this.showSendOfferModal = true
         },
         showOfferDetailConnectionModal() {
             this.showOfferDetailModal = true
-        }
-    },
-    mounted(){
-        //  this.dispatchGetSingleConnectionOffer(this.id, this.currentUserId).then(res => {
-        //         console.log(res)
-        //     }).catch(() => {
-        //     this.showBadNotification(error.SOMETHING_WENT_WRONG)
-        // })
-        this.dispatchGetConnectionDetail(this.id)
-        .then(res => {
-            this.connection = res
-            this.connectionOwnerId = res.owner.pk
-            this.dispatchGetSingleConnectionOffer(this.offerInfo).then(res => {
+        },
+        showReceivedOffersConnectionModal() {
+            this.showReceivedOffersModal = true
+        },
+        handleOfferSent() {
+            this.dispatchGetOfferByOwner(this.offerInfo).then(res => {
                 if (res.count === 1 && res.results[0].status === "Pending") {
                     this.offerSent = true,
                     this.currentOffer = res.results[0]
                 }
             }).catch(() => {
             this.showBadNotification(error.SOMETHING_WENT_WRONG)
+            })
+        }
+    },
+    mounted(){
+        this.dispatchGetConnectionDetail(this.id)
+        .then(res => {
+            this.connection = res
+            this.connectionOwnerId = res.owner.pk
+            this.handleOfferSent()
+            this.dispatchGetAllConnectionOffers(this.id).then(res => {
+                this.receivedOffers = res.results
+            }).catch(() => {
+                this.showBadNotification(error.SOMETHING_WENT_WRONG)
             })
         }).catch(() => {
             this.showBadNotification(error.SOMETHING_WENT_WRONG)
@@ -139,6 +159,18 @@ export default {
         },
         isCancelled() {
             if (this.connection.status === "Cancelled") {
+                return true
+            }
+            return false
+        },
+        isConnectionOwner() {
+            if (this.user.id === this.connectionOwnerId) {
+                return true
+            }
+            return false
+        },
+        hasOffers() {
+            if (this.receivedOffers.length > 0) {
                 return true
             }
             return false
@@ -186,15 +218,6 @@ export default {
     color: var(--errorcolour);
 }
 
-.view-offer-btn {
-    color: var(--whitecolour);
-    background-color: var(--primarycolour);
-}
-
-.view-offer-btn:hover {
-    background-color: var(--primarycolour-hover);
-}
-
 
 
 @media screen and (max-width: 640px) {
@@ -220,9 +243,4 @@ export default {
     }
 }
 
-.action-btn {
-    display: block;
-    margin-top: 20px;
-    width: 100%;
-}
 </style>

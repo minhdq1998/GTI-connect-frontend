@@ -91,6 +91,7 @@
             this.message = ''
             this.time_number = ''
             this.$emit('closeModal')
+            this.$emit('offerSent')
           }).catch(() => {
             this.dispatchNotification(
               { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })

@@ -96,15 +96,43 @@ export const actions = {
             })
         })
     },
-getSingleConnectionOffer(context, {connectionId, ownerId}) {
+
+    getOfferByOwner(context, {connectionId, ownerId}) {
         return new Promise((resolve, reject) => {
-            Connection.getSingleOffer(
+            Connection.getOfferByOwner(
                 connectionId, 
                 ownerId
             ).then(res => { resolve(res) 
             }).catch(e => { reject(e) 
             })
         })
-    }
+    },
+
+    getAllConnectionOffers(context, connectionId) {
+        return new Promise((resolve, reject) => {
+            Connection.getAllOffers(connectionId)
+            .then(res => { resolve(res)
+            }).catch(e => { reject(e)
+            })
+        })
+    },
+
+    acceptOffer(context, offerId) {
+        return new Promise((resolve, reject) => {
+            Connection.acceptOffer(offerId)
+            .then(res => { resolve(res)
+            }).catch(e => { reject(e)
+            })
+        })
+    },
+
+    cancelOffer(context, offerId) {
+        return new Promise((resolve, reject) => {
+            Connection.cancelOffer(offerId)
+            .then(res => { resolve(res)
+            }).catch(e => { reject(e)
+            })
+        })
+    },
 }
 
