@@ -1,5 +1,5 @@
 <template>
-  <div class="offer-list-item" @click="showOfferDetailModal = true">
+  <div v-if="offer.status === 'Pending'" class="offer-list-item" @click="showOfferDetailModal = true">
     <div class="offer-detail" >
       <div class="offer-owner offer-item">
         <span class="label">Offer from:</span> 

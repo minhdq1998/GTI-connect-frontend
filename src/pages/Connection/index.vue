@@ -29,7 +29,7 @@
 
     <!-- Modals -->
     <send-offer-modal v-if="showSendOfferModal" @offerSent="handleOfferSent" @closeModal="showSendOfferModal = false" :connection=id />
-    <offer-detail-modal :offerOwner=user :isAE="isAE" v-if="showOfferDetailModal" @closeModal="showOfferDetailModal = false" :offer=currentOffer />
+    <offer-detail-modal @cancelOffer="handleOfferCancel" :offerOwner=user :isAE="isAE" v-if="showOfferDetailModal" @closeModal="showOfferDetailModal = false" :offer=currentOffer />
     <view-all-offers-modal v-if="showReceivedOffersModal" @closeModal="showReceivedOffersModal = false" :offers=receivedOffers />
     <cancel-connection-modal :connectionId="id" v-if="showCancelModal" @closeModal="showCancelModal = false"></cancel-connection-modal>
 </div>
@@ -113,10 +113,17 @@ export default {
         },
         handleOfferSent() {
             this.dispatchGetOfferByOwner(this.offerInfo).then(res => {
-                if (res.count === 1 && res.results[0].status === "Pending") {
+                if (res.count != 0 && res.results[0].status === "Pending") {
                     this.offerSent = true,
                     this.currentOffer = res.results[0]
                 }
+            }).catch(() => {
+            this.showBadNotification(error.SOMETHING_WENT_WRONG)
+            })
+        },
+        handleOfferCancel() {
+            this.dispatchGetOfferByOwner(this.offerInfo).then(() => {
+                this.offerSent = false
             }).catch(() => {
             this.showBadNotification(error.SOMETHING_WENT_WRONG)
             })

@@ -34,7 +34,7 @@
         </div>
       </template>
       <template v-slot:footer>
-        <Button v-if="isAE" text="Cancel offer" class="general-btn"/>
+        <Button v-if="isAE" text="Cancel offer" @click="cancelOffer" class="general-btn"/>
         <Button v-if="!isAE" text="Accept offer" @click="acceptOffer" class="general-btn"/>
       </template>
     </modal-container>
@@ -45,6 +45,7 @@
   import Button from '@/components/atoms/Button'
   import ModalContainer from '@/components/atoms/ModalContainer'
   import NotificationMixin from '@/mixins/NotificationMixin'
+  import { offer } from '@/constants'
 
   import { mapActions } from 'vuex'
 
@@ -55,7 +56,7 @@
       Button,
       ModalContainer
     },
-    emits: ['closeModal'],
+    emits: ['closeModal', 'cancelOffer'],
     props: {
       offer: {
         type: Object,
@@ -98,8 +99,18 @@
       acceptOffer() {
         this.dispatchAcceptOffer(this.offer.pk).then(() => {
           this.$router.push({ name: 'Manage Connections' })
+          this.showGoodNotification(offer.OFFER_ACCEPT_SUCCESS)
         }).catch(err => {
-          this.showBadNotification(err.detail)
+          this.showBadNotification(offer.OFFER_ACCEPT_FAIL + err.detail)
+        })
+      },
+      cancelOffer() {
+        this.dispatchCancelOffer(this.offer.pk).then(() => {
+          this.showGoodNotification(offer.OFFER_CANCEL_SUCCESS)
+          this.$emit('closeModal')
+          this.$emit('cancelOffer')
+        }).catch(err => {
+          this.showBadNotification(offer.OFFER_CANCEL_FAIL + err.detail)
         })
       }
     }
