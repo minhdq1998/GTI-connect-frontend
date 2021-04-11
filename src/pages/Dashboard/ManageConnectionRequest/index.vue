@@ -50,7 +50,12 @@ export default {
     }
   },
   mounted() {
+    if (this.isGT) {
     this.fetchConnections()
+    }
+    else if (this.isAE) {
+      this.aeFetchConnection()
+    }
   },
   data() {
     return {
@@ -63,16 +68,28 @@ export default {
   },
   methods: {
     ...mapActions({
+      dispatchGetConnectionListByOwnerId: 'connection/getConnectionListByOwnerId',
       dispatchGetConnectionList: 'connection/getConnectionList',
       dispatchNotification: 'notification/add'
     }),
     fetchConnections() {
-      this.dispatchGetConnectionList({page:this.page, owner:this.$store.state.user.id, status:this.currentTab}).then(res => {
+      this.dispatchGetConnectionListByOwnerId({page:this.page, owner:this.$store.state.user.id, status:this.currentTab}).then(res => {
         this.connections = res.results
         this.totalConnections = res.count
       }).catch(() => {
         this.dispatchNotification(
-                { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
+          { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
+      })
+    },
+    aeFetchConnection() {
+      this.dispatchGetConnectionList({page: this.page, status:this.currentTab}).then(res => {
+        let aeConnection = res.results.filter((connection) => {
+          return connection.person_in_charge === this.user.id
+        })
+        this.connections = aeConnection
+      }).catch(() => {
+        this.dispatchNotification(
+          { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
       })
     }
   },
@@ -80,12 +97,20 @@ export default {
     currentTab: {
       handler() {
         this.page = 1;
-        this.fetchConnections()
+        if (this.isGT) {
+          this.fetchConnections()
+        } else if (this.isAE) {
+          this.aeFetchConnection()
+        }
       }
     },
     page: {
       handler() {
-        this.fetchConnections()
+         if (this.isGT) {
+          this.fetchConnections()
+        } else if (this.isAE) {
+          this.aeFetchConnection()
+        }
       }
     }
   }
