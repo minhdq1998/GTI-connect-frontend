@@ -30,12 +30,14 @@ import Button from '@/components/atoms/Button'
 import TextAreaInputGroup from '@/components/molecules/TextAreaInputGroup'
 
 import { mapActions } from 'vuex'
-import { notiType, error } from '@/constants'
+import NotificationMixin from '@/mixins/NotificationMixin'
+
+import {  error } from '@/constants'
 
 export default {
     name:"create-connection",
     components: {OptionsInput, PackageInfoBox,TextAreaInputGroup, Button},
-    mixins:[PackagesInfoMixin],
+    mixins:[PackagesInfoMixin, NotificationMixin],
     mounted() {
       this.package_options = this.getPackageOptions()
     },
@@ -56,14 +58,16 @@ export default {
     methods: {
       ...mapActions({
         dispatchCreateConnection: 'connection/create',
-        dispatchNotification: 'notification/add'
       }),
       submit() {
         this.dispatchCreateConnection(this.connectionForm).then(() => {
             this.$router.push({ name: 'Manage Connections' })
-          }).catch(() => {
-            this.dispatchNotification(
-              { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
+          }).catch((err) => {
+            if (err.response.data.non_field_errors) {
+              this.showBadNotification(error.SOMETHING_WENT_WRONG + " " + err.response.data.non_field_errors[0] + ".")
+            }
+            else
+            this.showBadNotification(error.SOMETHING_WENT_WRONG)
           })
       }
     },

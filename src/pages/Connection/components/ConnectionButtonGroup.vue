@@ -13,8 +13,7 @@
         @click="$emit('showOfferDetail')">
     </Button>
     <Button 
-        :disabled="isCancelled"
-        v-if="isConnectionOwner"
+        v-if="isConnectionOwner && isOpen"
         class="cancel-connection-btn action-btn" 
         text="Close connection"
         @click="$emit('closeConnection')">
@@ -51,6 +50,10 @@
         required: true
       },
       hasOffers: {
+        type: Boolean,
+        required: true
+      },
+      isOpen: {
         type: Boolean,
         required: true
       }

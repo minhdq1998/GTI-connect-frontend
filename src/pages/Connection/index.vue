@@ -13,7 +13,8 @@
             <connection-button-group 
                 :isConnectionOwner=isConnectionOwner 
                 :isAE=isAE 
-                :isCancelled=isCancelled 
+                :isCancelled=isCancelled
+                :isOpen=isOpen
                 :offerSent=offerSent
                 :hasOffers=hasOffers
                 @showMakeOffer="showMakeOfferConnectionModal"
@@ -166,6 +167,12 @@ export default {
         },
         isCancelled() {
             if (this.connection.status === "Cancelled") {
+                return true
+            }
+            return false
+        },
+        isOpen() {
+            if (this.connection.status === "Open") {
                 return true
             }
             return false
