@@ -4,6 +4,10 @@
         <i class="fas fa-exclamation-triangle"></i>
         <p class="error-message">This connection is closed.</p>
     </container-box>
+    <container-box class="connection-in-progress" v-if="isInProgress">
+        <i class="fas fa-info-circle"></i>
+        <p class="info-message">Australian Expert is currently in charged for this connection.</p>
+    </container-box>
     <div class="connection-top">
         <container-box class="connection-info">
             <connection-info :connection="connection" />
@@ -177,6 +181,12 @@ export default {
             }
             return false
         },
+        isInProgress() {
+            if (this.connection.status === "In Progress") {
+                return true
+            }
+            return false
+        },
         isConnectionOwner() {
             if (this.user.id === this.connectionOwnerId) {
                 return true
@@ -231,6 +241,23 @@ export default {
 .fa-exclamation-triangle {
     color: var(--errorcolour);
 }
+.connection-in-progress {
+    display: flex;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: var(--infobgcolour);
+}
+
+.info-message {
+    margin: 0px 0px 0px 10px;
+    color: var(--infocolour);
+}
+
+.fa-info-circle {
+    color: var(--infocolour);
+}
+
+
 
 
 

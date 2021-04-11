@@ -68,6 +68,39 @@ export const actions = {
         }) 
     },
 
+    // Connection Documents
+
+    getAllConnectionDocuments(context, connectionId) {
+        return new Promise((resolve, reject) => {
+            Connection.getAllConnectionDocuments(connectionId
+            ).then(res => { resolve(res)
+            }).catch(e => {reject(e)
+            })
+        })
+    },
+
+    uploadDocument(context, {connectionId, document}) {
+        return new Promise((resolve, reject) => {
+            Connection.uploadDocument(
+                connectionId,
+                document
+                ).then(res => { resolve(res)
+                }).catch(e => {reject(e)
+            })
+        })
+    },
+
+    deleteDocument(context, {connectionId, documentId}) {
+        return new Promise((resolve, reject) => {
+            Connection.deleteDocument(
+                connectionId,
+                documentId
+                ).then(res => { resolve(res)
+                }).catch(e => {reject(e)
+            })
+        })
+    },
+
     // Comment Actions
 
     getConnectionComments(context, {page, connectionId}) {

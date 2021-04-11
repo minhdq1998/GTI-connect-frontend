@@ -42,6 +42,30 @@ export default {
         })
     },
 
+    // Connection Documents API
+
+    getAllConnectionDocuments(connectionId) {
+        return requestAPI({
+            url: `connections/${connectionId}/documents/`,
+            method: 'GET',
+        })
+    },
+
+    uploadDocument(connectionId, document) {
+        return requestAPI({
+            url: `connections/${connectionId}/documents/`,
+            method: 'POST',
+            data: document
+        })
+    },
+
+    deleteDocument(connectionId, documentId) {
+        return requestAPI({
+            url: `connections/${connectionId}/documents/${documentId}/`,
+            method: 'DELETE'
+        })
+    },
+
     // Comments API
 
     getComments(page, connectionId) {
