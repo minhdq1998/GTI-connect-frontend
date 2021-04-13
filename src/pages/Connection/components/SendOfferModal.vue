@@ -14,8 +14,8 @@
           <div class="select-duration-container">
             <div class="select-duration">
               <text-input-group
+                type="number"
                 label="Duration"
-                placeholder="Please enter a number"
                 v-model="time_number"
               />
             </div>
@@ -23,7 +23,6 @@
               class="select-duration-type"
               v-model="time_type"
               :options="durationOptions"
-  
             />
           </div>
         </form>
@@ -125,7 +124,8 @@
 }
 
 .select-duration {
-  width: 50%;
+  width: 60px;
   margin-right: 10px;
 }
+
 </style>

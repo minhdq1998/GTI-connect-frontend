@@ -11,7 +11,13 @@ export default {
             data: connectionInfo
         })
     },
-    getConnectionList(page, owner, status) {
+    getConnectionList(page, status) {
+        return requestAPI({
+            url: `connections/?page=${page}&status=${status}`,
+            method: 'GET'
+        })
+    },
+    getConnectionListByOwnerId(page, owner, status) {
         return requestAPI({
             url: `connections/?page=${page}&owner=${owner}&status=${status}`,
             method: 'GET'
