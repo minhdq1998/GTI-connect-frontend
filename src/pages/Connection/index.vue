@@ -32,7 +32,7 @@
     </div>
 
     <container-box class="documents-section">
-        <connection-documents :connectionId=id />
+        <connection-documents :connectionId=id :isGT="isGT"/>
     </container-box>
 
     <container-box class="comment-section">

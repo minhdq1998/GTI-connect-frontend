@@ -9,6 +9,9 @@
       <h4>Document List</h4>
       <div class="document-list-item" v-for="item, index in documentList" :key="index">
         <a target="_blank" :href="documentUrl(item.document)"><Button :text="documentNameFormat(item.document)" /></a>
+        <div v-if="isGT">
+          <Button styleMode="delete-btn" text="Delete" @click="deleteDocument(item.pk)"/>
+        </div>
       </div>
     </div>
   </div>
@@ -16,7 +19,7 @@
 
 <script>
   import { mapActions } from 'vuex'
-  import { connectionDocument } from 'constants'
+  import { connectionDocument } from '@/constants'
   import NotificationMixin from '@/mixins/NotificationMixin'
 import Button from '../../../components/atoms/Button.vue'
 
@@ -29,6 +32,10 @@ import Button from '../../../components/atoms/Button.vue'
         type: String,
         required: true
       },
+      isGT: {
+        type: Boolean,
+        required: true
+      }
     },
     data() {
       return {
@@ -37,7 +44,8 @@ import Button from '../../../components/atoms/Button.vue'
     },
     methods: {
       ...mapActions({
-        dispatchGetAllDocuments: 'connection/getAllConnectionDocuments'
+        dispatchGetAllDocuments: 'connection/getAllConnectionDocuments',
+        dispatchDeleteDocuments: 'connection/deleteDocument'
       }),
       documentUrl(document) {
         return process.env.VUE_APP_ROOT_API.concat(document)
@@ -45,16 +53,30 @@ import Button from '../../../components/atoms/Button.vue'
       documentNameFormat(document) {
         let doc = document.split("/")
         return doc[4]
+      },
+      deleteDocument(documentId) {
+        this.dispatchDeleteDocuments({
+          connectionId: this.connectionId,
+          documentId: documentId
+        }).then(() => {
+          this.showGoodNotification(connectionDocument.DELETE_DOCUMENT_SUCCESS)
+          this.getDocuments()
+        }).catch(() => {
+          this.showBadNotification(connectionDocument.DELETE_DOCUMENT_FAIL)
+        })
+      },
+      getDocuments() {
+        this.dispatchGetAllDocuments(this.connectionId).then(res => {
+        this.documentList = res
+        console.log(this.documentList)
+        }).catch(() => {
+          this.showBadNotification(connectionDocument.GET_DOCUMENT_FAIL)
+        })
       }
 
     },
     mounted() {
-      this.dispatchGetAllDocuments(this.connectionId).then(res => {
-        this.documentList = res
-        console.log(this.documentList)
-      }).catch(() => {
-        this.showBadNotification(connectionDocument.GET_DOCUMENT_FAIL)
-      })
+      this.getDocuments()
     }
 
   }
@@ -78,10 +100,15 @@ h3 {
 }
 
 .document-list-item {
+  display: flex;
   margin-bottom: 5px;
 }
 
 .header-desc {
   font-size: 12px;
+}
+
+.delete-btn {
+  margin-left: 10px;
 }
 </style>
