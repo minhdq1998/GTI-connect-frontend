@@ -14,6 +14,22 @@
         </div>
       </div>
     </div>
+
+    <div v-if="isGT" class="footer">
+      <label for="document-upload" class="upload-document">
+        Upload Document
+        <form enctype="multipart/form-data" novalidate>
+          <input
+            id="document-upload"
+            type="file" 
+            name="document"
+            @change="filesChange($event.target.name, $event.target.files[0])"
+            accept="application/pdf"
+          >
+        </form>
+      </label>    
+    </div>
+
   </div>
 </template>
 
@@ -44,8 +60,9 @@ import Button from '../../../components/atoms/Button.vue'
     },
     methods: {
       ...mapActions({
+        dispatchUploadDocument: 'connection/uploadDocument',
         dispatchGetAllDocuments: 'connection/getAllConnectionDocuments',
-        dispatchDeleteDocuments: 'connection/deleteDocument'
+        dispatchDeleteDocuments: 'connection/deleteDocument',
       }),
       documentUrl(document) {
         return process.env.VUE_APP_ROOT_API.concat(document)
@@ -53,6 +70,22 @@ import Button from '../../../components/atoms/Button.vue'
       documentNameFormat(document) {
         let doc = document.split("/")
         return doc[4]
+      },
+      filesChange(fieldName, file) {
+        const formData = new FormData();
+        formData.append(fieldName, file)
+        this.uploadDocument(formData)
+      },
+      uploadDocument(document) {
+        this.dispatchUploadDocument({
+          connectionId: this.connectionId,
+          document: document
+        }).then(() => {
+          this.showGoodNotification(connectionDocument.UPLOAD_DOCUMENT_SUCCESS)
+          this.getDocuments()
+        }).catch(() => {
+          this.showBadNotification(connectionDocument.UPLOAD_DOCUMENT_FAIL)
+        })
       },
       deleteDocument(documentId) {
         this.dispatchDeleteDocuments({
@@ -111,4 +144,31 @@ h3 {
 .delete-btn {
   margin-left: 10px;
 }
+
+.upload-document input {
+  height: 100%;
+  display: none;
+  cursor: pointer;
+  z-index: 110;
+}
+
+.upload-document {
+  border: none;
+  cursor: pointer;
+  height: 40px;
+  font-weight: 700;
+  position:relative;
+  display: table-cell;
+  padding: 0px 15px;
+  overflow: hidden;
+  vertical-align: middle;
+  background-color: var(--secondarycolour);
+  color: var(--whitecolour);
+}
+
+.upload-document:hover {
+  background-color: var(--hovercolour);
+}
+
+
 </style>

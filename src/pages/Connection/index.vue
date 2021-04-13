@@ -21,6 +21,7 @@
                 :isAE=isAE 
                 :isCancelled=isCancelled
                 :isOpen=isOpen
+                :isInProgress=isInProgress
                 :offerSent=offerSent
                 :hasOffers=hasOffers
                 @showMakeOffer="showMakeOfferConnectionModal"
