@@ -4,10 +4,12 @@
         <i class="fas fa-exclamation-triangle"></i>
         <p class="error-message">This connection is closed.</p>
     </container-box>
+
     <container-box class="connection-in-progress" v-if="isInProgress">
         <i class="fas fa-info-circle"></i>
-        <p class="info-message">Australian Expert is currently in charged for this connection.</p>
+        <p class="info-message">{{aeInCharge.first_name}} {{aeInCharge.last_name}} is currently in charged for this connection.</p>
     </container-box>
+
     <div class="connection-top">
         <container-box class="connection-info">
             <connection-info :connection="connection" />
@@ -28,6 +30,11 @@
             />
         </container-box>
     </div>
+
+    <container-box class="documents-section">
+        <connection-documents :connectionId=id />
+    </container-box>
+
     <container-box class="comment-section">
         <comment-section :isCancelled="isCancelled" :connectionId="id" :ownerId="user.id" :canComment="canComment" />
     </container-box>
@@ -57,6 +64,7 @@ import AccountsMixin from '@/mixins/AccountsMixin'
 import { mapActions } from 'vuex'
 import { error } from '@/constants'
 import { account_role } from '@/constants'
+import ConnectionDocuments from './components/ConnectionDocuments.vue'
 
 
 
@@ -71,7 +79,8 @@ export default {
         SendOfferModal, 
         OfferDetailModal, 
         ConnectionButtonGroup,
-        ViewAllOffersModal
+        ViewAllOffersModal,
+        ConnectionDocuments
     },
     mixins: [NotificationMixin, AccountsMixin],
     data() {
@@ -89,12 +98,16 @@ export default {
             // GT view - View all received offers
             offersView: false,
             receivedOffers: [],
+            
+            // AE in charge
+            aeInCharge: {},
 
             // modals handling
             showCancelModal: false,
             showSendOfferModal: false,
             showOfferDetailModal: false,
             showReceivedOffersModal: false,
+
         }
     },
     methods: {
@@ -102,7 +115,8 @@ export default {
             dispatchGetConnectionDetail: 'connection/getConnectionDetail',
             dispatchGetOfferByOwner: 'connection/getOfferByOwner',
             dispatchGetAllConnectionOffers: 'connection/getAllConnectionOffers',
-            dispatchGetCurrentUser: 'user/getCurrentUser'
+            dispatchGetCurrentUser: 'user/getCurrentUser',
+            dispatchGetUser: 'user/getUser'
         }),
         showCancelConnectionModal() {
             this.showCancelModal = true
@@ -116,6 +130,7 @@ export default {
         showReceivedOffersConnectionModal() {
             this.showReceivedOffersModal = true
         },
+
         handleOfferSent() {
             this.dispatchGetOfferByOwner(this.offerInfo).then(res => {
                 if (res.count != 0 && res.results[0].status === "Pending") {
@@ -145,6 +160,9 @@ export default {
             }).catch(() => {
                 this.showBadNotification(error.SOMETHING_WENT_WRONG)
             })
+            if (this.isInProgress) {
+                this.aeInCharge = this.connection.person_in_charge
+            }
         }).catch(() => {
             this.showBadNotification(error.SOMETHING_WENT_WRONG)
         })
@@ -223,6 +241,11 @@ export default {
 }
 
 .comment-section {
+    padding: 20px;
+}
+
+.documents-section {
+    margin-bottom: 20px;
     padding: 20px;
 }
 
