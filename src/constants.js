@@ -30,6 +30,13 @@ export const connection = {
     CLOSE_CONNECTION_FAIL: 'Something went wrong! Your connection has not been closed.'
 }
 
+export const connectionDocument = {
+    UPLOAD_DOCUMENT_SUCCESS: 'Your document has been uploaded to this connection successfully.',
+    DELETE_DOCUMENT_SUCCESS: 'Your document has been deleted successfully.',
+    GET_DOCUMENT_FAIL: 'Something went wrong! Cannot get the documents for this connection.',
+    UPLOAD_DOCUMENT_FAIL: 'Something went wrong! Your document has not been uploaded. Please try again.',
+    DELETE_DOCUMENT_FAIL: 'Something went wrong! Your document has not been deleted. Please try again.',
+}
 
 export const offer = {
     OFFER_SEND_SUCCESS: 'Your offer has been sent successfully.',
