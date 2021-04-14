@@ -1,16 +1,26 @@
 <template>
   <div>
-    <div class="header">  
+    <div class="header">
       <h3>Documents</h3>
       <span class="header-desc">Supporting documents for the connection</span>
     </div>
 
     <div class="body">
       <h4>Document List</h4>
-      <div class="document-list-item" v-for="item, index in documentList" :key="index">
-        <a target="_blank" :href="documentUrl(item.document)"><Button :text="documentNameFormat(item.document)" /></a>
+      <div
+        class="document-list-item"
+        v-for="(item, index) in documentList"
+        :key="index"
+      >
+        <a target="_blank" :href="documentUrl(item.document)"
+          ><Button :text="documentNameFormat(item.document)"
+        /></a>
         <div v-if="isGT">
-          <Button styleMode="delete-btn" text="Delete" @click="deleteDocument(item.pk)"/>
+          <Button
+            styleMode="delete-btn"
+            text="Delete"
+            @click="deleteDocument(item.pk)"
+          />
         </div>
       </div>
     </div>
@@ -21,98 +31,101 @@
         <form enctype="multipart/form-data" novalidate>
           <input
             id="document-upload"
-            type="file" 
+            type="file"
             name="document"
             @change="filesChange($event.target.name, $event.target.files[0])"
             accept="application/pdf"
-          >
+          />
         </form>
-      </label>    
+      </label>
     </div>
-
   </div>
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
-  import { connectionDocument } from '@/constants'
-  import NotificationMixin from '@/mixins/NotificationMixin'
-import Button from '../../../components/atoms/Button.vue'
+import { mapActions } from "vuex";
+import { connectionDocument } from "@/constants";
+import NotificationMixin from "@/mixins/NotificationMixin";
+import Button from "../../../components/atoms/Button.vue";
 
-  export default {
-    name: "connection-documents",
-    components: {Button},
-    mixins: [NotificationMixin],
-    props: {
-      connectionId: {
-        type: String,
-        required: true
-      },
-      isGT: {
-        type: Boolean,
-        required: true
-      }
+export default {
+  name: "connection-documents",
+  components: { Button },
+  mixins: [NotificationMixin],
+  props: {
+    connectionId: {
+      type: String,
+      required: true,
     },
-    data() {
-      return {
-        documentList: []
-      }
+    isGT: {
+      type: Boolean,
+      required: true,
     },
-    methods: {
-      ...mapActions({
-        dispatchUploadDocument: 'connection/uploadDocument',
-        dispatchGetAllDocuments: 'connection/getAllConnectionDocuments',
-        dispatchDeleteDocuments: 'connection/deleteDocument',
-      }),
-      documentUrl(document) {
-        return process.env.VUE_APP_ROOT_API.concat(document)
-      },
-      documentNameFormat(document) {
-        let doc = document.split("/")
-        return doc[4]
-      },
-      filesChange(fieldName, file) {
-        const formData = new FormData();
-        formData.append(fieldName, file)
-        this.uploadDocument(formData)
-      },
-      uploadDocument(document) {
-        this.dispatchUploadDocument({
-          connectionId: this.connectionId,
-          document: document
-        }).then(() => {
-          this.showGoodNotification(connectionDocument.UPLOAD_DOCUMENT_SUCCESS)
-          this.getDocuments()
-        }).catch(() => {
-          this.showBadNotification(connectionDocument.UPLOAD_DOCUMENT_FAIL)
-        })
-      },
-      deleteDocument(documentId) {
-        this.dispatchDeleteDocuments({
-          connectionId: this.connectionId,
-          documentId: documentId
-        }).then(() => {
-          this.showGoodNotification(connectionDocument.DELETE_DOCUMENT_SUCCESS)
-          this.getDocuments()
-        }).catch(() => {
-          this.showBadNotification(connectionDocument.DELETE_DOCUMENT_FAIL)
-        })
-      },
-      getDocuments() {
-        this.dispatchGetAllDocuments(this.connectionId).then(res => {
-        this.documentList = res
-        console.log(this.documentList)
-        }).catch(() => {
-          this.showBadNotification(connectionDocument.GET_DOCUMENT_FAIL)
-        })
-      }
-
+  },
+  data() {
+    return {
+      documentList: [],
+    };
+  },
+  methods: {
+    ...mapActions({
+      dispatchUploadDocument: "connection/uploadDocument",
+      dispatchGetAllDocuments: "connection/getAllConnectionDocuments",
+      dispatchDeleteDocuments: "connection/deleteDocument",
+    }),
+    documentUrl(document) {
+      return process.env.VUE_APP_ROOT_API.concat(document);
     },
-    mounted() {
-      this.getDocuments()
-    }
-
-  }
+    documentNameFormat(document) {
+      let doc = document.split("/");
+      return doc[4];
+    },
+    filesChange(fieldName, file) {
+      const formData = new FormData();
+      formData.append(fieldName, file);
+      this.uploadDocument(formData);
+    },
+    uploadDocument(document) {
+      this.dispatchUploadDocument({
+        connectionId: this.connectionId,
+        document: document,
+      })
+        .then(() => {
+          this.showGoodNotification(connectionDocument.UPLOAD_DOCUMENT_SUCCESS);
+          this.getDocuments();
+        })
+        .catch(() => {
+          this.showBadNotification(connectionDocument.UPLOAD_DOCUMENT_FAIL);
+        });
+    },
+    deleteDocument(documentId) {
+      this.dispatchDeleteDocuments({
+        connectionId: this.connectionId,
+        documentId: documentId,
+      })
+        .then(() => {
+          this.showGoodNotification(connectionDocument.DELETE_DOCUMENT_SUCCESS);
+          this.getDocuments();
+        })
+        .catch(() => {
+          this.showBadNotification(connectionDocument.DELETE_DOCUMENT_FAIL);
+        });
+    },
+    getDocuments() {
+      this.dispatchGetAllDocuments(this.connectionId)
+        .then((res) => {
+          this.documentList = res;
+          console.log(this.documentList);
+        })
+        .catch(() => {
+          this.showBadNotification(connectionDocument.GET_DOCUMENT_FAIL);
+        });
+    },
+  },
+  mounted() {
+    this.getDocuments();
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -157,7 +170,7 @@ h3 {
   cursor: pointer;
   height: 40px;
   font-weight: 700;
-  position:relative;
+  position: relative;
   display: table-cell;
   padding: 0px 15px;
   overflow: hidden;
@@ -169,6 +182,4 @@ h3 {
 .upload-document:hover {
   background-color: var(--hovercolour);
 }
-
-
 </style>
