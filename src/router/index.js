@@ -80,12 +80,6 @@ const routes = [
         meta: { permission: permissions.ONLY_GLOBAL_TALENTS }
       },
       {
-        path: 'manageoffers',
-        name: 'Manage Offers',
-        component: () => import('../pages/Dashboard/ManageOfferRequest/index.vue'),
-        meta: { permission: permissions.ONLY_AUSTRALIAN_EXPERTS }
-      },
-      {
         path: 'payments',
         name: 'Payments',
         component: () => import('../pages/Dashboard/Payments/index.vue'),
