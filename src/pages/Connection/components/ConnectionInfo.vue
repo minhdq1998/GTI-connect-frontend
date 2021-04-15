@@ -11,7 +11,7 @@
   <div v-bind="getRootProps()" class="outline-none">
     <input
       v-bind="getInputProps()"
-      ref="files"
+      type="file"
       multiple
       @change="filesChange()"
     />
@@ -43,8 +43,8 @@
 import PackagesInfoMixin from "@/mixins/PackagesInfoMixin";
 import { useDropzone } from "vue3-dropzone";
 import { reactive } from "vue";
-import { axios } from "axios";
 import { connectionDocument } from "@/constants";
+import uploadReport from "@/apis/Connection";
 
 export default {
   name: "connection-info",
@@ -80,12 +80,7 @@ export default {
         let file = this.files[i];
         formData.append("files[" + i + "]", file);
       }
-      axios
-        .post("/api/connections/3/report/", document, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+      uploadReport(this.document.pk, document)
         .then(() => {
           this.showGoodNotification(connectionDocument.UPLOAD_DOCUMENT_SUCCESS);
           this.getDocuments();
