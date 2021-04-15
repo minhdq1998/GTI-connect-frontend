@@ -101,7 +101,6 @@ import Button from '../../../components/atoms/Button.vue'
       getDocuments() {
         this.dispatchGetAllDocuments(this.connectionId).then(res => {
         this.documentList = res
-        console.log(this.documentList)
         }).catch(() => {
           this.showBadNotification(connectionDocument.GET_DOCUMENT_FAIL)
         })

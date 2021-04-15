@@ -30,6 +30,18 @@ export const connection = {
     CLOSE_CONNECTION_FAIL: 'Something went wrong! Your connection has not been closed.'
 }
 
+export const connectionRequest = {
+    SEND_REQUEST_FINISH_SUCCESS: 'Your request to finish connection has been sent successfully.',
+    SEND_REQUEST_FINISH_FAIL: 'Something went wrong! Your request to finish connection has not been sent.'
+}
+
+export const connectionResponseFinishRequest = {
+    SEND_ACCEPT_REQUEST_SUCCESS: 'You have successfully accepted request to finish the connection.',
+    SEND_ACCEPT_REQUEST_FAIL: 'Something went wrong! Request to finish has not been accepted.',
+    SEND_DECLINE_REQUEST_SUCCESS: 'You have successfully declined request to finish the connection.',
+    SEND_DECLINE_REQUEST_FAIL: 'Something went wrong! Request to finish has not been declined.',
+}
+
 export const connectionDocument = {
     UPLOAD_DOCUMENT_SUCCESS: 'Your document has been uploaded to this connection successfully.',
     DELETE_DOCUMENT_SUCCESS: 'Your document has been deleted successfully.',
