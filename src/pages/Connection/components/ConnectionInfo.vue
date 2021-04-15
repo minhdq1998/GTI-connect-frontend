@@ -7,51 +7,106 @@
     </div>
   </div>
   <p style="white-space: pre-line">{{ connection.description }}</p>
+
   <br />
-  <div v-bind="getRootProps()" class="outline-none">
-    <input
-      v-bind="getInputProps()"
-      ref="files"
-      multiple
-      @change="filesChange()"
-    />
-    <div class="dropzone">
-      <p v-if="files.length === 0" style="text-align: center; width: 100%">
-        Drop files here or click to upload.
-      </p>
-      <div v-else>
-        <div
-          class="dz-preview dz-file-preview dz-processing dz-success dz-complete"
-          v-for="file in files"
-          :key="file.name"
-        >
-          <div class="dz-image">
-            <div class="dz-details">
-              <div class="dz-filename">
-                <span data-dz-name="">{{ file.name }}</span>
+  <div class="body">
+    <h4>Files List</h4>
+    <div v-bind="getRootProps()" class="outline-none">
+      <input
+        v-bind="getInputProps()"
+        ref="files"
+        multiple
+        @change="filesChange()"
+      />
+      <div class="dropzone">
+        <p v-if="files.length === 0" style="text-align: center; width: 100%">
+          Drop files here or click to upload.
+        </p>
+        <div v-else>
+          <div
+            class="dz-preview dz-file-preview dz-processing dz-success dz-complete"
+            v-for="file in files"
+            :key="file.name"
+          >
+            <div class="dz-image">
+              <div class="dz-details">
+                <div class="dz-filename">
+                  <a target="_blank" :href="fileUrl(file.name)"
+                    ><Button :text="fileNameFormat(file.name)"
+                  /></a>
+                  <div v-if="isGT">
+                    <Button
+                      styleMode="delete-btn"
+                      text="Delete"
+                      @click="deleteFile(item.pk)"
+                    />
+                  </div>
+                  <span data-dz-name="">{{ file.name }}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- <div
+      class="file-list-item"
+      v-for="(item, index) in fileList"
+      :key="index"
+    >
+      <a target="_blank" :href="fileUrl(item.file)"
+        ><Button :text="fileNameFormat(item.file)"
+      /></a>
+      <div v-if="isGT">
+        <Button
+          styleMode="delete-btn"
+          text="Delete"
+          @click="deleteFile(item.pk)"
+        />
+      </div>
+    </div> -->
   </div>
-  <button @click="uploadDocument()">Submit</button>
+
+  <div v-if="isGT" class="footer">
+    <label for="file-upload" class="upload-file">
+      Upload File
+      <form enctype="multipart/form-data" novalidate>
+        <input
+          id="file-upload"
+          type="file"
+          name="file"
+          @change="filesChange($event.target.name, $event.target.files[0])"
+          accept="application/pdf"
+        />
+      </form>
+    </label>
+  </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import PackagesInfoMixin from "@/mixins/PackagesInfoMixin";
 import { useDropzone } from "vue3-dropzone";
 import { reactive } from "vue";
-import { axios } from "axios";
+// import { axios } from "axios";
 import { connectionDocument } from "@/constants";
+import Button from "../../../components/atoms/Button.vue";
 
 export default {
   name: "connection-info",
+  components: { Button },
   mixins: [PackagesInfoMixin],
   props: {
     connection: {
       type: Object,
+      required: true,
+    },
+    connectionId: {
+      type: String,
+      required: true,
+    },
+    isGT: {
+      type: Boolean,
       required: true,
     },
   },
@@ -65,33 +120,80 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      dispatchUploadFile: "connection/uploadFile",
+      dispatchGetAllFiles: "connection/getAllConnectionFiles",
+      dispatchDeleteFiles: "connection/deleteFile",
+    }),
+    fileUrl(file) {
+      return process.env.VUE_APP_ROOT_API.concat(file);
+    },
+    fileNameFormat(file) {
+      let doc = file.split("/");
+      return doc[4];
+    },
     handleFilesUpload() {
       this.files = this.$refs.files.files;
     },
     filesChange(fieldName, file) {
       const formData = new FormData();
       formData.append(fieldName, file);
-      this.uploadDocument(formData);
+      this.uploadFile(formData);
     },
-    uploadDocument(document) {
-      let formData = new FormData();
+    // uploadFile(file) {
+    //   let formData = new FormData();
 
-      for (var i = 0; i < this.files.length; i++) {
-        let file = this.files[i];
-        formData.append("files[" + i + "]", file);
-      }
-      axios
-        .post("/api/connections/3/report/", document, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+    //   for (var i = 0; i < this.files.length; i++) {
+    //     let file = this.files[i];
+    //     formData.append("files[" + i + "]", file);
+    //   }
+    // axios
+    //   .post("/api/connections/3/report/", file, {
+    //     headers: {
+    //     },
+    //   })
+    //   .then(() => {
+    //     this.showGoodNotification(connectionDocument.UPLOAD_DOCUMENT_SUCCESS);
+    //     this.getFiles();
+    //   })
+    //   .catch(() => {
+    //     this.showBadNotification(connectionDocument.UPLOAD_DOCUMENT_FAIL);
+    //   });
+    // },
+    uploadFile(file) {
+      this.dispatchUploadFile({
+        connectionId: this.connectionId,
+        file: file,
+      })
         .then(() => {
           this.showGoodNotification(connectionDocument.UPLOAD_DOCUMENT_SUCCESS);
-          this.getDocuments();
+          this.getFiles();
         })
         .catch(() => {
           this.showBadNotification(connectionDocument.UPLOAD_DOCUMENT_FAIL);
+        });
+    },
+    deleteFile(fileId) {
+      this.dispatchDeleteFiles({
+        connectionId: this.connectionId,
+        fileId: fileId,
+      })
+        .then(() => {
+          this.showGoodNotification(connectionDocument.DELETE_DOCUMENT_SUCCESS);
+          this.getFiles();
+        })
+        .catch(() => {
+          this.showBadNotification(connectionDocument.DELETE_DOCUMENT_FAIL);
+        });
+    },
+    getFiles() {
+      this.dispatchGetAllFiles(this.connectionId)
+        .then((res) => {
+          this.fileList = res;
+          console.log(this.fileList);
+        })
+        .catch(() => {
+          this.showBadNotification(connectionDocument.GET_DOCUMENT_FAIL);
         });
     },
   },
