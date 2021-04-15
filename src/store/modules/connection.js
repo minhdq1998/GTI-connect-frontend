@@ -101,6 +101,28 @@ export const actions = {
         })
     },
 
+    // Upload Report
+
+    getAllConnectionReports(context, connectionId) {
+        return new Promise((resolve, reject) => {
+            Connection.getAllConnectionReports(connectionId
+            ).then(res => { resolve(res)
+            }).catch(e => {reject(e)
+            })
+        })
+    },
+
+    uploadReport(context, {connectionId, document}) {
+        return new Promise((resolve, reject) => {
+            Connection.uploadReport(
+                connectionId,
+                document
+                ).then(res => { resolve(res)
+                }).catch(e => {reject(e)
+            })
+        })
+    },
+
     // Comment Actions
 
     getConnectionComments(context, {page, connectionId}) {
