@@ -66,6 +66,16 @@ export default {
         })
     },
 
+    // Connection Reports API
+
+    uploadReport(connectionId, report) {
+        return requestAPI({
+            url: `connections/${connectionId}/report/`,
+            method: 'POST',
+            data: report
+        })
+    },
+
     // Comments API
 
     getComments(page, connectionId) {

@@ -101,6 +101,19 @@ export const actions = {
         })
     },
 
+    // Connection Reports
+
+    uploadReport(context, {connectionId, report}) {
+        return new Promise((resolve, reject) => {
+            Connection.uploadReport(
+                connectionId,
+                report
+                ).then(res => { resolve(res)
+                }).catch(e => {reject(e)
+            })
+        })
+    },
+        
     // Comment Actions
 
     getConnectionComments(context, {page, connectionId}) {

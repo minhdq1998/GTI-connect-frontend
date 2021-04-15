@@ -4,15 +4,17 @@
         <div><h4>Created At: </h4>{{createdAt}}</div>
     </div>
     <p style="white-space: pre-line;">{{ connection.description }}</p>
+    <connection-report @onUpload="$emit('onUpload', connection.report)" :connectionId="connection.pk" :connectionReport="connection.report"/>
 </template>
 
 <script>
 import PackagesInfoMixin from '@/mixins/PackagesInfoMixin'
-
+import ConnectionReport from './ConnectionReport'
 
 export default {
     name:'connection-info',
     mixins: [PackagesInfoMixin],
+    components: {ConnectionReport},
     props: {
         connection: {
             type: Object,
@@ -27,7 +29,7 @@ export default {
         createdAt() {
             return (new Date(this.connection.created_at)).toString()
         }
-    }
+    },
 }
 </script>
 
