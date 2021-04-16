@@ -66,6 +66,18 @@ export default {
         })
     },
 
+    // Upload Report API
+
+    uploadReport(connectionId, report) {
+        return requestAPI({
+            url: `connections/${connectionId}/report/`,
+            method: 'POST',
+            data: report
+        })
+    },
+
+    // Connection Request Finish API
+
     requestFinishConnection(connectionId) {
         return requestAPI({
             url: `connections/${connectionId}/request_finish/`,

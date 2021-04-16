@@ -36,9 +36,6 @@ export default {
     ...mapActions({
       dispatchGetUser: 'user/getUser'
     }),
-    showCancelModal() {
-      this.showCancelConnectionModal = true
-    }
   },
    beforeMount(){
     this.dispatchGetUser(this.id).then(res => {

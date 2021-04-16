@@ -101,6 +101,8 @@ export const actions = {
         })
     },
 
+    // Request Finish Connection Actions
+
     requestFinishConnection(context, connectionId) {
         return new Promise((resolve, reject) => {
             Connection.requestFinishConnection(connectionId
@@ -115,6 +117,20 @@ export const actions = {
             Connection.responseRequestFinishConnection(
                 connectionId,
                 response
+                ).then(res => { resolve(res)
+                }).catch(e => {reject(e)
+            })
+        })
+    },
+
+    // Connection Report Actions
+
+
+    uploadReport(context, {connectionId, report}) {
+        return new Promise((resolve, reject) => {
+            Connection.uploadReport(
+                connectionId,
+                report
                 ).then(res => { resolve(res)
                 }).catch(e => {reject(e)
             })

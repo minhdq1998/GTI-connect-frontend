@@ -30,6 +30,11 @@ export const connection = {
     CLOSE_CONNECTION_FAIL: 'Something went wrong! Your connection has not been closed.'
 }
 
+export const connectionReport = {
+    UPLOAD_REPORT_SUCCESS: 'Your report to this connection has been uploaded successfully.',
+    UPLOAD_REPORT_FAIL: 'Something went wrong! Your report to this connection has not been uploaded.'
+}
+
 export const connectionRequest = {
     SEND_REQUEST_FINISH_SUCCESS: 'Your request to finish connection has been sent successfully.',
     SEND_REQUEST_FINISH_FAIL: 'Something went wrong! Your request to finish connection has not been sent.'

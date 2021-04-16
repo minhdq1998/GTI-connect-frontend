@@ -9,13 +9,13 @@
       <h4>Document List</h4>
       <div class="document-list-item" v-for="item, index in documentList" :key="index">
         <a target="_blank" :href="documentUrl(item.document)"><Button :text="documentNameFormat(item.document)" /></a>
-        <div v-if="isGT">
+        <div v-if="isGT && isInProgress">
           <Button styleMode="delete-btn" text="Delete" @click="deleteDocument(item.pk)"/>
         </div>
       </div>
     </div>
 
-    <div v-if="isGT" class="footer">
+    <div v-if="isGT && isInProgress" class="footer">
       <label for="document-upload" class="upload-document">
         Upload Document
         <form enctype="multipart/form-data" novalidate>
@@ -37,7 +37,7 @@
   import { mapActions } from 'vuex'
   import { connectionDocument } from '@/constants'
   import NotificationMixin from '@/mixins/NotificationMixin'
-import Button from '../../../components/atoms/Button.vue'
+  import Button from '@/components/atoms/Button.vue'
 
   export default {
     name: "connection-documents",
@@ -49,6 +49,10 @@ import Button from '../../../components/atoms/Button.vue'
         required: true
       },
       isGT: {
+        type: Boolean,
+        required: true
+      },
+      isInProgress: {
         type: Boolean,
         required: true
       }

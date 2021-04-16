@@ -98,7 +98,7 @@
   color: var(--whitecolour);
   background-color: var(--primarycolour);
   display: block;
-  margin-top: 10px;
+  margin-top: 20px;
   width: 100%;
 }
 
@@ -111,14 +111,6 @@
   background-color: var(--primarycolour-hover);
 }
 
-.view-offers-btn:hover {
-  background-color: var(--primarycolour-hover);
-}
-
-.view-offer-btn {
-  color: var(--whitecolour);
-  background-color: var(--primarycolour);
-}
 
 .view-offer-btn:hover {
   background-color: var(--primarycolour-hover);
