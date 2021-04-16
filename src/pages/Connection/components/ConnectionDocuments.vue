@@ -77,6 +77,7 @@ import Button from '../../../components/atoms/Button.vue'
         this.uploadDocument(formData)
       },
       uploadDocument(document) {
+        console.log("Document formdata", document)
         this.dispatchUploadDocument({
           connectionId: this.connectionId,
           document: document

@@ -20,20 +20,22 @@
 
   export default {
     name:'connection-report',
-    props: ['connectionId', 'connectionReport'],
+    props: ['connection'],
     methods: {
       ...mapActions({
         dispatchUploadReport: 'connection/uploadReport',
       }),
       filesChange(fieldName, file) {
         const formData = new FormData();
-        formData.append(fieldName, file)
+        console.log("fieldname: ", fieldName)
+        console.log("file: ", file)
+        formData.append('report', file)
         this.uploadReport(formData)
       },
       uploadReport(report) {
-        console.log("upload report", this.connectionId, report)
+        console.log("upload report", this.connection.pk, report)
         this.dispatchUploadReport({
-          connectionId: this.connectionId,
+          connectionId: this.connection.pk,
           report: report
         }).then(res => {
           this.showGoodNotification(connectionDocument.UPLOAD_DOCUMENT_SUCCESS)

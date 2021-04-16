@@ -4,7 +4,8 @@
         <div><h4>Created At: </h4>{{createdAt}}</div>
     </div>
     <p style="white-space: pre-line;">{{ connection.description }}</p>
-    <connection-report @onUpload="$emit('onUpload', connection.report)" :connectionId="connection.pk" :connectionReport="connection.report"/>
+    <connection-report @onUpload="$emit('onUpload', connection.report)" :connection="connection"/>
+    {{connection}}
 </template>
 
 <script>
