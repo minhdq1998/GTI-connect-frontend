@@ -51,9 +51,12 @@
         </container-box>
     </div>
 
+    <container-box class="report-section" v-if="!isOpen" >
+        <connection-report :hasReport="hasReport" :connection="connection" :isAE="isAE" :isInProgress="isInProgress" @updatedReport="getConnection" />
+    </container-box>
 
-    <container-box class="documents-section">
-        <connection-documents :connectionId=id :isGT="isGT"/>
+    <container-box class="documents-section" v-if="!isOpen" >
+        <connection-documents :connectionId=id :isGT="isGT"  :isInProgress="isInProgress"/>
     </container-box>
 
     <container-box class="comment-section">
@@ -71,22 +74,25 @@
 
 <script>
 import ContainerBox from '@/components/atoms/ContainerBox'
+
 import OwnerInfo from './components/OwnerInfo'
 import ConnectionInfo from './components/ConnectionInfo'
 import CommentSection from '@/components/organisms/CommentSection.vue'
 import ConnectionButtonGroup from './components/ConnectionButtonGroup.vue'
+import ConnectionDocuments from './components/ConnectionDocuments.vue'
+import ConnectionReport from './components/ConnectionReport.vue'
 
 import SendOfferModal from './components/SendOfferModal.vue'
 import OfferDetailModal from './components/OfferDetailModal.vue'
 import ViewAllOffersModal from './components/viewAllOffersModal.vue'
-import CancelConnectionModal from '@/components/molecules/CancelConnectionModal.vue'
+import CancelConnectionModal from './components/CancelConnectionModal.vue'
 import ResponseFinishRequestModal from './components/ResponseFinishRequestModal.vue'
 
 import NotificationMixin from '@/mixins/NotificationMixin'
 import AccountsMixin from '@/mixins/AccountsMixin'
 import { mapActions } from 'vuex'
 import { error, account_role, connectionRequest } from '@/constants'
-import ConnectionDocuments from './components/ConnectionDocuments.vue'
+
 
 
 
@@ -103,7 +109,8 @@ export default {
         ConnectionButtonGroup,
         ViewAllOffersModal,
         ConnectionDocuments,
-        ResponseFinishRequestModal
+        ResponseFinishRequestModal,
+        ConnectionReport,
     },
     mixins: [NotificationMixin, AccountsMixin],
     data() {
@@ -294,10 +301,11 @@ export default {
     padding: 20px;
 }
 
-.documents-section {
+.documents-section, .report-section {
     margin-bottom: 20px;
     padding: 20px;
 }
+
 
 .connection-closed {
     display: flex;

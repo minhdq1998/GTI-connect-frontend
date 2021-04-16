@@ -17,7 +17,7 @@
 
 <script>
 import ModalContainer from '@/components/atoms/ModalContainer.vue';
-import Button from '../atoms/Button.vue';
+import Button from '@/components/atoms/Button.vue';
 import Connection from '@/apis/Connection';
 import { notiType, connection } from '@/constants'
 
