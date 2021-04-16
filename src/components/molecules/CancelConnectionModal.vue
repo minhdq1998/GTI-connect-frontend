@@ -1,6 +1,6 @@
 <template>
   <div>
-    <modal-container class="change-avatar-modal" @onClose="$emit('closeModal')">
+    <modal-container class="cancel-connection-modal" @onClose="$emit('closeModal')">
       <template v-slot:header>
         <h2>Close connection</h2>
       </template>

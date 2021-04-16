@@ -7,7 +7,12 @@
 
     <container-box class="connection-in-progress" v-if="isInProgress">
         <i class="fas fa-info-circle"></i>
-        <p class="info-message">{{aeInCharge.first_name}} {{aeInCharge.last_name}} is currently in charged for this connection.</p>
+        <p class="info-message">{{aeInChargeName}} is currently in charged for this connection.</p>
+    </container-box>
+
+    <container-box class="connection-in-progress" v-if="isFinished">
+        <i class="fas fa-info-circle"></i>
+        <p class="info-message">This connection has been finished with {{aeInChargeName}}.</p>
     </container-box>
 
     <div class="connection-top">
@@ -24,13 +29,28 @@
                 :isInProgress=isInProgress
                 :offerSent=offerSent
                 :hasOffers=hasOffers
+                :hasReport=hasReport
+                :requestFinishSent=requestFinishSent
                 @showMakeOffer="showMakeOfferConnectionModal"
                 @showOfferDetail="showOfferDetailConnectionModal"
                 @closeConnection="showCancelConnectionModal"
                 @showReceivedOffers="showReceivedOffersConnectionModal"
+                @requestFinishConnection="requestFinishConnection"
+                @responseRequestFinish="showResponseRequestFinishConnectionModal"
             />
+            <div class="request-finish-msg" v-if="connection.request_for_finish && isInProgress">
+                <div class="gt-msg" v-if="isGT">
+                    <i class="fas fa-clipboard-check"></i>
+                    {{aeInChargeName}} has sent a request to finish this connection.
+                </div>
+                <div class="gt-msg" v-if="isAE">
+                    <i class="fas fa-clipboard-check"></i>
+                    Your request to finish this connection has already been sent.
+                </div>
+            </div>
         </container-box>
     </div>
+
 
     <container-box class="documents-section">
         <connection-documents :connectionId=id :isGT="isGT"/>
@@ -44,7 +64,8 @@
     <send-offer-modal v-if="showSendOfferModal" @offerSent="handleOfferSent" @closeModal="showSendOfferModal = false" :connection=id />
     <offer-detail-modal @cancelOffer="handleOfferCancel" :offerOwner=user :isAE="isAE" v-if="showOfferDetailModal" @closeModal="showOfferDetailModal = false" :offer=currentOffer />
     <view-all-offers-modal v-if="showReceivedOffersModal" @closeModal="showReceivedOffersModal = false" :offers=receivedOffers />
-    <cancel-connection-modal :connectionId="id" v-if="showCancelModal" @closeModal="showCancelModal = false"></cancel-connection-modal>
+    <cancel-connection-modal :connectionId="id" v-if="showCancelModal" @closeModal="showCancelModal = false" />
+    <response-finish-request-modal :connectionId="id" @responsedRequestFinishConnection="getConnection" :aeInCharge="aeInChargeName" v-if="showResponseRequestFinishModal" @closeModal="showResponseRequestFinishModal = false" />
 </div>
 </template>
 
@@ -59,12 +80,12 @@ import SendOfferModal from './components/SendOfferModal.vue'
 import OfferDetailModal from './components/OfferDetailModal.vue'
 import ViewAllOffersModal from './components/viewAllOffersModal.vue'
 import CancelConnectionModal from '@/components/molecules/CancelConnectionModal.vue'
+import ResponseFinishRequestModal from './components/ResponseFinishRequestModal.vue'
 
 import NotificationMixin from '@/mixins/NotificationMixin'
 import AccountsMixin from '@/mixins/AccountsMixin'
 import { mapActions } from 'vuex'
-import { error } from '@/constants'
-import { account_role } from '@/constants'
+import { error, account_role, connectionRequest } from '@/constants'
 import ConnectionDocuments from './components/ConnectionDocuments.vue'
 
 
@@ -81,7 +102,8 @@ export default {
         OfferDetailModal, 
         ConnectionButtonGroup,
         ViewAllOffersModal,
-        ConnectionDocuments
+        ConnectionDocuments,
+        ResponseFinishRequestModal
     },
     mixins: [NotificationMixin, AccountsMixin],
     data() {
@@ -108,6 +130,7 @@ export default {
             showSendOfferModal: false,
             showOfferDetailModal: false,
             showReceivedOffersModal: false,
+            showResponseRequestFinishModal: false,
 
         }
     },
@@ -116,8 +139,9 @@ export default {
             dispatchGetConnectionDetail: 'connection/getConnectionDetail',
             dispatchGetOfferByOwner: 'connection/getOfferByOwner',
             dispatchGetAllConnectionOffers: 'connection/getAllConnectionOffers',
+            dispatchRequestFinishConnection: 'connection/requestFinishConnection',
             dispatchGetCurrentUser: 'user/getCurrentUser',
-            dispatchGetUser: 'user/getUser'
+            dispatchGetUser: 'user/getUser',
         }),
         showCancelConnectionModal() {
             this.showCancelModal = true
@@ -130,6 +154,37 @@ export default {
         },
         showReceivedOffersConnectionModal() {
             this.showReceivedOffersModal = true
+        },
+        showResponseRequestFinishConnectionModal() {
+            this.showResponseRequestFinishModal = true
+        },
+
+        getConnection() {
+            this.dispatchGetConnectionDetail(this.id)
+            .then(res => {
+                this.connection = res
+                this.connectionOwnerId = res.owner.pk
+                this.handleOfferSent()
+                this.dispatchGetAllConnectionOffers(this.id).then(res => {
+                    this.receivedOffers = res.results
+                }).catch(() => {
+                    this.showBadNotification(error.SOMETHING_WENT_WRONG)
+                })
+                if (this.isInProgress || this.isFinished) {
+                    this.aeInCharge = this.connection.person_in_charge
+                }
+            }).catch(() => {
+                this.showBadNotification(error.SOMETHING_WENT_WRONG)
+            })
+        },
+
+        requestFinishConnection() {
+            this.dispatchRequestFinishConnection(this.id).then(() => {
+                this.showGoodNotification(connectionRequest.SEND_REQUEST_FINISH_SUCCESS)
+                this.getConnection()
+            }).catch(() => {
+            this.showBadNotification(connectionRequest.SEND_REQUEST_FINISH_FAIL)
+            })
         },
 
         handleOfferSent() {
@@ -150,25 +205,11 @@ export default {
             })
         }
     },
+
     mounted(){
-        this.dispatchGetConnectionDetail(this.id)
-        .then(res => {
-            this.connection = res
-            this.connectionOwnerId = res.owner.pk
-            this.handleOfferSent()
-            this.dispatchGetAllConnectionOffers(this.id).then(res => {
-                this.receivedOffers = res.results
-            }).catch(() => {
-                this.showBadNotification(error.SOMETHING_WENT_WRONG)
-            })
-            if (this.isInProgress) {
-                this.aeInCharge = this.connection.person_in_charge
-            }
-        }).catch(() => {
-            this.showBadNotification(error.SOMETHING_WENT_WRONG)
-        })
-       
+       this.getConnection()
     },
+
     computed: {
         owner() {
             return this.connection.owner ? 
@@ -195,29 +236,37 @@ export default {
             return false
         },
         isOpen() {
-            if (this.connection.status === "Open") {
-                return true
-            }
+            if (this.connection.status === "Open") return true
             return false
         },
         isInProgress() {
-            if (this.connection.status === "In Progress") {
-                return true
-            }
+            if (this.connection.status === "In Progress") return true
+            return false
+        },
+        isFinished() {
+            if (this.connection.status === "Finished") return true
             return false
         },
         isConnectionOwner() {
-            if (this.user.id === this.connectionOwnerId) {
-                return true
-            }
+            if (this.user.id === this.connectionOwnerId) return true
             return false
         },
         hasOffers() {
-            if (this.receivedOffers.length > 0) {
-                return true
-            }
+            if (this.receivedOffers.length > 0) return true
             return false
+        },
+        hasReport() {
+            if (this.connection.report != null) return true
+            return false
+        },
+        requestFinishSent() {
+            if (this.connection.request_for_finish === true) return true
+            return false
+        },
+        aeInChargeName() {
+            return this.aeInCharge.first_name + " " + this.aeInCharge.last_name
         }
+
     }
 }
 </script>
@@ -281,6 +330,10 @@ export default {
     color: var(--infocolour);
 }
 
+.request-finish-msg {
+    color: var(--secondarycolour);
+    margin-top: 20px;
+}
 
 
 

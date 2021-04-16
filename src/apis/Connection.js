@@ -66,6 +66,21 @@ export default {
         })
     },
 
+    requestFinishConnection(connectionId) {
+        return requestAPI({
+            url: `connections/${connectionId}/request_finish/`,
+            method: 'POST'
+        })
+    },
+
+    responseRequestFinishConnection(connectionId, response) {
+        return requestAPI({
+            url: `connections/${connectionId}/request_finish_reply/`,
+            method: 'POST',
+            data: response
+        })
+    },
+
     // Comments API
 
     getComments(page, connectionId) {

@@ -13,7 +13,7 @@
         @click="$emit('showOfferDetail')">
     </Button>
     <Button 
-      v-if="isConnectionOwner && hasOffers"
+      v-if="isConnectionOwner && hasOffers && isOpen"
       text="View Offers"
       class="view-offers-btn"
       @click="$emit('showReceivedOffers')">>
@@ -25,9 +25,17 @@
         @click="$emit('closeConnection')">
     </Button>
     <Button
-      v-if="!isConnectionOwner && isInProgress && isAE"
+      v-if="!isConnectionOwner && isInProgress && isAE && hasReport && !requestFinishSent"
       class="request-finish-btn action-btn" 
       text="Request finish connection"
+      @click="$emit('requestFinishConnection')"
+    >
+    </Button>
+    <Button
+      v-if="isConnectionOwner && isInProgress && !isAE && hasReport && requestFinishSent"
+      class="request-finish-btn action-btn" 
+      text="Response to request"
+      @click="$emit('responseRequestFinish')"
     >
     </Button>
   </div>
@@ -64,6 +72,14 @@
         required: true
       },
       isInProgress: {
+        type: Boolean,
+        required: true
+      },
+      hasReport: {
+        type: Boolean,
+        required: true
+      },
+      requestFinishSent: {
         type: Boolean,
         required: true
       }
