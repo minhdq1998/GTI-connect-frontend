@@ -86,7 +86,6 @@ export default {
           return connection.person_in_charge === this.user.id
         })
         this.connections = aeConnection
-        console.log(this.connections)
       }).catch(() => {
         this.dispatchNotification(
           { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
