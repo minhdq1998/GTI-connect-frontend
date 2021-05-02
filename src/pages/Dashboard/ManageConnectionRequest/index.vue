@@ -14,6 +14,7 @@
       <Tab v-if="'In Progress' == currentTab"><ConnectionsList :connections="connections" :withOwnerDisplay="false"/></Tab>
       <Tab v-if="'Finished' == currentTab"><ConnectionsList :connections="connections" :withOwnerDisplay="false"/></Tab>
       <Tab v-if="'Cancelled' == currentTab"><ConnectionsList :connections="connections" :withOwnerDisplay="false"/></Tab>
+      <Tab v-if="'Offer Sent' == currentTab"><ConnectionsList :connections="connections" :withOwnerDisplay="false"/></Tab>
     </TabsContainer>
     <div class="container-pagination">
     <pagination 
@@ -42,8 +43,8 @@ export default {
   mixins: [AccountsMixin],
   created() {
     if (this.isAE) {
-      this.tabs = ['In Progress', 'Finished', 'Cancelled']
-      this.currentTab = 'In Progress'
+      this.tabs = ['Offer Sent', 'In Progress', 'Finished', 'Cancelled']
+      this.currentTab = 'Offer Sent'
     } else {
       this.tabs = ['Open','In Progress', 'Finished', 'Cancelled']
       this.currentTab = 'Open'
@@ -52,9 +53,6 @@ export default {
   mounted() {
     if (this.isGT) {
     this.fetchConnections()
-    }
-    else if (this.isAE) {
-      this.aeFetchConnection()
     }
   },
   data() {
@@ -70,7 +68,8 @@ export default {
     ...mapActions({
       dispatchGetConnectionListByOwnerId: 'connection/getConnectionListByOwnerId',
       dispatchGetConnectionList: 'connection/getConnectionList',
-      dispatchNotification: 'notification/add'
+      dispatchNotification: 'notification/add',
+      dispatchGetAllConnectionOffers: 'connection/getAllConnectionOffers',
     }),
     fetchConnections() {
       this.dispatchGetConnectionListByOwnerId({page:this.page, owner:this.$store.state.user.id, status:this.currentTab}).then(res => {
@@ -87,9 +86,35 @@ export default {
           return connection.person_in_charge === this.user.id
         })
         this.connections = aeConnection
+        console.log(this.connections)
       }).catch(() => {
         this.dispatchNotification(
           { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
+      })
+    },
+    aeFetchOfferedConnection() {
+      let connections
+      let filteredConnections = []
+      let offer
+      let i
+      let k
+      this.dispatchGetConnectionList({page: this.page, status: "Open"}).then(res => {
+        connections = res.results
+        for (i = 0; i < connections.length; i++) {
+          this.dispatchGetAllConnectionOffers(connections[i].pk).then(res => {
+            offer = res.results
+            for (k = 0; k < offer.length; k++) {
+              if (offer[k].status === "Pending" && offer[k].owner === this.user.id ) {
+                let filteredConnection = connections.filter((connection) => {
+                  return connection.pk === offer[k].connection
+                })
+                filteredConnections = filteredConnections.concat(filteredConnection)
+                this.connections = filteredConnections
+              }
+            }
+          })
+        }
+        
       })
     }
   },
@@ -100,6 +125,9 @@ export default {
         if (this.isGT) {
           this.fetchConnections()
         } else if (this.isAE) {
+          if (this.currentTab === "Offer Sent") {
+            this.aeFetchOfferedConnection()
+          } else 
           this.aeFetchConnection()
         }
       }

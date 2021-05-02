@@ -8,7 +8,7 @@
     </Button>
     <Button 
         v-if="offerSent"
-        class="view-offer-btn action-btn" 
+        class="view-offers-btn action-btn" 
         text="View your offer"
         @click="$emit('showOfferDetail')">
     </Button>
@@ -112,7 +112,7 @@
 }
 
 
-.view-offer-btn:hover {
+.view-offers-btn:hover {
   background-color: var(--primarycolour-hover);
 }
 
