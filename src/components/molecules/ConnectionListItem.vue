@@ -2,7 +2,7 @@
   <router-link class="connection-container" :to="detailUrl">
       <div class="connection-info">
         <div>
-            <h4>{{ connection.request_type}}</h4>
+            <h4>{{ connection.package_info.name}}</h4>
             <div class="connection-description">{{ connection.description }}</div>
         </div>
         <div>
@@ -45,7 +45,7 @@ export default {
         avatarUrl() {
             return this.owner.profile.avatar
         },
-    }
+    },
 }
 </script>
 

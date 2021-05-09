@@ -13,7 +13,7 @@ export const actions = {
     create(context, connectionInfo) {
         return new Promise((resolve, reject) => {
             Connection.createConnection({
-                request_type: connectionInfo.request_type,
+                package: connectionInfo.package,
                 description: connectionInfo.description
             }).then(res => {
                 resolve(res)

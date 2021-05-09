@@ -1,6 +1,6 @@
 <template>
     <div class="connection-type">
-        <h2>{{ connection.request_type }} | {{ packageTitle }}</h2>
+        <h2>{{ connection }}</h2>
         <div><h4>Created At: </h4>{{createdAt}}</div>
     </div>
     <p style="white-space: pre-line;">{{ connection.description }}</p>
