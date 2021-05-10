@@ -1,21 +1,22 @@
 <template>
     <div class="connection-type">
-        <h2>{{ connection }}</h2>
+        <h2>{{ packageName }}</h2>
         <div><h4>Created At: </h4>{{createdAt}}</div>
     </div>
     <p style="white-space: pre-line;">{{ connection.description }}</p>
 </template>
 
 <script>
-import PackagesInfoMixin from '@/mixins/PackagesInfoMixin'
-
 
 export default {
     name:'connection-info',
-    mixins: [PackagesInfoMixin],
     props: {
         connection: {
             type: Object,
+            required: true,
+        },
+        packageName: {
+            type: String,
             required: true
         }
     },
