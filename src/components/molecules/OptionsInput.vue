@@ -21,7 +21,7 @@ export default {
             type: Array,
         },
         modelValue: {
-            type: [String, Number],
+            type: [String, Number, Object],
             required: true
         }
     },

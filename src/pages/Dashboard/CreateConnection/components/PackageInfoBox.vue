@@ -1,9 +1,8 @@
 <template>
 <div>
-    <h3>{{ packageInfo.summary }}</h3>
     <p>{{ packageInfo.description }}</p>
     <p><span class="package-price">Price:</span>
-    <span class="package-price-number"> ${{packageInfo.price}}</span></p>
+    <span class="package-price-number"> ${{packageInfo.price_in_aud}}</span></p>
 </div>
 </template>
 

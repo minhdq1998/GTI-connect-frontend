@@ -17,7 +17,7 @@
 
     <div class="connection-top">
         <container-box class="connection-info">
-            <connection-info :connection="connection" />
+            <connection-info :connection="connection" :packageName="connection.package_info.name"/>
         </container-box>
         <container-box class="owner-info">
             <owner-info :owner=owner />
@@ -117,7 +117,11 @@ export default {
         return {
             id: this.$route.params.id,
             currentUserId: this.user.id,
-            connection: {},
+            connection: {
+                package_info: {
+                    name: ''
+                }
+            },
             connectionOwnerId: "",
             aeRole: account_role.AE,
 

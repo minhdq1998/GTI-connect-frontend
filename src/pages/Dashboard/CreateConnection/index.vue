@@ -3,26 +3,26 @@
     <h1>Establish new connection</h1>
     <h2>Select your package: </h2>
     <options-input 
-      :options="package_options" 
-      v-model="connectionForm.request_type" />
-    <PackageInfoBox :packageInfo="packageInfo" />
+      :options="packagesName" 
+      v-model="selectedPackage" 
+      />
+    <PackageInfoBox :packageInfo=packageInfo />
     <TextAreaInputGroup 
       label="Your description: " 
-      v-model="connectionForm.description"
+      v-model="descriptionInput"
       :maxLength=3000
-      />
+      />;
     <Button 
       text="Establish" 
       class="connection-create-submit-btn" 
       @click="submit()"
-      :disabled="!connectionForm.description"
+      :disabled="!descriptionInput"
       ></Button>
   </div>
 </template>
 
 <script>
 import OptionsInput from '@/components/molecules/OptionsInput'
-import PackagesInfoMixin from '@/mixins/PackagesInfoMixin'
 
 import PackageInfoBox from './components/PackageInfoBox'
 import Button from '@/components/atoms/Button'
@@ -33,32 +33,67 @@ import { mapActions } from 'vuex'
 import NotificationMixin from '@/mixins/NotificationMixin'
 
 import {  error } from '@/constants'
+import Packages from '@/apis/Packages'
 
 export default {
     name:"create-connection",
     components: {OptionsInput, PackageInfoBox,TextAreaInputGroup, Button},
-    mixins:[PackagesInfoMixin, NotificationMixin],
+    mixins:[NotificationMixin],
     mounted() {
-      this.package_options = this.getPackageOptions()
+      Packages.getPackages().then(res => {
+        this.package_options = res
+        console.log(this.package_options)
+      }).catch(() => {
+        this.showBadNotification(error.SOMETHING_WENT_WRONG)
+      })
     },
     data() {
       return {
-        connectionForm: {
-          request_type: "Package 1",
-          description: ""
-        },
-        package_options: []
+        descriptionInput: "",
+        selectedPackage: "",
+        package_options: [],
+        packageInfo: {}
       }
     },
     computed: {
-      packageInfo() {
-        return this.getPackageInfo(this.connectionForm.request_type)
+
+      packagesName() {
+        return this.package_options.map(x => x.name)
       },
+      packagesId() {
+        return this.selectedPackage.charAt(8)
+      },
+      connectionForm() {
+        return {
+          package: this.packagesId,
+          description: this.descriptionInput
+        }
+      },
+
+
+
+    },
+    watch: {
+      selectedPackage: {
+        handler() {
+          this.packageInfo = this.updatePackage()
+        }
+      }
     },
     methods: {
       ...mapActions({
         dispatchCreateConnection: 'connection/create',
       }),
+
+      updatePackage() {
+        let i
+        for (i = 0; i <= this.package_options.length; i++) {
+          if (this.package_options[i].name === this.selectedPackage) {
+            return this.package_options[i]
+          }
+        }
+      },
+
       submit() {
         this.dispatchCreateConnection(this.connectionForm).then(() => {
             this.$router.push({ name: 'Manage Connections' })
