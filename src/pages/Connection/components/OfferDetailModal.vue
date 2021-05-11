@@ -46,7 +46,7 @@
   import ModalContainer from '@/components/atoms/ModalContainer'
   import NotificationMixin from '@/mixins/NotificationMixin'
   import { offer } from '@/constants'
-
+  import { loadStripe } from '@stripe/stripe-js'
   import { mapActions } from 'vuex'
 
   export default {
@@ -69,7 +69,7 @@
       offerOwner: {
         type: Object,
         required: true
-      }
+      },
     },
     computed: {
       offerDurationTextFormat() {
@@ -86,23 +86,49 @@
           connectionId: this.offer.connection,
           ownerId: this.offerOwner.pk
         }
+      },
+      thankYouUrl() {
+        return process.env.VUE_APP_LOCAL_URL + '/thankyou/connection_id=' + this.offer.connection + '-offer_id=' + this.offer.pk
+      },
+      acceptFailUrl() {
+        return process.env.VUE_APP_LOCAL_URL + '/acceptfail/connection_id=' + this.offer.connection
       }
     },
     methods: {
       ...mapActions({
             dispatchAcceptOffer: 'connection/acceptOffer',
             dispatchCancelOffer: 'connection/cancelOffer',
+            dispatchCreateCheckoutSession: 'connection/createCheckoutSession'
       }),
       createdAtFormat(offer) {
         return (new Date(offer.created_at)).toLocaleString()
       },
       acceptOffer() {
-        this.dispatchAcceptOffer(this.offer.pk).then(() => {
-          this.$router.push({ name: 'Manage Connections' })
-          this.showGoodNotification(offer.OFFER_ACCEPT_SUCCESS)
-        }).catch(err => {
-          this.showBadNotification(offer.OFFER_ACCEPT_FAIL + err.detail)
+        this.dispatchCreateCheckoutSession({
+          success_url: this.thankYouUrl,
+          cancel_url: this.acceptFailUrl,
+          connection_id: this.offer.connection,
+          offer_id: this.offer.pk
+        }).then(async res => {
+          let checkout_session_id = res.checkout_id
+          let stripe_public_key = process.env.VUE_APP_STRIPE_PUBLIC_KEY
+          var stripe = await loadStripe(stripe_public_key)
+          stripe.redirectToCheckout({
+            sessionId: checkout_session_id
+          }).then(result => {
+            console.log(result)
+          })
+        }).catch(e => {
+          this.showBadNotification(offer.OFFER_ACCEPT_FAIL + e.detail)
         })
+        
+
+        // this.dispatchAcceptOffer(this.offer.pk).then(() => {
+        //   this.$router.push({ name: 'Manage Connections' })
+        //   this.showGoodNotification(offer.OFFER_ACCEPT_SUCCESS)
+        // }).catch(err => {
+        //   this.showBadNotification(offer.OFFER_ACCEPT_FAIL + err.detail)
+        // })
       },
       cancelOffer() {
         this.dispatchCancelOffer(this.offer.pk).then(() => {

@@ -44,7 +44,9 @@ export default {
               .filter(route => (
                 route.path !== '/403' &&
                 route.path !== '/connections/:id' &&
-                route.path !== '/profile/:id'
+                route.path !== '/profile/:id' &&
+                route.path !== '/thankyou/connection_id=:cid-offer_id=:oid' &&
+                route.path !== '/acceptfail/connection_id=:id'
               ))].reverse()
     },
     styleClass(routeName) {

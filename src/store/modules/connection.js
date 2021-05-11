@@ -214,5 +214,15 @@ export const actions = {
             })
         })
     },
+
+    // Stripe Checkout Payment
+    createCheckoutSession(context, checkoutInfo) {
+        return new Promise((resolve, reject) => {
+            Connection.createCheckoutSession(checkoutInfo)
+            .then(res => { resolve(res)
+            }).catch(e => { reject(e)
+            })
+        })
+    }
 }
 

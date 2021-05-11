@@ -143,6 +143,15 @@ export default {
             url: `offers/${offerId}/cancel/`,
             method: 'PUT',
         })
+    },
+
+    // Stripe Payment
+    createCheckoutSession(checkoutInfo) {
+        return requestAPI({
+            url: 'payments/checkout/',
+            method: 'POST',
+            data: checkoutInfo
+        })
     }
 
 }
