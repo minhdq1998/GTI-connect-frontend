@@ -91,7 +91,7 @@
         return process.env.VUE_APP_LOCAL_URL + '/thankyou/connection_id=' + this.offer.connection + '-offer_id=' + this.offer.pk
       },
       acceptFailUrl() {
-        return process.env.VUE_APP_LOCAL_URL + '/acceptfail/connection_id=' + this.offer.connection
+        return process.env.VUE_APP_LOCAL_URL + '/connections/' + this.offer.connection
       }
     },
     methods: {
@@ -119,7 +119,7 @@
             console.log(result)
           })
         }).catch(e => {
-          this.showBadNotification(offer.OFFER_ACCEPT_FAIL + e.detail)
+          this.showBadNotification(e.detail)
         })
         
 

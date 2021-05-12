@@ -1,5 +1,5 @@
 <template>
-  <div class="thank-you-content">
+  <div v-if=loaded class="thank-you-content">
     <i class="far fa-check-circle"></i>
     <h1>Thank You! Your payment has been received.</h1>
     <p>Connection #{{cid}} is accepted! Offer #{{oid}}</p>
@@ -11,7 +11,6 @@
 import Button from '@/components/atoms/Button.vue'
 
 import NotificationMixin from '@/mixins/NotificationMixin'
-import { offer } from '@/constants'
 
 import { mapActions } from 'vuex'
 
@@ -25,15 +24,19 @@ import { mapActions } from 'vuex'
       return {
         cid: this.$route.params.cid,
         oid: this.$route.params.oid,
+        loaded: false,
       }
     },
     methods: {
       ...mapActions({
         dispatchAcceptOffer: 'connection/acceptOffer',
       }),
-      acceptOffer() {
-        this.dispatchAcceptOffer(this.oid).catch(() => {
-          this.showBadNotification(offer.OFFER_ACCEPT_FAIL)
+      async acceptOffer() {
+        await this.dispatchAcceptOffer(this.oid).then(() => {
+          this.loaded = true
+        })
+        .catch(() => {
+          this.$router.push({ name: 'Offer Accept Fail', params: {id: this.cid} })
         })
       }
     },
