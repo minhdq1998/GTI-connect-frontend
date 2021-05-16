@@ -75,3 +75,12 @@
 .general-btn:hover {
   background-color: var(--hovercolour);
 }
+
+.grey-btn {
+  color: var(--whitecolour);
+  background-color: var(--graycolour);
+}
+
+.grey-btn:hover {
+  background-color: var(--graycolour-hover);
+}

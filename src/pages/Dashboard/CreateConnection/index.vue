@@ -60,12 +60,9 @@ export default {
       packagesName() {
         return this.package_options.map(x => x.name)
       },
-      packagesId() {
-        return this.selectedPackage.charAt(8)
-      },
       connectionForm() {
         return {
-          package: this.packagesId,
+          package: this.packageInfo.pk,
           description: this.descriptionInput
         }
       },

@@ -56,6 +56,18 @@ const routes = [
     meta: { permission: permissions.ONLY_LOGGED_IN }
   },
   {
+    path: '/thankyou/connection_id=:cid-offer_id=:oid',
+    name: 'Offer Accept Success',
+    component: () => import('../pages/OfferAcceptSuccess/index.vue'),
+    meta: { permission: permissions.ONLY_GLOBAL_TALENTS }
+  },
+  {
+    path: '/acceptfail/connection_id=:id',
+    name: 'Offer Accept Fail',
+    component: () => import('../pages/OfferAcceptFail/index.vue'),
+    meta: { permission: permissions.ONLY_GLOBAL_TALENTS }
+  },
+  {
     path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../pages/Dashboard/index.vue'),

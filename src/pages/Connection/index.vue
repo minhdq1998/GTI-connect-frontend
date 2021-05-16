@@ -65,7 +65,7 @@
 
     <!-- Modals -->
     <send-offer-modal v-if="showSendOfferModal" @offerSent="handleOfferSent" @closeModal="showSendOfferModal = false" :connection=id />
-    <offer-detail-modal @cancelOffer="handleOfferCancel" :offerOwner=user :isAE="isAE" v-if="showOfferDetailModal" @closeModal="showOfferDetailModal = false" :offer=currentOffer />
+    <offer-detail-modal @cancelOffer="handleOfferCancel" :offerOwner=user :isAE="isAE" v-if="showOfferDetailModal" @closeModal="showOfferDetailModal = false" :offer=currentOffer :cId="id" />
     <view-all-offers-modal v-if="showReceivedOffersModal" @closeModal="showReceivedOffersModal = false" :offers=receivedOffers />
     <cancel-connection-modal :connectionId="id" v-if="showCancelModal" @closeModal="showCancelModal = false" />
     <response-finish-request-modal :connectionId="id" @responsedRequestFinishConnection="getConnection" :aeInCharge="aeInChargeName" v-if="showResponseRequestFinishModal" @closeModal="showResponseRequestFinishModal = false" />
