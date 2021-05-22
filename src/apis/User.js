@@ -62,5 +62,22 @@ export default {
       method: 'POST',
       data: cvdocument
     })
+  },
+
+  getPaymentInfo() {
+    return requestAPI({
+      url: '/payments/info/',
+      method: 'GET'
+    })
+  },
+
+
+  getStripeLinkAccount(urls) {
+    return requestAPI({
+      url: 'payments/registration/',
+      method: 'GET',
+      data: urls
+    })
   }
+
 }
