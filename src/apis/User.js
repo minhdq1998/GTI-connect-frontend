@@ -75,7 +75,7 @@ export default {
   getStripeLinkAccount(urls) {
     return requestAPI({
       url: 'payments/registration/',
-      method: 'GET',
+      method: 'PUT',
       data: urls
     })
   }
