@@ -64,20 +64,4 @@ export default {
     })
   },
 
-  getPaymentInfo() {
-    return requestAPI({
-      url: '/payments/info/',
-      method: 'GET'
-    })
-  },
-
-
-  getStripeLinkAccount(urls) {
-    return requestAPI({
-      url: 'payments/registration/',
-      method: 'PUT',
-      data: urls
-    })
-  }
-
 }
