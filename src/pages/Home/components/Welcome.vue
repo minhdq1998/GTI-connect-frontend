@@ -6,7 +6,8 @@
         <span>Start connecting with global talents and Australian experts and take your career to the next level.</span>
       </div>
       <div class="welcome-button">
-        <Button class="welcome-btn general-btn" text="Get started now" />
+        <Button v-if="isVisitor" class="welcome-btn general-btn" text="Get started now" @click="$router.push({name: 'Join'})" />
+        <Button v-if="isLoggedIn" class="welcome-btn general-btn" text="Go to your dashboard" @click="$router.push({name: 'Your Profile'})" />
       </div>
     </div>
     <div class="welcome-intro-img">
@@ -17,11 +18,13 @@
 
 <script>
   import Button from '@/components/atoms/Button.vue'
+  import AccountsMixin from '@/mixins/AccountsMixin'
 
   export default {
     components: {
       Button
-    }
+    },
+    mixins: [AccountsMixin]
   }
 </script>
 

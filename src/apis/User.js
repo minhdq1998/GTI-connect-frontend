@@ -62,5 +62,6 @@ export default {
       method: 'POST',
       data: cvdocument
     })
-  }
+  },
+
 }
