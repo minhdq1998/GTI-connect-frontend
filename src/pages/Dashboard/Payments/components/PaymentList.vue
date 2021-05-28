@@ -46,9 +46,8 @@
           for (let i = 0; i < res.results.length; i++) {
             let singleResult = res.results[i]
             let statusColor
-            if (singleResult.status === "on hold") statusColor = "#fadf11"
-            else if (singleResult.status === "on the way") statusColor = "#fadf11"
-            else if (singleResult.status === "released") statusColor = " #20c997"
+            if (singleResult.status === "released") statusColor = " #20c997"
+              else statusColor = "#fadf11"
             let singlePayment = {
             connection: singleResult.connection,
             global_talent: singleResult.global_talent.first_name + " " + singleResult.global_talent.last_name,
