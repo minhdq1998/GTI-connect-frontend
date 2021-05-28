@@ -13,6 +13,7 @@ export default {
                 id: state.user.id,
                 first_name: state.user.first_name,
                 last_name: state.user.last_name,
+                is_verified: state.user.is_verified,
                 role: state.user.role,
                 avatarUrl: state.user.avatarUrl,
                 cvUrl: state.user.cvUrl,

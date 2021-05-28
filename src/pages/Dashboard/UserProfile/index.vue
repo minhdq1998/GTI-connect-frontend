@@ -8,6 +8,9 @@
         <Button text="Cancel" v-if="editable === true" class="cancel-edit-profile-btn" @click="handleCancelButton" />
       </div>
     </div>
+    <info-bar class="info-bar" v-if="isAE && !user.is_verified"
+      message="You will need to register your Stripe account before you can send offer to any connection. Please head to Payments section to continue the process."
+    />
     <div class="profile-container">
       <profile-item :editable="editable" label="First name" :data="currentUser.first_name" v-model="currentUserForm.first_name" />
       <profile-item :editable="editable" label="Last name" :data="currentUser.last_name" v-model="currentUserForm.last_name" />
@@ -30,17 +33,20 @@
 </template>
 
 <script>
-import Button from '../../../components/atoms/Button.vue'
-import ProfileItem from '../../../components/atoms/ProfileItem'
+import Button from '@/components/atoms/Button.vue'
+import ProfileItem from '@/components/atoms/ProfileItem'
+import InfoBar from '@/components/atoms/InfoBar'
 import { highest_edu_level, nationalities, notiType, updateInfo, getUser } from '@/constants'
 import store from '@/store'
 import UserSectors from './components/userSectors'
 import UserCV from './components/userCV.vue'
+import AccountsMixin from '@/mixins/AccountsMixin'
 
 
 export default {
   name:'UserProfile',
-  components: { ProfileItem, Button, UserSectors, UserCV },
+  components: { ProfileItem, InfoBar, Button, UserSectors, UserCV },
+  mixins: [AccountsMixin],
   mounted() {
     const vm = this
     store.dispatch('user/getCurrentUser').then(res => {
@@ -119,6 +125,10 @@ export default {
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
+}
+
+.info-bar {
+  margin-bottom: 0px;
 }
 
 .edit-profile-btn {
