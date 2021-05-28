@@ -1,27 +1,25 @@
 <template>
   <div class="payment-list-container">
     <h2>Payment list</h2>
-    <div class="ae payment-list" v-if=isAE>
+    <div class="payment-list">
       <div class="payment-list-items" v-for="(payment, index) in paymentList" :key="index">
-        <div class="item">
-          <span><span class="title">Connection:</span> {{payment.connection}}</span>
-          <span><span class="title">Payer:</span> {{payment.payer}}</span>
-          <span><span class="title">Amount:</span> {{payment.amount}}</span>
-          <span><span class="title">Status:</span> {{payment.status}}</span>
+        <div class="item"  @click="$router.push({name: 'Connection', params: {id:payment.connection}})">
+          <span class="info"><span class="title">Connection:</span> {{payment.connection}}</span>
+          <span class="info" v-if=isAE>
+            <span class="title" v-if=isAE>Payer:</span> {{payment.global_talent}}
+          </span>
+          <span class="info" v-if=isGT>
+            <span class="title">Receiver:</span> {{payment.australian_expert}}
+          </span>
+          <span class="info"><span class="title">Amount:</span> {{payment.amount}}</span>
+          <span class="info">
+            <span class="title">Status:</span> 
+            <span class="payment-status" :style="{color: payment.statusColor}">{{payment.status}}</span>
+          </span>
         </div>
       </div>
     </div>
-    <div class="gt payment-list" v-if=isGT>
-      <div class="payment-list-items" v-for="(payment, index) in paymentList" :key="index">
-        <div class="item">
-          <span><span class="title">Connection:</span> {{payment.connection}}</span>
-          <span><span class="title">Receiver:</span> {{payment.receiver}}</span>
-          <span><span class="title">Amount:</span> {{payment.amount}}</span>
-          <span><span class="title">Status:</span> {{payment.status}}</span>
-        </div>
-      </div>
-    </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -44,35 +42,23 @@
       }),
       getPaymentList() {
         Payment.getPaymentList().then((res) => {
+          console.log(res)
           for (let i = 0; i < res.results.length; i++) {
-              let singleResult = res.results[i]
-              if (this.isAE) {
-                this.dispatchGetUser(singleResult.global_talent).then(res => {
-                  let payerName = res.first_name + " " + res.last_name
-                  let singlePayment = {
-                  connection: singleResult.connection,
-                  payer: payerName,
-                  amount: (singleResult.amount/100).toLocaleString("en-US", {style:"currency", currency:"AUD"}),
-                  status: singleResult.status,
-                }
-                this.paymentList.push(singlePayment)
-                })
-              }
-              if (this.isGT) {
-                this.dispatchGetUser(singleResult.australian_expert).then(res => {
-                  let receiverName = res.first_name + " " + res.last_name
-                  let singlePayment = {
-                  connection: singleResult.connection,
-                  receiver: receiverName,
-                  amount: (singleResult.amount/100).toLocaleString("en-US", {style:"currency", currency:"AUD"}),
-                  status: singleResult.status,
-                }
-                this.paymentList.push(singlePayment)
-                })
-              }
-              
+            let singleResult = res.results[i]
+            let statusColor
+            if (singleResult.status === "on hold") statusColor = "#fadf11"
+            else if (singleResult.status === "on the way") statusColor = "#fadf11"
+            else if (singleResult.status === "released") statusColor = " #20c997"
+            let singlePayment = {
+            connection: singleResult.connection,
+            global_talent: singleResult.global_talent.first_name + " " + singleResult.global_talent.last_name,
+            australian_expert: singleResult.australian_expert.first_name + " " + singleResult.australian_expert.last_name,
+            amount: (singleResult.amount/100).toLocaleString("en-US", {style:"currency", currency:"AUD"}),
+            status: singleResult.status,
+            statusColor: statusColor
+            }
+            this.paymentList.push(singlePayment)
           }
-         
         }).catch((err) => {
           console.log(err)
         })
@@ -109,9 +95,19 @@
   padding: 10px;
   display: flex;
   justify-content: space-around;
+  cursor: pointer;
 }
 
 .title {
   font-weight: 600;
+}
+
+.info {
+  width: 25%;
+  margin: 0px 20px 0px 20px;
+}
+
+.payment-status {
+  margin-left: 2px;
 }
 </style>

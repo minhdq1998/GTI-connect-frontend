@@ -3,22 +3,23 @@
     <h1>Payments</h1>
 
     <div class="ae-payment-info" v-if="!loading && isAE">
-      <div class="setup-noti" v-if="!PayoutEnable && !needIdVerification && !pendingVerification && !pendingIdVerification">
-        <i class="fas fa-info-circle"></i>
-        <p class="noti-message">Please finish setting up your payment method by registering your Stripe account below</p>
-      </div>
-      <div class="setup-noti" v-if="needIdVerification">
-        <i class="fas fa-info-circle"></i>
-        <p class="noti-message">Please finish verifying your ID document for your Stripe account below</p>
-      </div>
-      <div class="setup-noti" v-if="pendingVerification">
-        <i class="fas fa-info-circle"></i>
-        <p class="noti-message">We are currently processing your Stripe account. Please verify your Stripe account from your registered email and check back later to finish the registration process.</p>
-      </div>
-       <div class="setup-noti" v-if="pendingIdVerification">
-        <i class="fas fa-info-circle"></i>
-        <p class="noti-message">We are currently verifying your ID document on Stripe. Please check back later to finish the registration process.</p>
-      </div>
+      <info-bar 
+        v-if="!PayoutEnable && !needIdVerification && !pendingVerification && !pendingIdVerification"
+        message="Please finish setting up your payment method by registering your Stripe account below" 
+      />
+      <info-bar
+        v-if="needIdVerification"
+        message="Please finish verifying your ID document for your Stripe account below"
+      />
+      <info-bar
+        v-if="pendingVerification"
+        message="We are currently processing your Stripe account. Please verify your Stripe account from your registered email and check back later to finish the registration process."
+      />
+      <info-bar
+        v-if="pendingIdVerification"
+        message="We are currently verifying your ID document on Stripe. Please check back later to finish the registration process."
+      />
+ 
        <div class="setup-noti-success" v-if="PayoutEnable">
         <i class="fas fa-check-circle"></i>
         <p class="noti-message">You are all set! You can view and edit your payment infomation below.</p>
@@ -36,9 +37,10 @@
   import Button from '@/components/atoms/Button.vue'
   import AccountsMixin from '@/mixins/AccountsMixin'
   import PaymentList from './components/PaymentList.vue'
+import InfoBar from '../../../components/atoms/InfoBar.vue'
   export default {
     name: "Payment",
-    components: { Button, PaymentList },
+    components: { Button, PaymentList, InfoBar },
     mixins: [AccountsMixin],
     data() {
       return {
@@ -111,13 +113,6 @@
   margin-bottom: 20px;
 }
 
-.setup-noti {
-  display: flex;
-  margin-bottom: 20px;
-  padding: 20px;
-  background-color: var(--infobgcolour);
-  border: 1px solid rgba(0, 0, 0, 0.15);
-}
 
 .setup-noti-success {
   display: flex;
@@ -126,6 +121,14 @@
   color: var(--secondarycolour);
   background-color: var(--secondarycolour-hover);
   border: 1px solid var(--secondarycolour);
+}
+
+.setup-noti {
+  display: flex;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: var(--infobgcolour);
+  border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .fa-info-circle {
