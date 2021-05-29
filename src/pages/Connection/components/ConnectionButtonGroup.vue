@@ -2,6 +2,7 @@
   <div>
     <Button 
       v-if="!isConnectionOwner && isAE && isOpen && !offerSent"
+      :disabled=!canSendOffer
       class="connection-create-submit-btn action-btn" 
       text="Make an offer"
       @click="$emit('showMakeOffer')">
@@ -82,7 +83,14 @@
       requestFinishSent: {
         type: Boolean,
         required: true
+      },
+      canSendOffer: {
+        type: Boolean,
+        required: true
       }
+    },
+    mounted() {
+      console.log(this.canSendOffer)
     }
   }
 </script>
