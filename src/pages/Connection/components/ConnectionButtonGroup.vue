@@ -89,9 +89,6 @@
         required: true
       }
     },
-    mounted() {
-      console.log(this.canSendOffer)
-    }
   }
 </script>
 
