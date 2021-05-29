@@ -15,6 +15,10 @@
         <p class="info-message">This connection has been finished with {{aeInChargeName}}.</p>
     </container-box>
 
+    <info-bar class="info-bar" v-if="isAE && !user.payment_registered"
+      message="You will need to register your Stripe account before you can send offer to any connection. Please head to Payments section to continue the process."
+    />
+
     <div class="connection-top">
         <container-box class="connection-info">
             <connection-info :connection="connection" :packageName="connection.package_info.name"/>
@@ -23,7 +27,8 @@
             <owner-info :owner=owner />
             <connection-button-group 
                 :isConnectionOwner=isConnectionOwner 
-                :isAE=isAE 
+                :isAE=isAE
+                :canSendOffer=canSendOffer
                 :isCancelled=isCancelled
                 :isOpen=isOpen
                 :isInProgress=isInProgress
@@ -92,6 +97,7 @@ import NotificationMixin from '@/mixins/NotificationMixin'
 import AccountsMixin from '@/mixins/AccountsMixin'
 import { mapActions } from 'vuex'
 import { error, account_role, connectionRequest } from '@/constants'
+import InfoBar from '../../components/atoms/InfoBar.vue'
 
 
 
@@ -111,6 +117,7 @@ export default {
         ConnectionDocuments,
         ResponseFinishRequestModal,
         ConnectionReport,
+        InfoBar,
     },
     mixins: [NotificationMixin, AccountsMixin],
     data() {
@@ -239,6 +246,10 @@ export default {
                 return true
             }
             return false
+        },
+        canSendOffer() {
+            if (this.user.payment_registered === true) return true
+            else return false
         },
         isCancelled() {
             if (this.connection.status === "Cancelled") {

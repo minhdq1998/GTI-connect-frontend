@@ -8,7 +8,7 @@
         <Button text="Cancel" v-if="editable === true" class="cancel-edit-profile-btn" @click="handleCancelButton" />
       </div>
     </div>
-    <info-bar class="info-bar" v-if="isAE && !user.is_verified"
+    <info-bar class="info-bar" v-if="isAE && !user.payment_registered"
       message="You will need to register your Stripe account before you can send offer to any connection. Please head to Payments section to continue the process."
     />
     <div class="profile-container">
@@ -50,6 +50,7 @@ export default {
   mounted() {
     const vm = this
     store.dispatch('user/getCurrentUser').then(res => {
+      console.log(res)
       this.currentUser = JSON.parse(JSON.stringify(res));
       this.currentUserForm = JSON.parse(JSON.stringify(res));
     }).catch(() => {

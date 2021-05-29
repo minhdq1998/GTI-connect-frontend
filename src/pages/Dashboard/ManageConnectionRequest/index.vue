@@ -1,7 +1,7 @@
 <template>
   <div class="manage-jobs">
     <h1>Manage Connections</h1>
-    <info-bar v-if="isAE && !user.is_verified"
+    <info-bar v-if="isAE && !user.payment_registered"
       message="You will need to register your Stripe account before you can send offer to any connection. Please head to Payments section to continue the process."
     />
     <div>
@@ -86,6 +86,8 @@ export default {
           { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
       })
     },
+
+    // GET new API, params person in charge
     aeFetchConnection() {
       this.dispatchGetConnectionList({page: this.page, status:this.currentTab}).then(res => {
         let aeConnection = res.results.filter((connection) => {
