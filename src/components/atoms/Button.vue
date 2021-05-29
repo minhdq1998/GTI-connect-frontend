@@ -1,10 +1,13 @@
 <template>
-    <button :text="text" :class="styleMode" v-bind="$attrs">{{text}}</button>
+    <button :text="text" :class="styleMode" v-bind="$attrs"><i :class="icon"></i> {{text}}</button>
 </template>
 <script>
 export default {
     name: 'Button',
     props: {
+        icon: {
+            type: String,
+        },
         text: {
             type: String,
         },

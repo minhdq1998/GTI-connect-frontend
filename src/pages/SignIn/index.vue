@@ -30,6 +30,13 @@
         type="submit"
         :disabled="buttonDisable"
     />
+
+    <Button text="Sign in with Google"
+      styleMode="login-with-google-btn"
+      icon="fab fa-google"
+      type="button"
+      @click="loginWithGoogle"
+    />
   </UserAuthFormContainer>
 </div>
 </template>
@@ -41,7 +48,9 @@ import FormError from '../../components/atoms/FormError'
 import SpacingDiv from '../../components/atoms/SpacingDiv'
 
 import UserAuthFormContainer from '../../components/molecules/UserAuthFormContainer'
+import NotificationMixin from '@/mixins/NotificationMixin'
 
+import { error } from '@/constants'
 import { signin } from '../../constants'
 
 import { mapActions } from 'vuex'
@@ -50,6 +59,7 @@ import { required } from '@vuelidate/validators'
 
 export default {
   name: 'SignIn',
+  mixins: [NotificationMixin],
   components: { Button, UserAuthFormContainer, TextInputGroup, FormError, SpacingDiv},
   setup() { return { v$: useVuelidate() } },
   data() {
@@ -73,6 +83,7 @@ export default {
   methods: {
     ...mapActions({
       dispatchLogin: 'user/login',
+      dispatchLoginWithGoogle: 'user/loginWithGoogle'
     }),
     loginUser() {
       this.v$.$touch()
@@ -81,7 +92,29 @@ export default {
         this.$router.push('/');
       }).catch(() => { this.displayFailToLogin = true;
       }).then(() => { this.forceButtonDisable = false }) 
-    }
+    },
+    onGoogleSuccess(res) {
+      let idToken = res.qc.id_token
+      this.dispatchLoginWithGoogle(idToken)
+        .then(res => {
+          if (res.refresh) this.$router.push('/');
+          else {
+            this.$router.push({ 
+              name: 'Join', 
+              params: res
+            })
+          }
+        }).catch(() => this.showBadNotification(error.SOMETHING_WENT_WRONG))
+    },
+    onGoogleFailure() {
+      this.showBadNotification(error.SOMETHING_WENT_WRONG)
+    },
+    loginWithGoogle() {
+      this.$gAuth.signIn(
+        this.onGoogleSuccess, 
+        this.onGoogleFailure
+      )
+    },
   },
   validations() {
     return {

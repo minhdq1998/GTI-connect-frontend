@@ -64,4 +64,11 @@ export default {
     })
   },
 
+  loginWithGoogle(loginInfo) {
+    return requestAPI({
+      url: `accounts/google_social_auth/`,
+      method: 'POST',
+      data: loginInfo
+    }, false)
+  }
 }

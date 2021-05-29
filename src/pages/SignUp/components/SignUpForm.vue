@@ -159,6 +159,15 @@ export default {
       return this.v$.$invalid || this.forceButtonDisable
     }
   },
+  mounted() {
+    if (this.$route.params.email && 
+        this.$route.params.first_name &&
+        this.$route.params.last_name) {
+          this.user.email = this.$route.params.email
+          this.user.first_name = this.$route.params.first_name
+          this.user.last_name = this.$route.params.last_name
+        }
+  },
   methods: {
     createNewUser() {
       return {

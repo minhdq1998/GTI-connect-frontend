@@ -65,6 +65,21 @@ export const actions = {
       })
     })
   },
+  loginWithGoogle(context, authToken) {
+    return new Promise((resolve, reject) => {
+      User.loginWithGoogle({
+        auth_token: authToken
+      }).then(res=> {
+        if (res.refresh) {
+          setCredentials(res.refresh)
+          context.commit('SET_ACCESS_TOKEN',res.access)
+        }
+        resolve(res)
+      }).catch(e => {
+        reject(e)
+      })
+    })
+  },
   logout() {
     removeCredentials()
     router.go()
