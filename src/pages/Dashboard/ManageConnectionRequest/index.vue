@@ -59,7 +59,6 @@ export default {
     if (this.isGT) {
     this.fetchConnections()
     }
-    console.log(this.user)
   },
   data() {
     return {
@@ -76,9 +75,11 @@ export default {
       dispatchGetConnectionList: 'connection/getConnectionList',
       dispatchNotification: 'notification/add',
       dispatchGetAllConnectionOffers: 'connection/getAllConnectionOffers',
+      dispatchGetConnectionListByAEId: 'connection/getConnectionListByAEId',
+      dispatchGetConnectionListAEOffered: 'connection/getConnectionListAEOffered'
     }),
     fetchConnections() {
-      this.dispatchGetConnectionListByOwnerId({page:this.page, owner:this.$store.state.user.id, status:this.currentTab}).then(res => {
+      this.dispatchGetConnectionListByOwnerId({page:this.page, owner:this.user.id, status:this.currentTab}).then(res => {
         this.connections = res.results
         this.totalConnections = res.count
       }).catch(() => {
@@ -87,41 +88,22 @@ export default {
       })
     },
 
-    // GET new API, params person in charge
     aeFetchConnection() {
-      this.dispatchGetConnectionList({page: this.page, status:this.currentTab}).then(res => {
-        let aeConnection = res.results.filter((connection) => {
-          return connection.person_in_charge === this.user.id
-        })
-        this.connections = aeConnection
+      this.dispatchGetConnectionListByAEId({page: this.page, aeId:this.user.id, status:this.currentTab}).then(res => {
+        this.connections = res.results
+        this.totalConnections = res.count
       }).catch(() => {
         this.dispatchNotification(
           { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
       })
     },
     aeFetchOfferedConnection() {
-      let connections
-      let filteredConnections = []
-      let offer
-      let i
-      let k
-      this.dispatchGetConnectionList({page: this.page, status: "Open"}).then(res => {
-        connections = res.results
-        for (i = 0; i < connections.length; i++) {
-          this.dispatchGetAllConnectionOffers(connections[i].pk).then(res => {
-            offer = res.results
-            for (k = 0; k < offer.length; k++) {
-              if (offer[k].status === "Pending" && offer[k].owner === this.user.id ) {
-                let filteredConnection = connections.filter((connection) => {
-                  return connection.pk === offer[k].connection
-                })
-                filteredConnections = filteredConnections.concat(filteredConnection)
-                this.connections = filteredConnections
-              }
-            }
-          })
-        }
-        
+      this.dispatchGetConnectionListAEOffered(this.user.id).then(res => {
+        this.connections = res.results
+        this.totalConnections = res.count
+      }).catch(() => {
+        this.dispatchNotification(
+          { type: notiType.ERROR, message: error.SOMETHING_WENT_WRONG })
       })
     }
   },

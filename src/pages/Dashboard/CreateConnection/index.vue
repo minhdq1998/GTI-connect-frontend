@@ -42,7 +42,6 @@ export default {
     mounted() {
       Packages.getPackages().then(res => {
         this.package_options = res
-        console.log(this.package_options)
       }).catch(() => {
         this.showBadNotification(error.SOMETHING_WENT_WRONG)
       })

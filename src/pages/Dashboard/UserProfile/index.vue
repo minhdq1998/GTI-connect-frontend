@@ -50,7 +50,6 @@ export default {
   mounted() {
     const vm = this
     store.dispatch('user/getCurrentUser').then(res => {
-      console.log(res)
       this.currentUser = JSON.parse(JSON.stringify(res));
       this.currentUserForm = JSON.parse(JSON.stringify(res));
     }).catch(() => {

@@ -68,6 +68,28 @@ export const actions = {
         }) 
     },
 
+    getConnectionListByAEId(context, {page, aeId, status}) {
+        return new Promise((resolve, reject) => {
+            Connection.getConnectionListByAEId(page, aeId, status
+            ).then(res => { 
+                resolve(res) 
+            }).catch(e => 
+                { reject(e) 
+            })
+        }) 
+    },
+
+    getConnectionListAEOffered(context, aeId) {
+        return new Promise((resolve, reject) => {
+            Connection.getConnectionListAEOffered(aeId
+            ).then(res => { 
+                resolve(res) 
+            }).catch(e => 
+                { reject(e) 
+            })
+        }) 
+    },
+
     // Connection Documents
 
     getAllConnectionDocuments(context, connectionId) {
