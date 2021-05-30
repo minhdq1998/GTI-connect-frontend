@@ -25,12 +25,13 @@
 <script>
   import Payment from '@/apis/Payment.js'
   import AccountsMixin from '@/mixins/AccountsMixin'
+  import NotificationMixin from '@/mixins/NotificationMixin'
 
   import { mapActions } from 'vuex'
-
+  import { error } from '@/constants'
 
   export default {
-    mixins: [AccountsMixin],
+    mixins: [AccountsMixin, NotificationMixin],
     data() {
       return {
         paymentList: []
@@ -42,7 +43,6 @@
       }),
       getPaymentList() {
         Payment.getPaymentList().then((res) => {
-          console.log(res)
           for (let i = 0; i < res.results.length; i++) {
             let singleResult = res.results[i]
             let statusColor
@@ -58,8 +58,8 @@
             }
             this.paymentList.push(singlePayment)
           }
-        }).catch((err) => {
-          console.log(err)
+        }).catch(() => {
+          this.showBadNotification(error.SOMETHING_WENT_WRONG)
         })
       }
     },

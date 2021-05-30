@@ -57,7 +57,6 @@ import InfoBar from '../../../components/atoms/InfoBar.vue'
 
         Payment.getPaymentInfo().then((res) => {
           this.loading = false
-          // console.log(res)
           // Check for registration
           if (res.payouts_enabled === false) this.PayoutEnable = false
             else this.PayoutEnable = true

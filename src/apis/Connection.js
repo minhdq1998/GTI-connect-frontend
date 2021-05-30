@@ -17,6 +17,18 @@ export default {
             method: 'GET'
         })
     },
+    getConnectionListByAEId(page, aeId, status) {
+        return requestAPI({
+            url: `connections/?page=${page}&person_in_charge=${aeId}&status=${status}`,
+            method: 'GET'
+        })
+    },
+    getConnectionListAEOffered(aeId) {
+        return requestAPI({
+            url: `connections/?offer_owner_id=${aeId}`,
+            method: 'GET'
+        })
+    },
     getConnectionListByOwnerId(page, owner, status) {
         return requestAPI({
             url: `connections/?page=${page}&owner=${owner}&status=${status}`,
