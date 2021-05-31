@@ -3,6 +3,9 @@
     <span class="label">Your profile completion</span>
     <div className="progress-container">
       <div className="progress-bar" :style="{width: completedPercentage, backgroundColor: progressColour}">
+        <span className="progress-label">
+            {{completedPercentage}}
+          </span>
       </div>
     </div>
   </div>
@@ -64,8 +67,16 @@
   width: 0px;
   background-color: #f77062;
   border-radius: inherit;
-  text-align: right;
   border-radius: 5px;
   transition: width 1s ease-in-out ;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.progress-label {
+  color: var(--whitecolour);
+  padding-right: 5px;
+  font-weight: 600;
 }
 </style>
