@@ -3,7 +3,7 @@
     <label class="item-label">{{label}}</label>
     <p class="sector-for-view-only" v-if="editable === false">{{data}}</p>
     <div class="sector-item-container" v-if="editable === true">
-        <div class="sector-item-list">
+        <div class="sector-item-list" v-if="selectedSectors.length != 0">
           <div v-for="(sector, index) in selectedSectors" class="sector-item" :key="index" @click="onRemove(index)">
             {{sector}}
           </div>

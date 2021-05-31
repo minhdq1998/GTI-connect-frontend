@@ -11,16 +11,19 @@
     <info-bar class="info-bar" v-if="isAE && !user.payment_registered"
       message="You will need to register your Stripe account before you can send offer to any connection. Please head to Payments section to continue the process."
     />
+    <profile-complete-percentage :emptyField="emptyField" v-if="editable == false" />
     <div class="profile-container">
       <profile-item :editable="editable" label="First name" :data="currentUser.first_name" v-model="currentUserForm.first_name" />
       <profile-item :editable="editable" label="Last name" :data="currentUser.last_name" v-model="currentUserForm.last_name" />
       <profile-item label="Email" :data="currentUser.email" v-model="currentUserForm.email" />
-      <profile-item :editable="editable" label="Phone number" :data="currentUser.profile.phone_number" v-model="currentUserForm.profile.phone_number" />      
+      <profile-item :editable="editable" label="Phone number" type="number" :data="currentUser.profile.phone_number" v-model="currentUserForm.profile.phone_number" />      
       <profile-item :editable="editable" label="Description" :data="currentUser.profile.description" v-model="currentUserForm.profile.description" :isTextArea="true" :itemWidth=100 />
       <user-sectors :editable="editable" label="Sectors" :data="currentUser.profile.sectors.join(', ')" :selectedSectors="currentUserForm.profile.sectors" @updateValue="(newValue) => currentUserForm.profile.sectors = newValue"  />
       <profile-item :editable="editable" label="Nationality" :data="currentUser.profile.nationality" v-model="currentUserForm.profile.nationality" :isSelect="true" :options="nationalities" />
       <profile-item :editable="editable" label="Ocupation Title" :data="currentUser.profile.occupation_title" v-model="currentUserForm.profile.occupation_title"  />
       <profile-item :editable="editable" label="Employer" :data="currentUser.profile.employer" v-model="currentUserForm.profile.employer" />
+      <profile-item :editable="editable" label="Annual Salary (AUD)" :data="currentUser.profile.anual_salary" v-model="currentUserForm.profile.anual_salary" />
+      <div style="width: 50%" />
       <profile-item :editable="editable" label="Highest education level" :data="currentUser.profile.highest_education_level" v-model="currentUserForm.profile.highest_education_level" :isSelect="true" :options="highest_edu_level" />
       <profile-item :editable="editable" label="Granted at" :data="currentUser.profile.education_grant_month_year" v-model="currentUserForm.profile.education_grant_month_year" />
       <profile-item :editable="editable" label="Academic publications" :data="currentUser.profile.academic_publicfications" v-model="currentUserForm.profile.academic_publicfications" :isTextArea="true" :itemWidth=100 />
@@ -41,21 +44,24 @@ import store from '@/store'
 import UserSectors from './components/userSectors'
 import UserCV from './components/userCV.vue'
 import AccountsMixin from '@/mixins/AccountsMixin'
+import ProfileCompletePercentage from './components/ProfileCompletePercentage.vue'
 
 
 export default {
   name:'UserProfile',
-  components: { ProfileItem, InfoBar, Button, UserSectors, UserCV },
+  components: { ProfileItem, InfoBar, Button, UserSectors, UserCV, ProfileCompletePercentage },
   mixins: [AccountsMixin],
   mounted() {
     const vm = this
     store.dispatch('user/getCurrentUser').then(res => {
       this.currentUser = JSON.parse(JSON.stringify(res));
       this.currentUserForm = JSON.parse(JSON.stringify(res));
+      this.countEmptyField(res)
     }).catch(() => {
         const notification = { type: notiType.ERROR, message: getUser.GET_USER_FAIL }
         vm.$store.dispatch('notification/add', notification, { root: true })
     })
+    
   },
   setup () {
     return {}
@@ -74,7 +80,8 @@ export default {
         }
       },
       highest_edu_level: highest_edu_level,
-      nationalities: nationalities
+      nationalities: nationalities,
+      emptyField: 0
     }
   },
 
@@ -91,10 +98,20 @@ export default {
         this.currentUser = JSON.parse(JSON.stringify(res));
         const notification = { type: notiType.SUCCESS, message: updateInfo.UPDATE_SUCCESS }
         vm.$store.dispatch('notification/add', notification, { root: true })
+        this.countEmptyField(res)
       }).catch(() => {
         const notification = { type: notiType.ERROR, message: updateInfo.UPDATE_FAIL }
         vm.$store.dispatch('notification/add', notification, { root: true })
-    })
+      })
+    },
+    countEmptyField(account) {
+      const userProfile = account.profile
+        let emptyField = 0
+        for (const key in userProfile) {
+          if (userProfile[key] === "" || userProfile[key] === null) emptyField += 1
+        }
+        if (userProfile.sectors.length === 0) emptyField += 1
+        this.emptyField = emptyField
     }
   },
 
