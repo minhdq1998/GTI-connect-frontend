@@ -2,7 +2,7 @@
   <div class="profile-item" :style="{'width': itemWidth +'%'}">
     <label class="item-label">{{label}}</label>
     <p v-if="editable === false">{{fieldValue}}</p>
-    <text-input class="edit-user-input" v-if="editable === true && isTextArea === false && isSelect === false" v-bind="$attrs" />
+    <text-input class="edit-user-input" :type=type v-if="editable === true && isTextArea === false && isSelect === false" v-bind="$attrs" />
     <text-area-input  v-if="editable === true && isTextArea === true" :maxLength="2000" v-bind="$attrs" />
     <select-input v-if="editable === true && isSelect === true" v-bind="$attrs" :options="options" />
   </div>
@@ -45,14 +45,16 @@ export default {
     },
     options: {
       type: Array
+    },
+    type: {
+
     }
   },
   computed: {
     fieldValue() {
-      if (this.data === "") {
-        return "Not provided"
-      } else
-      return this.data
+      if (this.data === "") return "Not provided"
+      else if (this.data === null) return "Not provided"
+      else return this.data
     }
   }
 }
@@ -78,5 +80,17 @@ export default {
 
 .edit-user-input input {
   width: 100%;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 </style>
