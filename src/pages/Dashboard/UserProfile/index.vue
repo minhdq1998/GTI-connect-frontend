@@ -3,6 +3,7 @@
     <div class="header-container">
       <h1>Your Profile</h1>
       <div>
+        <Button text="Change password" class="change-pw-btn" @click="showChangePwModal = true"/>
         <Button text="Edit profile" v-if="editable === false" class="edit-profile-btn" @click="editable = true"/>
         <Button text="Save profile" v-if="editable === true" :disabled="invalidUserInput" class="save-profile-btn" @click="handleSaveButton" />
         <Button text="Cancel" v-if="editable === true" class="cancel-edit-profile-btn" @click="handleCancelButton" />
@@ -32,6 +33,7 @@
       <profile-item :editable="editable" label="Governments grants" :data="currentUser.profile.governments_grants" v-model="currentUserForm.profile.governments_grants" :isTextArea="true" :itemWidth=100 />
       <UserCV :editable="editable"></UserCV>
     </div>
+    <change-password-modal v-if="showChangePwModal"  @closeModal="showChangePwModal = false"  />
   </div>
 </template>
 
@@ -45,11 +47,12 @@ import UserSectors from './components/userSectors'
 import UserCV from './components/userCV.vue'
 import AccountsMixin from '@/mixins/AccountsMixin'
 import ProfileCompletePercentage from './components/ProfileCompletePercentage.vue'
+import ChangePasswordModal from './components/ChangePasswordModal.vue'
 
 
 export default {
   name:'UserProfile',
-  components: { ProfileItem, InfoBar, Button, UserSectors, UserCV, ProfileCompletePercentage },
+  components: { ProfileItem, InfoBar, Button, UserSectors, UserCV, ProfileCompletePercentage, ChangePasswordModal },
   mixins: [AccountsMixin],
   mounted() {
     const vm = this
@@ -81,7 +84,8 @@ export default {
       },
       highest_edu_level: highest_edu_level,
       nationalities: nationalities,
-      emptyField: 0
+      emptyField: 0,
+      showChangePwModal: false,
     }
   },
 
@@ -168,6 +172,18 @@ export default {
 
 .cancel-edit-profile-btn:hover {
   background-color: var(--cancelcolour);
+  color: var(--bgcolour);
+}
+
+.change-pw-btn {
+  margin-right: 10px;
+  color: var(--primarycolour);
+  background-color: var(--bgcolour);
+  border: 1px solid var(--primarycolour);
+}
+
+.change-pw-btn:hover {
+  background-color: var(--primarycolour);
   color: var(--bgcolour);
 }
 </style>
