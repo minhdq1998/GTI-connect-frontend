@@ -25,6 +25,11 @@ export const updateInfo = {
     UPDATE_SUCCESS: 'Your information has been saved successfully.'
 }
 
+export const changePassword = {
+    CHANGE_PASSWORD_SUCCESS: 'Your password has been changed successfully!',
+    CHANGE_PASSWORD_FAIL: 'Something went wrong. Your password has not been updated.'
+}
+
 export const connection = {
     CLOSE_CONNECTION_SUCCESS: 'Your connection has been closed successfully.',
     CLOSE_CONNECTION_FAIL: 'Something went wrong! Your connection has not been closed.'

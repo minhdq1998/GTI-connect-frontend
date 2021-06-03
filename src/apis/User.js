@@ -70,5 +70,13 @@ export default {
       method: 'POST',
       data: loginInfo
     }, false)
+  },
+
+  changePassword(passwordForm) {
+    return requestAPI({
+      url: `accounts/change_password/`,
+      method: 'POST',
+      data: passwordForm
+    })
   }
 }
