@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Establish new connection</h1>
+    <h1>Let's connect</h1>
     <h2>Select your package: </h2>
     <options-input 
       :options="packagesName" 
@@ -11,9 +11,9 @@
       label="Your description: " 
       v-model="descriptionInput"
       :maxLength=3000
-      />;
+      />
     <Button 
-      text="Establish" 
+      text="Connect" 
       class="connection-create-submit-btn" 
       @click="submit()"
       :disabled="!descriptionInput"

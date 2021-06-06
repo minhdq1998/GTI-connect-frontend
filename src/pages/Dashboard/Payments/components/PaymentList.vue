@@ -11,7 +11,12 @@
           <span class="info" v-if=isGT>
             <span class="title">Receiver:</span> {{payment.australian_expert}}
           </span>
-          <span class="info"><span class="title">Amount:</span> {{payment.amount}}</span>
+          <span class="info" v-if=isGT>
+            <span class="title">Amount charged:</span> {{payment.amount_gt_charged}}
+          </span>
+          <span class="info" v-if=isAE>
+           <span class="title">Amount receive:</span> {{payment.amount_ae_received}}
+          </span>
           <span class="info">
             <span class="title">Status:</span> 
             <span class="payment-status" :style="{color: payment.statusColor}">{{payment.status}}</span>
@@ -43,6 +48,7 @@
       }),
       getPaymentList() {
         Payment.getPaymentList().then((res) => {
+          console.log(res)
           for (let i = 0; i < res.results.length; i++) {
             let singleResult = res.results[i]
             let statusColor
@@ -52,7 +58,8 @@
             connection: singleResult.connection,
             global_talent: singleResult.global_talent.first_name + " " + singleResult.global_talent.last_name,
             australian_expert: singleResult.australian_expert.first_name + " " + singleResult.australian_expert.last_name,
-            amount: (singleResult.amount/100).toLocaleString("en-US", {style:"currency", currency:"AUD"}),
+            amount_ae_received: (singleResult.amount_ae_received/100).toLocaleString("en-US", {style:"currency", currency:"AUD"}),
+            amount_gt_charged: (singleResult.amount_gt_charged/100).toLocaleString("en-US", {style:"currency", currency:"AUD"}),
             status: singleResult.status,
             statusColor: statusColor
             }

@@ -31,7 +31,7 @@
 }
 
 .icons {
-  font-size: 6rem;
+  font-size: 3rem;
   display: flex;
   align-content: center;
   justify-content: center;

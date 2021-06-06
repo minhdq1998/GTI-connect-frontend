@@ -6,7 +6,7 @@
     />
     <div>
     <router-link to="/dashboard/createconnection/" v-if="isGT">
-        <Button text="Establish new Connection" styleMode="tab-nav-create-button"></Button>
+        <Button text="Let's connect" styleMode="tab-nav-create-button"></Button>
     </router-link>
     </div>
     <TabsContainer 
