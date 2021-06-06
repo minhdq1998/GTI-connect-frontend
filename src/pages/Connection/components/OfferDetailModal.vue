@@ -35,7 +35,7 @@
       </template>
       <template v-slot:footer>
         <Button v-if="isAE" text="Cancel offer" @click="cancelOffer" class="general-btn"/>
-        <Button v-if="!isAE" text="Accept offer" @click="acceptOffer" class="general-btn"/>
+        <Button v-if="!isAE" text="Accept offer" @click="acceptOffer" class="general-btn" :disabled="buttonDisabled"/>
       </template>
     </modal-container>
   </div>
@@ -71,6 +71,11 @@
         required: true
       },
     },
+    data() {
+      return {
+        buttonDisabled: false
+      }
+    },
     computed: {
       offerDurationTextFormat() {
         if (this.offer.time_number > 1) {
@@ -104,6 +109,7 @@
         return (new Date(offer.created_at)).toLocaleString()
       },
       acceptOffer() {
+        this.buttonDisabled = true
         this.dispatchCreateCheckoutSession({
           success_url: this.thankYouUrl,
           cancel_url: this.acceptFailUrl,
@@ -120,6 +126,7 @@
           })
         }).catch(e => {
           this.showBadNotification(e.detail)
+          this.buttonDisabled = false
         })
         
 
