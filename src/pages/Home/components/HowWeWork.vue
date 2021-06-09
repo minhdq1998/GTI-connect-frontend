@@ -1,7 +1,7 @@
 <template>
   <div class="how-we-work">
     <div class="title">
-      How we work
+      Your role
     </div>
     <div class="content">
       <div class="content-item left-item">
@@ -74,8 +74,8 @@
   }
 
   .content-list {
-    padding-left: 20px;
     font-size: 1.4rem;
+    text-align: center;
   }
 
   .left-item {
@@ -87,6 +87,7 @@
   }
 
   ul {
-    list-style-type: none
+    list-style-type: none;
+    padding: 0
   }
 </style>
