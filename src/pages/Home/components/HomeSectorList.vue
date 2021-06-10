@@ -83,6 +83,8 @@ import ContainerBox from '../../../components/atoms/ContainerBox.vue'
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: var(--primarycolour);
+  color: var(--whitecolour);
 }
 
 .sector-item-container:hover .name {
