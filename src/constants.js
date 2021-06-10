@@ -9,7 +9,7 @@ export const signup = {
 }
 
 export const signin = {
-    SIGNIN_FAIL: 'Wrong username or password, please try again.'
+    SIGNIN_FAIL: 'Wrong usenameor password, please try again.'
 }
 
 export const getUser = {
@@ -103,6 +103,90 @@ export const highest_edu_level = [
     "Master",
     "Bachelor (Honours)",
     "Bachelor"
+]
+
+export const sector_list = [
+    {
+        name: "Agri-food and AgTech",
+        jobs: [
+            "Agriculture Biotechnology",
+            "Food & Non-food Processing",
+            "Suply Chain & Food Technologies",
+        ],
+        colour: "#deaa81"
+    },
+    {
+        name: "Circular Economy",
+        jobs: [
+            "Circular Investment Specialist",
+            "Product And Packaging Designer",
+            "Reverse Logistics"
+        ],
+        colour: "#aaf5bb"
+    },
+    {
+        name: "Defence, Advanced Manufacturing and Space",
+        jobs: [
+            "Modern Manufacturing",
+            "Aerospace Manufacturing",
+            "Cyber Security"
+        ],
+        colour: "#9bc3db"
+    },
+    {
+        name: "DigiTech",
+        jobs: [
+            "Advanced Digital",
+            "Data Science and ICT",
+            "Cyber Security"
+        ],
+        colour: "#a0b090"
+    },
+    {
+        name: "Education",
+        jobs: [
+            "Lecturer",
+            "Tutor",
+            "Education Coordinator"
+        ],
+        colour: "#e2bdc2"
+    },
+    {
+        name: "Energy",
+        jobs: [
+            "Energy Data Analyst",
+            "Energy Project Officer",
+            "Energy Engineer"
+        ],
+        colour: "#c6908e"
+    },
+    {
+        name: "Financial Services and FinTech",
+        jobs: [
+            "FinTech Business Analyst",
+            "FinTech Associate Consultant",
+            "Financial Advisor"
+        ],
+        colour: "#c582ea"
+    },
+    {
+        name: "Health Industries",
+        jobs: [
+            "Patient Services Assistant",
+            "Medical Receptionist",
+            "Medical Laboratory Assistant"
+        ],
+        colour: "#64c6ce"
+    },
+    {
+        name: "Infrastructure and tourism",
+        jobs: [
+            "Marketing Tourism",
+            "Venue Experience Specialist",
+            "Tourism & Economic Development Officer"
+        ],
+        colour: "#059c92"
+    }
 ]
 
 export const nationalities = [
@@ -278,7 +362,7 @@ export const nationalities = [
     "Spanish",
     "Sri Lankan",
     "Sudanese",
-    "Surinamer",
+    "Surname",
     "Swazi",
     "Swedish",
     "Swiss",
@@ -298,7 +382,7 @@ export const nationalities = [
     "Uruguayan",
     "Uzbekistani",
     "Venezuelan",
-    "Vietnamese",
+    "Vienamee",
     "Welsh",
     "Yemenite",
     "Zambian",

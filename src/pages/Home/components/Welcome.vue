@@ -50,9 +50,6 @@
   .welcome-desc {
     font-size: calc(1vw + 10px);
     margin: 50px 0px 10px 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .welcome-button {

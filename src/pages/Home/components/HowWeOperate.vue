@@ -67,8 +67,6 @@ import ContainerBox from '@/components/atoms/ContainerBox.vue'
 .left-column {
   width: 50%;
   background-color: #fcfcfc;
-  display: flex;
-  justify-content: center;
 }
 
 .right-column {
@@ -79,7 +77,6 @@ import ContainerBox from '@/components/atoms/ContainerBox.vue'
 
 .left-column img {
   width: 100%;
-  height: auto;
 }
 
 .gt-role {
