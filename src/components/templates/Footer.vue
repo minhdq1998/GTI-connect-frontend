@@ -34,7 +34,6 @@ export default {
 <style scoped>
 .footer {
     background-color: var(--hovercolour);
-    height: 140px;
 }
 
 .footer-section-container {
@@ -64,6 +63,21 @@ export default {
   text-decoration: none;
   color: var(--bgcolour);
   margin-bottom: 10px;
+}
+
+@media (max-width: 1336px) {
+  .footer-section {
+    width: 50%;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+} 
+
+@media (max-width: 768px) {
+  .footer-section {
+    text-align: center;
+    width: 100%;
+  }
 }
 
 
