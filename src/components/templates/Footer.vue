@@ -65,21 +65,12 @@ export default {
   margin-bottom: 10px;
 }
 
-@media (max-width: 1336px) {
-  .footer-section {
-    width: 50%;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-} 
-
 @media (max-width: 768px) {
   .footer-section {
     text-align: center;
     width: 100%;
   }
 }
-
 
 .footer-logo > img{
   width:80%;
