@@ -49,9 +49,9 @@ button, input {
     position:relative;
 }
 
-#body-view > .content-wrapper {
+#body-view > .content-wrapper{
     padding-top: 20px;
-    padding-bottom: 20px;
+    min-height: calc(100vh - 160px - 110px);
 }
 
 #nav {
@@ -127,9 +127,7 @@ input {
 
 #body-view {
     margin-block-start: 1.0em;
-    margin-block-end: 1.0em;
     padding-top: 90px;
-    padding-bottom: 90px;
 }
 
 .fa-google {

@@ -24,5 +24,7 @@ export default {
 
 
 <style lang="scss" scoped>
-
+.landing-container {
+  padding-bottom: 80px;
+}
 </style>
