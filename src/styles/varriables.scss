@@ -1,0 +1,33 @@
+:root {
+    --max-width: 1336px;
+    --default-padding: 32px;
+    --textgray: #2c3e50;
+    --font-size: 14px;
+    --textactive: var(--secondarycolour);
+    --primarycolour: #00203FFF; //rgb(0, 32, 63)
+    --primarycolour-hover: rgba(0, 32, 63, 0.8);
+    --secondarycolour: #4AC959FF; //rgb(74, 201, 89)
+    --secondarycolour-hover: rgba(74, 201, 89, 0.1);
+    --bgcolour: #FFFFFFFF;  //rgb(255, 255, 255)
+    --errorcolour: #DC3545; //rgb(255,0,0)
+    --errorcolourlight: #fde4e7;
+    --successcolour: #20c997; //rgb(34,187,51)
+    --boxshadowcolour: #000000FF; //rgb(0,0,0)
+    --labelcolour: rgba(0, 32, 63, 0.5);
+    --medium-size: 640px ;
+    --boxshadowcolour2:  rgba(139,141,157,.3);
+    --cancelcolour: #ACACACFF; //rgb(172, 172, 172)
+    --hovercolour:#1dbf73;
+    --disabledcolour: rgb(221,221,221);
+    --graycolour: #ACACACFF;
+    --graycolour-hover: #666666FF;
+    --hover-btnclosecolour: #DC1717FF;
+    --btnclosecolour: #D95D5DFF;
+    --rmsectorcolour: #D95D5DFF;
+    --whitecolour: #FFFFFFFF;
+    --infobgcolour: #Cff2FCFF; //rgb(207, 242, 252)
+    --infocolour: #004770FF; //rgb(0, 71, 112)
+    --yellowcolour: #FADF11;
+    --lightyellowcolour: #FFF080;
+    --footer-font-size: 18px;
+}

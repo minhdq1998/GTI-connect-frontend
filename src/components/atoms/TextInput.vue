@@ -26,7 +26,7 @@
 
 <style lang="scss" scoped>
 input {
-  width: 300px;
+  width: 100%;
   height: 40px;
   padding-left: 15px;
 }
@@ -42,7 +42,7 @@ input {
 
 @media screen and (max-width: 360px) {
   input {
-  width: 250px;
+  width: 100%;
   height: 35px;
   padding-left: 15px;
   margin-bottom: 10px;

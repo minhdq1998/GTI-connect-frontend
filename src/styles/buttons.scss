@@ -1,0 +1,99 @@
+.form-main-button {
+    background-color: var(--primarycolour);
+    color: var(--whitecolour);
+    width: 100%;
+    border-radius: 3px;
+    margin: 15px 0px;
+  }
+
+.form-main-button:disabled {
+  background-color: rgba(0, 32, 63, 0.4);
+  cursor: default;
+}
+
+.login-with-google-btn {
+  background-color: var(--whitecolour);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  width: 100%;
+  border-radius: 3px;
+  margin: 0px 0px 15px 0px;
+}
+
+.login-with-google-btn:disabled {
+background-color: rgba(0, 32, 63, 0.4);
+cursor: default;
+}
+
+.save-profile-btn {
+  background-color: var(--secondarycolour);
+  color: var(--whitecolour);
+}
+
+.save-profile-btn:hover {
+  background-color: var(--hovercolour);
+}
+
+.add-sector-btn {
+  background-color: var(--secondarycolour);
+  color: var(--whitecolour);
+  margin-left: 10px;
+}
+
+.add-sector-btn:hover {
+  background-color: var(--hovercolour);
+}
+
+.connection-create-submit-btn {
+  margin-top: 10px;
+  color: var(--whitecolour);
+  background-color: var(--secondarycolour);
+}
+
+.connection-create-submit-btn:hover {
+  background-color: var(--hovercolour);
+}
+
+.connection-create-submit-btn:disabled {
+  background-color: var(--disabledcolour);
+}
+
+.cancel-connection-btn {
+  margin-top: 10px;
+  color: var(--whitecolour);
+  background-color: var(--hover-btnclosecolour);
+}
+
+.cancel-connection-btn:hover {
+  background-color: var( --btnclosecolour);
+}
+
+.cancel-connection-btn:disabled {
+  background-color: var(--disabledcolour);
+}
+
+.delete-btn {
+  color: var(--whitecolour);
+  background-color: var(--btnclosecolour);
+}
+
+.delete-btn:hover {
+  background-color: var(--hover-btnclosecolour);
+}
+
+.general-btn {
+  background-color: var(--secondarycolour);
+  color: var(--whitecolour);
+}
+
+.general-btn:hover {
+  background-color: var(--hovercolour);
+}
+
+.grey-btn {
+  color: var(--whitecolour);
+  background-color: var(--graycolour);
+}
+
+.grey-btn:hover {
+  background-color: var(--graycolour-hover);
+}

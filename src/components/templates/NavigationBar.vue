@@ -5,14 +5,17 @@
       <img src="./../../assets/logo.png">
     </div>
 
-    <mobile-navigation />
+    <mobile-navigation :userIsLoggedIn=isLoggedIn />
 
     <div class="nav-router-links" >
-      <router-link class="nav-router-link" to="/">About</router-link>
-      <router-link class="nav-router-link" to="/jobs">Jobs</router-link>
-      <router-link class="nav-router-link" to="/experts">Our experts</router-link>
-      <router-link class="nav-router-link" to="/signin">Sign In</router-link>
-      <router-link class="nav-router-link nav-login-btn" to="/signup">Join</router-link>
+      <profile-mini-navigation v-if="isLoggedIn"/>
+      <template v-for="(route, index) in routes" >
+        <router-link 
+          :key="index"
+          :class="styleClass(route.name)" 
+          v-if="hasPermission(route.meta.permission)"
+          :to="route.path" >{{route.name}}</router-link> 
+      </template>
     </div>
   </div>
 </div>
@@ -20,27 +23,57 @@
 
 <script>
 import MobileNavigation from './MobileNavigation.vue'
+import ProfileMiniNavigation from '@/components/organisms/ProfileMiniNavigation'
+
+import AccountsMixin from '@/mixins/AccountsMixin'
 
 export default {
   components: {
-    MobileNavigation
+    MobileNavigation,
+    ProfileMiniNavigation
+  },
+  mixins:[AccountsMixin],
+  data() {
+    return {
+      routes: this.getAccessibleRoutes()
+    }
+  },
+  methods: {
+    getAccessibleRoutes() {
+      return [...this.$router.options.routes
+              .filter(route => (
+                route.path !== '/403' &&
+                route.path !== '/connections/:id' &&
+                route.path !== '/profile/:id' &&
+                route.path !== '/thankyou/connection_id=:cid-offer_id=:oid' &&
+                route.path !== '/acceptfail/connection_id=:id'
+              ))].reverse()
+    },
+    styleClass(routeName) {
+        switch (routeName) {
+          case 'Join': return 'nav-router-link nav-singup-btn'
+        default: return 'nav-router-link'
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
-.nav-router-link {
-    margin-left: 17px;
+.nav-brand-logo {
+  position:relative;
 }
 
-.nav-login-btn {
+.nav-router-link {
+  display: inline-block;
+  margin-left: 17px;
+  vertical-align: middle;
+}
+
+.nav-singup-btn {
     border-radius: 4px;
-    padding: 6px 12px 6px 12px;
+    padding: 3px 12px 3px 12px;
     border: 1px solid var(--textgray);
 }
-
-
-
-
 
 </style>
